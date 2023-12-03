@@ -244,6 +244,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
+				2CDA37F32B1D244000C9963B /* OnboardingViewModel.swift in Sources */,
+				2CDA37F12B1D241400C9963B /* OnboardingModel.swift in Sources */,
+				2CDA37EF2B1D225000C9963B /* OnboardingView.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 				3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */,
