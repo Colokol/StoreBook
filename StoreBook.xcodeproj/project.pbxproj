@@ -55,9 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				CE57DCA12B1B6F75006DF243 /* Application */,
-				CE57DCA22B1B6FA6006DF243 /* Moduls */,
-				CE57DCA32B1B6FBC006DF243 /* Extension */,
-				CE57DCA42B1B6FF0006DF243 /* Fonts */,
 				CE57DCA02B1B6E81006DF243 /* Supporting */,
 			);
 			path = StoreBook;
@@ -81,27 +78,6 @@
 				CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */,
 			);
 			path = Application;
-			sourceTree = "<group>";
-		};
-		CE57DCA22B1B6FA6006DF243 /* Moduls */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Moduls;
-			sourceTree = "<group>";
-		};
-		CE57DCA32B1B6FBC006DF243 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		CE57DCA42B1B6FF0006DF243 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
