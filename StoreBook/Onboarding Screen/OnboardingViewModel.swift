@@ -1,12 +1,28 @@
-//
-//  OnboardingViewModel.swift
-//  StoreBook
-//
-//  Created by Дмитрий on 04.12.2023.
-//
 
 import UIKit
 
 class OnboardingViewModel {
-    //  должна содержать бизнес-логику и подготавливать данные для отображения, а также реагировать на действия пользователя.
+    
+    let contentView: OnboardingModel
+    public var currentTextIndex = 0
+    
+    var currentText: String {
+        return contentView.description[currentTextIndex]
+    }
+    
+    init(contentView: OnboardingModel) {
+        self.contentView = contentView
+    }
+    
+    func nextText() {
+        if currentTextIndex < contentView.description.count - 1 {
+            currentTextIndex += 1
+        } else {
+            currentTextIndex = 0
+        }
+    }
+    
+    func shouldNavigateToNextScreen() -> Bool {
+        return currentTextIndex == contentView.description.count - 1
+    }
 }

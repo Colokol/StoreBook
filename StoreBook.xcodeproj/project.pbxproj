@@ -19,6 +19,10 @@
 		CE57DC992B1B6DCC006DF243 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */; };
 		CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DCA52B1CEABF006DF243 /* Observable.swift */; };
 		E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AA02B1EF74200F2C734 /* TabBarController.swift */; };
+		2CDA37EF2B1D225000C9963B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37EE2B1D225000C9963B /* OnboardingViewController.swift */; };
+		2CDA37F12B1D241400C9963B /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F02B1D241400C9963B /* OnboardingModel.swift */; };
+		2CDA37F32B1D244000C9963B /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F22B1D244000C9963B /* OnboardingViewModel.swift */; };
+		2CDA37F52B1E105900C9963B /* UIButton ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F42B1E105900C9963B /* UIButton ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -245,8 +249,9 @@
 			files = (
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
 				2CDA37F32B1D244000C9963B /* OnboardingViewModel.swift in Sources */,
+				2CDA37F52B1E105900C9963B /* UIButton ext.swift in Sources */,
 				2CDA37F12B1D241400C9963B /* OnboardingModel.swift in Sources */,
-				2CDA37EF2B1D225000C9963B /* OnboardingView.swift in Sources */,
+				2CDA37EF2B1D225000C9963B /* OnboardingViewController.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 				3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */,

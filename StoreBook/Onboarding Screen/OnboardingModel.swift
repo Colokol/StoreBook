@@ -8,9 +8,9 @@
 import UIKit
 
 struct OnboardingModel {
-    let bookImage: UIStackView
-    let logoImage: UIImage
-    var description: UILabel
-    var slider: UIStackView
-    var continueButton: UIButton
+    // определяем что должны содержать представленные элементы
+    let bookImage: UIImage = UIImage(named: "Group6")!
+    let logoImage: UIImage = UIImage(named: "Group1")!
+    var description: [String] = ["1","2","3"]
+    
 }
