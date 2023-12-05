@@ -14,10 +14,12 @@ final class TabBarController: UITabBarController {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        
         appearance.stackedLayoutAppearance.normal.iconColor = .black
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black]
         tabBar.scrollEdgeAppearance = appearance
         tabBar.tintColor = .black
+        
     }
     
     private func setupViewControllers() {
@@ -57,6 +59,7 @@ final class TabBarController: UITabBarController {
                 tag: index
             )
             viewController.tabBarItem.selectedImage = UIImage(named: data.selectedImageName)
+            
             return viewController
         }
         
