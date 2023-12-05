@@ -27,6 +27,7 @@ final class DetailsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     private lazy var nameLabel = viewBuilder.makeNameLabel()
     private lazy var bookImageView = viewBuilder.makeImageView()
     private lazy var authorLabel = viewBuilder.makeInfoLabel()
@@ -71,7 +72,59 @@ final class DetailsViewController: UIViewController {
         setupConstraints()
         setupUI()
         setupNavigationBar()
+        fetchBook()
     }
+    
+    private func fetchBook() {
+        let bookId = "OL15365138W"
+        guard let url = URL(string: "https://openlibrary.org/works/\(bookId).json") else { return }
+
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "Неизвестная ошибка")
+                return
+            }
+
+            do {
+                if let jsonResult = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    // Название книги
+                    let title = jsonResult["title"] as? String ?? "Название не найдено"
+                    print("Title: \(title)")
+                    // Жанры
+                    let subjects = (jsonResult["subjects"] as? [String])?.joined(separator: ", ") ?? "Жанры не найдены"
+                    
+                    print("Subjects: \(subjects)")
+                    // Получение идентификатора автора (пример для одного автора)
+                    let authorKey = (jsonResult["authors"] as? [[String: Any]])?.first?["author"] as? [String: Any]
+                    
+                    let authorId = authorKey?["key"] as? String
+                    print("AuthorID: \(authorId)")
+                }
+            } catch {
+                print("Ошибка парсинга JSON: \(error)")
+            }
+        }.resume()
+    }
+
+    
+//    private func fetchBook() {
+//        let bookId = "OL15365138W"
+//        guard let url = URL(string: "https://openlibrary.org/works/\(bookId).json") else { return }
+//
+//        URLSession.shared.dataTask(with: url) { data, _, error in
+//            guard let data = data else {
+//                print(error ?? "No errror")
+//                return
+//            }
+//
+//            do {
+//                let jsonResult = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+//                print(jsonResult ?? ["": ""])
+//            } catch let error{
+//                print(error)
+//            }
+//        }.resume()
+//    }
     
     // MARK: - Private Actions
     @objc private func likeButtonDidTapped() {
