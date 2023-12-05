@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */; };
+		3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */; };
+		3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */; };
 		CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */; };
 		CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */; };
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTestModel.swift; sourceTree = "<group>"; };
+		3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewBuilder.swift; sourceTree = "<group>"; };
 		CE57DC892B1B6DCA006DF243 /* StoreBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +41,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CCCA1232B1F3C4B00776433 /* BookDetails */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA12B2B1F3DDD00776433 /* ViewBuilder */,
+				3CCCA1262B1F3C7800776433 /* ViewModel */,
+				3CCCA1252B1F3C7400776433 /* View */,
+				3CCCA1242B1F3C6900776433 /* Model */,
+			);
+			path = BookDetails;
+			sourceTree = "<group>";
+		};
+		3CCCA1242B1F3C6900776433 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3CCCA1252B1F3C7400776433 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3CCCA1262B1F3C7800776433 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3CCCA12B2B1F3DDD00776433 /* ViewBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */,
+			);
+			path = ViewBuilder;
+			sourceTree = "<group>";
+		};
 		CE57DC802B1B6DCA006DF243 = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +102,7 @@
 		CE57DC8B2B1B6DCA006DF243 /* StoreBook */ = {
 			isa = PBXGroup;
 			children = (
+				3CCCA1232B1F3C4B00776433 /* BookDetails */,
 				CE57DCA12B1B6F75006DF243 /* Application */,
 				CE57DCA02B1B6E81006DF243 /* Supporting */,
 			);
@@ -153,6 +202,9 @@
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
+				3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */,
+				3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */,
+				3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
