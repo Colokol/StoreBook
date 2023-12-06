@@ -12,6 +12,7 @@
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
 		CE57DC992B1B6DCC006DF243 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */; };
 		CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DCA52B1CEABF006DF243 /* Observable.swift */; };
+		E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AA02B1EF74200F2C734 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CE57DC982B1B6DCC006DF243 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE57DC9A2B1B6DCC006DF243 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE57DCA52B1CEABF006DF243 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		E1255AA02B1EF74200F2C734 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,10 +76,19 @@
 		CE57DCA12B1B6F75006DF243 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				E1255AA22B1EFD4A00F2C734 /* TabBarController */,
 				CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */,
 				CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		E1255AA22B1EFD4A00F2C734 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				E1255AA02B1EF74200F2C734 /* TabBarController.swift */,
+			);
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +164,7 @@
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
+				E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
