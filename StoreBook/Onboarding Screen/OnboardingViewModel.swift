@@ -1,15 +1,15 @@
 
 import UIKit
 
-class OnboardingViewModel {
+final class OnboardingViewModel {
     
-    let contentView: OnboardingModel
+    private let contentView: OnboardingModel
     init(contentView: OnboardingModel) {
         self.contentView = contentView
     }
     public var currentTextIndex = 0
     
-    var currentText: String {
+     var currentText: String {
         return contentView.description[currentTextIndex]
     }
     
@@ -23,7 +23,7 @@ class OnboardingViewModel {
         }
     }
     
-    func shouldNavigateToNextScreen() -> Bool {
+     func shouldNavigateToNextScreen() -> Bool {
         return currentTextIndex == 3
         
     }
