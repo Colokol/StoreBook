@@ -1,10 +1,18 @@
 import UIKit
 
+struct Constants {
+    static let topAnchor: CGFloat = 32
+    static let leadingAnchor: CGFloat = 20
+    static let trailingAnchor: CGFloat = 20
+}
+
 final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     private var collectionView: UICollectionView!
     private var viewModel = CategoriesViewModel()
-
+    
+    private let searchController = UISearchController(searchResultsController: nil)
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"
@@ -19,22 +27,42 @@ final class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         viewModel.fetchCategories()
+        
     }
-
+    
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
         setupCollectionView()
+        setupSearchController()
     }
-
+    
+    private func setupSearchController() {
+        //searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search title/author/ISBN no"
+        searchController.searchBar.barTintColor = .lightGray
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.font = UIFont.boldSystemFont(ofSize: 17)
+            textField.textColor = .black
+            textField.layer.cornerRadius = 1
+            textField.clipsToBounds = true
+            textField.frame.size.width += 20
+            
+        }
+    }
+    
     private func setupCollectionView() {
         let layout = createLayout()
         configureCollectionView(with: layout)
         registerCollectionViewCells()
         addCollectionViewConstraints()
     }
-
+    
     private func configureCollectionView(with layout: UICollectionViewLayout) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
@@ -43,41 +71,44 @@ final class CategoriesViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
     }
-
+    
     private func registerCollectionViewCells() {
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.cellID)
     }
-
-    private func addCollectionViewConstraints() {
     
+    private func addCollectionViewConstraints() {
+        
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 168),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: Constants.topAnchor),
+            titleLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: Constants.leadingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 232),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: Constants.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.trailingAnchor)
         ])
     }
-
-    // MARK: - UICollectionViewCompositionalLayout
+    
     private func createLayout() -> UICollectionViewLayout {
-        // Определение размеров ячейки
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(150), heightDimension: .absolute(100))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-       // item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+ 
+        let availableWidth = view.frame.width - 2 * Constants.leadingAnchor - 2 * Constants.trailingAnchor - 20
 
-        // Определение группы, в которой будут расположены ячейки
+        let itemWidthDimension = NSCollectionLayoutDimension.fractionalWidth(availableWidth / 2 / view.frame.width)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: itemWidthDimension, heightDimension: .absolute(100))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(100))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
         group.interItemSpacing = .fixed(20)
 
-        // Определение раздела с этой группой
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)
         section.interGroupSpacing = 20
-        
+
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
@@ -87,12 +118,12 @@ extension CategoriesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.categories.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.cellID, for: indexPath) as? CategoryCell else {
             return UICollectionViewCell()
         }
-
+        
         let category = viewModel.categories[indexPath.item]
         cell.configure(with: category)
         return cell
@@ -101,5 +132,6 @@ extension CategoriesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension CategoriesViewController: UICollectionViewDelegate {
- 
+    
+    
 }
