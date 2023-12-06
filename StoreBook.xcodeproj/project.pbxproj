@@ -10,10 +10,6 @@
 		2CDA37EF2B1D225000C9963B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37EE2B1D225000C9963B /* OnboardingViewController.swift */; };
 		2CDA37F12B1D241400C9963B /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F02B1D241400C9963B /* OnboardingModel.swift */; };
 		2CDA37F32B1D244000C9963B /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F22B1D244000C9963B /* OnboardingViewModel.swift */; };
-		2CDA37F52B1E105900C9963B /* UIButton ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA37F42B1E105900C9963B /* UIButton ext.swift */; };
-		2CDA38322B20B47C00C9963B /* UIImageView ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA38312B20B47C00C9963B /* UIImageView ext.swift */; };
-		2CDA38342B20B4B300C9963B /* UILabel ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA38332B20B4B300C9963B /* UILabel ext.swift */; };
-		2CDA38362B20B4E300C9963B /* UIPageControl ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA38352B20B4E300C9963B /* UIPageControl ext.swift */; };
 		CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */; };
 		CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */; };
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
@@ -25,10 +21,6 @@
 		2CDA37EE2B1D225000C9963B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		2CDA37F02B1D241400C9963B /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		2CDA37F22B1D244000C9963B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
-		2CDA37F42B1E105900C9963B /* UIButton ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton ext.swift"; sourceTree = "<group>"; };
-		2CDA38312B20B47C00C9963B /* UIImageView ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView ext.swift"; sourceTree = "<group>"; };
-		2CDA38332B20B4B300C9963B /* UILabel ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel ext.swift"; sourceTree = "<group>"; };
-		2CDA38352B20B4E300C9963B /* UIPageControl ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageControl ext.swift"; sourceTree = "<group>"; };
 		CE57DC892B1B6DCA006DF243 /* StoreBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,10 +47,6 @@
 				2CDA37EE2B1D225000C9963B /* OnboardingViewController.swift */,
 				2CDA37F02B1D241400C9963B /* OnboardingModel.swift */,
 				2CDA37F22B1D244000C9963B /* OnboardingViewModel.swift */,
-				2CDA37F42B1E105900C9963B /* UIButton ext.swift */,
-				2CDA38312B20B47C00C9963B /* UIImageView ext.swift */,
-				2CDA38332B20B4B300C9963B /* UILabel ext.swift */,
-				2CDA38352B20B4E300C9963B /* UIPageControl ext.swift */,
 			);
 			path = "Onboarding Screen";
 			sourceTree = "<group>";
@@ -181,12 +169,8 @@
 			files = (
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
 				2CDA37F32B1D244000C9963B /* OnboardingViewModel.swift in Sources */,
-				2CDA37F52B1E105900C9963B /* UIButton ext.swift in Sources */,
-				2CDA38362B20B4E300C9963B /* UIPageControl ext.swift in Sources */,
 				2CDA37F12B1D241400C9963B /* OnboardingModel.swift in Sources */,
-				2CDA38342B20B4B300C9963B /* UILabel ext.swift in Sources */,
 				2CDA37EF2B1D225000C9963B /* OnboardingViewController.swift in Sources */,
-				2CDA38322B20B47C00C9963B /* UIImageView ext.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 			);
