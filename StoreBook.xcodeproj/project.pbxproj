@@ -50,7 +50,6 @@
 		3CCCA1232B1F3C4B00776433 /* BookDetails */ = {
 			isa = PBXGroup;
 			children = (
-				3CCCA12E2B1F3F3500776433 /* Extension */,
 				3CCCA12B2B1F3DDD00776433 /* ViewBuilder */,
 				3CCCA1262B1F3C7800776433 /* ViewModel */,
 				3CCCA1252B1F3C7400776433 /* View */,
@@ -99,6 +98,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		CE2043732B20FAAD00655964 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA1232B1F3C4B00776433 /* BookDetails */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		CE57DC802B1B6DCA006DF243 = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +125,8 @@
 		CE57DC8B2B1B6DCA006DF243 /* StoreBook */ = {
 			isa = PBXGroup;
 			children = (
-				3CCCA1232B1F3C4B00776433 /* BookDetails */,
 				CE57DCA12B1B6F75006DF243 /* Application */,
+				CE2043732B20FAAD00655964 /* Screens */,
 				CE57DCA02B1B6E81006DF243 /* Supporting */,
 			);
 			path = StoreBook;
@@ -128,6 +135,8 @@
 		CE57DCA02B1B6E81006DF243 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
+				E1255AA22B1EFD4A00F2C734 /* TabBarController */,
+				3CCCA12E2B1F3F3500776433 /* Extension */,
 				CE57DCA52B1CEABF006DF243 /* Observable.swift */,
 				CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */,
 				CE57DC952B1B6DCC006DF243 /* Assets.xcassets */,
@@ -139,7 +148,6 @@
 		CE57DCA12B1B6F75006DF243 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				E1255AA22B1EFD4A00F2C734 /* TabBarController */,
 				CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */,
 				CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */,
 			);
@@ -233,7 +241,6 @@
 				3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */,
 				3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */,
 				E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */,
-
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
