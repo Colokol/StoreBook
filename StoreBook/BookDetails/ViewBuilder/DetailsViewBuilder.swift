@@ -56,4 +56,16 @@ final class DetailsViewBuilder {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         return button
     }
+    
+    func makeScrollView() -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }
+    
+    func makeView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
 }

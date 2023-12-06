@@ -36,7 +36,6 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     
     var rating: String {
         "Rating: \(book.rating)"
-        
     }
     
     var description: String {
