@@ -7,11 +7,13 @@
 
 import Foundation
 
+// MARK: - SearchBook
 struct SearchBook: Codable {
     let q: String
     let docs: [Doc]
 }
 
+// MARK: - Doc
 struct Doc: Codable {
     
     enum CoverKey: String {
@@ -47,11 +49,7 @@ struct Doc: Codable {
     }
 }
 
-struct Subject: Codable {
-    let name: String
-    let works: [Doc]
-}
-
+// MARK: - Book
 struct Book: Codable {
     let title: String
     let key: String
@@ -60,10 +58,16 @@ struct Book: Codable {
     let subjects: [String]
 }
 
+// MARK: - Description
 struct Description: Codable {
     let value: String
 }
 
+// MARK: - Subject
+struct Subject: Codable {
+    let name: String
+    let works: [Doc]
+}
 
 
 
