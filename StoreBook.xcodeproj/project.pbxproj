@@ -17,6 +17,8 @@
 		E1255AAD2B1F2DBD00F2C734 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AAC2B1F2DBD00F2C734 /* CategoriesViewModel.swift */; };
 		E1255AAF2B1F31D400F2C734 /* CategoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AAE2B1F31D400F2C734 /* CategoryCellViewModel.swift */; };
 		E1255AB22B1F322200F2C734 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AB12B1F322200F2C734 /* CategoryCell.swift */; };
+		E1CF2EF52B22053B00A4BB70 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF2EF42B22053B00A4BB70 /* SearchResultCell.swift */; };
+		E1CF2EF72B220E6A00A4BB70 /* SearchCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF2EF62B220E6A00A4BB70 /* SearchCategoriesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		E1255AAC2B1F2DBD00F2C734 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		E1255AAE2B1F31D400F2C734 /* CategoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellViewModel.swift; sourceTree = "<group>"; };
 		E1255AB12B1F322200F2C734 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		E1CF2EF42B22053B00A4BB70 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		E1CF2EF62B220E6A00A4BB70 /* SearchCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategoriesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 			children = (
 				E1255AB02B1F31ED00F2C734 /* Cell */,
 				E1255AA42B1F2D4100F2C734 /* CategoriesViewController.swift */,
+				E1CF2EF62B220E6A00A4BB70 /* SearchCategoriesViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				E1255AB12B1F322200F2C734 /* CategoryCell.swift */,
+				E1CF2EF42B22053B00A4BB70 /* SearchResultCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CF2EF72B220E6A00A4BB70 /* SearchCategoriesViewController.swift in Sources */,
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				E1255AA92B1F2D7400F2C734 /* CategoryModel.swift in Sources */,
@@ -220,6 +227,7 @@
 				E1255AA52B1F2D4100F2C734 /* CategoriesViewController.swift in Sources */,
 				E1255AAF2B1F31D400F2C734 /* CategoryCellViewModel.swift in Sources */,
 				E1255AAD2B1F2DBD00F2C734 /* CategoriesViewModel.swift in Sources */,
+				E1CF2EF52B22053B00A4BB70 /* SearchResultCell.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
