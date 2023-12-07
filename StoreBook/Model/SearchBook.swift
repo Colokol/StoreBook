@@ -7,32 +7,17 @@
 
 import Foundation
 
-// MARK: - Main Model
-/*
- По этому адресу идет запрос для получения всех книг по выбранному названию
- let api = "https://openlibrary.org/search.json?title=the+lord+of+the+rings"
- где "the+lord+of+the+rings" название книги
- */
 struct SearchBook: Codable {
-    // Запрос поиска
     let q: String
-    // Список книг
     let docs: [Doc]
 }
 
-// MARK: - Model for books
 struct Doc: Codable {
-    // уникальный ключ книги
     let key: String
-    // название книги
     let title: String
-    // Имена авторов
     let authorName: [String]?
-    // Средний рейтинг книги
     let ratingsAverage: Double?
-    // Идентификатор обложки
     let coverI: Int?
-    // Жанры книги
     let subject: [String]?
     
     enum CodingKeys: String, CodingKey {
