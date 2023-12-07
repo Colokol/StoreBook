@@ -6,6 +6,13 @@ final class OnboardingViewController: UIViewController {
     
     var viewModel: OnboardingViewModel!
     // MARK: - Private UI
+    
+    private let customPageController: CustomPageControl = {
+        let pageController = CustomPageControl()
+        pageController.numberOfPages = 3
+        pageController.currentPage = 0
+        return pageController
+    }()
     private let bookImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Group6")
@@ -28,13 +35,7 @@ final class OnboardingViewController: UIViewController {
         label.text = ""
         return label
     }()
-    private let pageController: UIPageControl = {
-        let customPageController = UIPageControl()
-        customPageController.numberOfPages = 3
-        customPageController.currentPageIndicatorTintColor = .black
-        customPageController.pageIndicatorTintColor = .systemGray
-        return customPageController
-    }()
+    
     private let nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Continue", for: .normal)
@@ -56,7 +57,7 @@ final class OnboardingViewController: UIViewController {
     private func setupViews() {
         view.backgroundColor = .white
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        [bookImageView, logoImageView, textLabel, pageController, nextButton].forEach {
+        [bookImageView, logoImageView, textLabel, customPageController, nextButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
         }
@@ -71,18 +72,18 @@ final class OnboardingViewController: UIViewController {
              logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
              
              textLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20),
-             textLabel.bottomAnchor.constraint(equalTo: pageController.bottomAnchor, constant: -20),
+             textLabel.bottomAnchor.constraint(equalTo: customPageController.bottomAnchor, constant: -20),
              textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
              
-             pageController.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20),
-             pageController.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             customPageController.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20),
+             customPageController.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              
              nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              nextButton.heightAnchor.constraint(equalToConstant: 50),
              nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
              nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
-             ])
+            ])
     }
     
     private func bindViewModel() {
@@ -92,7 +93,7 @@ final class OnboardingViewController: UIViewController {
     @objc private func nextButtonTapped() {
         viewModel.nextText()
         textLabel.text = viewModel.currentText
-        pageController.currentPage = viewModel.currentTextIndex
+        customPageController.currentPage = viewModel.currentTextIndex
         
         if viewModel.shouldNavigateToNextScreen() {
             navigateToNextScreen()
@@ -104,6 +105,8 @@ final class OnboardingViewController: UIViewController {
         // Здесь код для перехода на другой экран
     }
 }
+
+
 
 
 
