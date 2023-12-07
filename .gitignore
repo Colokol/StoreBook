@@ -1,12 +1,4 @@
 
-### Carthage ###
-# Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
-Carthage/Build
-
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
 
@@ -17,6 +9,7 @@ Pods/
 
 ### Objective-C ###
 # Xcode
+#
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 ## User settings
@@ -137,4 +130,9 @@ Dependencies/
 ### SwiftPackageManager ###
 Packages
 xcuserdata
+*.xcodeproj
 
+
+# End of https://www.toptal.com/developers/gitignore/api/swift,swiftpackagemanager,objective-c,cocoapods
+
+.DS_Store
