@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CDA37EF2B1D225000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		2CDA37F12B1D241400C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		2CDA37F32B1D244000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		2CDA37F52B1E105900C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */; };
 		3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */; };
 		3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */; };
@@ -18,6 +22,10 @@
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
 		CE57DC992B1B6DCC006DF243 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */; };
 		CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DCA52B1CEABF006DF243 /* Observable.swift */; };
+		CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */; };
+		CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */; };
+		CEB1DC1F2B222DFC004DCEF6 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */; };
+		CEB1DC202B222DFC004DCEF6 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC1C2B222DFC004DCEF6 /* OnboardingViewModel.swift */; };
 		E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1255AA02B1EF74200F2C734 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +43,10 @@
 		CE57DC982B1B6DCC006DF243 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE57DC9A2B1B6DCC006DF243 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE57DCA52B1CEABF006DF243 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
+		CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
+		CEB1DC1C2B222DFC004DCEF6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		E1255AA02B1EF74200F2C734 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +123,7 @@
 		CE2043732B20FAAD00655964 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */,
 				3CCCA1232B1F3C4B00776433 /* BookDetails */,
 			);
 			path = Screens;
@@ -164,6 +177,18 @@
 			);
 			path = Application;
 			sourceTree = "<group>";
+		};
+		CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */ = {
+			isa = PBXGroup;
+			children = (
+				CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */,
+				CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */,
+				CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */,
+				CEB1DC1C2B222DFC004DCEF6 /* OnboardingViewModel.swift */,
+			);
+			name = "Onboarding Screen";
+			path = "StoreBook/Onboarding Screen";
+			sourceTree = SOURCE_ROOT;
 		};
 		E1255AA22B1EFD4A00F2C734 /* TabBarController */ = {
 			isa = PBXGroup;
@@ -244,15 +269,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */,
+				2CDA37F32B1D244000C9963B /* (null) in Sources */,
+				2CDA37F52B1E105900C9963B /* (null) in Sources */,
+				2CDA37F12B1D241400C9963B /* (null) in Sources */,
+				2CDA37EF2B1D225000C9963B /* (null) in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 				3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */,
 				3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */,
 				3CCCA1302B1F3F5100776433 /* UIView + Extension.swift in Sources */,
 				3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */,
+				CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */,
+				CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */,
+				CEB1DC202B222DFC004DCEF6 /* OnboardingViewModel.swift in Sources */,
 				3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */,
 				3CCCA1A32B21CBC500776433 /* SearchBook.swift in Sources */,
 				E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */,
+				CEB1DC1F2B222DFC004DCEF6 /* CustomPageControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
