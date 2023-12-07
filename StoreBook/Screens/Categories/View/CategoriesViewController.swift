@@ -3,7 +3,8 @@ import UIKit
 struct Constants {
     static let topAnchor: CGFloat = 32
     static let leadingAnchor: CGFloat = 20
-    static let trailingAnchor: CGFloat = 20
+    static let trailingAnchor: CGFloat = -20
+    static let interItemSpacing: CGFloat = 20
 }
 
 final class CategoriesViewController: UIViewController {
@@ -89,25 +90,31 @@ final class CategoriesViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: Constants.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.trailingAnchor)
+            collectionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: Constants.trailingAnchor)
         ])
     }
     
     private func createLayout() -> UICollectionViewLayout {
  
-        let availableWidth = view.frame.width - 2 * Constants.leadingAnchor - 2 * Constants.trailingAnchor - 20
+        let availableWidth = view.frame.width -  Constants.interItemSpacing * 2
 
+        let availableHeight = view.frame.height -  Constants.interItemSpacing * 3
+        
         let itemWidthDimension = NSCollectionLayoutDimension.fractionalWidth(availableWidth / 2 / view.frame.width)
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: itemWidthDimension, heightDimension: .absolute(100))
+        let itemHightDimension = NSCollectionLayoutDimension.fractionalWidth(availableHeight / 3 / view.frame.height)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: itemWidthDimension, heightDimension: itemHightDimension)
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(100))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: itemHightDimension)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
-        group.interItemSpacing = .fixed(20)
+        group.interItemSpacing = .fixed(Constants.interItemSpacing)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 20
+        section.interGroupSpacing = Constants.interItemSpacing
 
         return UICollectionViewCompositionalLayout(section: section)
     }
@@ -124,7 +131,7 @@ extension CategoriesViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let category = viewModel.categories[indexPath.item]
+        let category = viewModel.categories[indexPath.row]
         cell.configure(with: category)
         return cell
     }
