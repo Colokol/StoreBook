@@ -12,6 +12,7 @@
 		3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */; };
 		3CCCA1302B1F3F5100776433 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12F2B1F3F5100776433 /* UIView + Extension.swift */; };
 		3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1312B1F577700776433 /* DetailsViewModel.swift */; };
+		3CCCA1A32B21CBC500776433 /* SearchBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1A22B21CBC500776433 /* SearchBook.swift */; };
 		CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */; };
 		CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */; };
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewBuilder.swift; sourceTree = "<group>"; };
 		3CCCA12F2B1F3F5100776433 /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		3CCCA1312B1F577700776433 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
+		3CCCA1A22B21CBC500776433 /* SearchBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBook.swift; sourceTree = "<group>"; };
 		CE57DC892B1B6DCA006DF243 /* StoreBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		3CCCA1A12B21C8AA00776433 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCA1A22B21CBC500776433 /* SearchBook.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CE2043732B20FAAD00655964 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +135,7 @@
 		CE57DC8B2B1B6DCA006DF243 /* StoreBook */ = {
 			isa = PBXGroup;
 			children = (
+				3CCCA1A12B21C8AA00776433 /* Model */,
 				CE57DCA12B1B6F75006DF243 /* Application */,
 				CE2043732B20FAAD00655964 /* Screens */,
 				CE57DCA02B1B6E81006DF243 /* Supporting */,
@@ -240,6 +251,7 @@
 				3CCCA1302B1F3F5100776433 /* UIView + Extension.swift in Sources */,
 				3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */,
 				3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */,
+				3CCCA1A32B21CBC500776433 /* SearchBook.swift in Sources */,
 				E1255AA12B1EF74200F2C734 /* TabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
