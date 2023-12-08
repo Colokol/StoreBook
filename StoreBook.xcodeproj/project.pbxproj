@@ -152,9 +152,9 @@
 		CE2043732B20FAAD00655964 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */,
 				E1CF2F212B23237100A4BB70 /* SearchBooks */,
 				E1CF2F052B227BDB00A4BB70 /* Categories */,
-				CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */,
 				3CCCA1232B1F3C4B00776433 /* BookDetails */,
 			);
 			path = Screens;
