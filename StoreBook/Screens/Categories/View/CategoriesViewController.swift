@@ -14,7 +14,7 @@ final class CategoriesViewController: UIViewController {
     private var viewModel = CategoriesViewModel()
     
     private let searchController = UISearchController(searchResultsController: nil)
-    
+
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"

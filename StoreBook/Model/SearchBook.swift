@@ -8,13 +8,14 @@
 import Foundation
 
 // MARK: - SearchBook
+
 struct SearchBook: Codable {
     let q: String
     let docs: [Doc]
 }
 
 // MARK: - Doc
-struct Doc: Codable {
+struct Doc: Codable, SearchBookProtocol {
     
     enum CoverKey: String {
         case ISBN, OCLC, LCCN, OLID, ID
