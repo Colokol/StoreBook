@@ -38,7 +38,8 @@ final class SearchCategoriesCell: UITableViewCell {
     
     
     // MARK: - Public methods
-    func configure(with category: Doc) {
+    func configure(with category: Doc?) {
+        guard let category else { return }
         bookNameLabel.text = category.title
         bookImageView.image = UIImage(named: "2")
     }
