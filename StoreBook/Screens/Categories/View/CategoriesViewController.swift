@@ -1,7 +1,8 @@
 import UIKit
 
 struct Constants {
-    static let topAnchor: CGFloat = 32
+    static let topAnchorForCategory: CGFloat = 32
+    static let topAnchor: CGFloat = 8
     static let leadingAnchor: CGFloat = 20
     static let trailingAnchor: CGFloat = -20
     static let interItemSpacing: CGFloat = 20
@@ -28,7 +29,7 @@ final class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         viewModel.fetchCategories()
-        
+        navigationController?.setupNavigationBar()
     }
     
     // MARK: - UI Setup
@@ -52,8 +53,6 @@ final class CategoriesViewController: UIViewController {
             textField.textColor = .black
             textField.layer.cornerRadius = 1
             textField.clipsToBounds = true
-            textField.frame.size.width += 20
-            
         }
     }
     
@@ -82,12 +81,12 @@ final class CategoriesViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: Constants.topAnchor),
+                constant: Constants.topAnchorForCategory),
             titleLabel.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
                 constant: Constants.leadingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: Constants.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: Constants.topAnchorForCategory),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.trailingAnchor),
             collectionView.bottomAnchor.constraint(
@@ -131,7 +130,7 @@ extension CategoriesViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let category = viewModel.categories[indexPath.row]
+        let category = viewModel.categories[indexPath.item]
         cell.configure(with: category)
         return cell
     }
@@ -139,6 +138,12 @@ extension CategoriesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension CategoriesViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let categoryResultViewController = SearchCategoriesViewController()
+        let category = viewModel.categories[indexPath.row]
+        categoryResultViewController.category = category.title
+        navigationController?.pushViewController(categoryResultViewController, animated: true)
+    }
     
 }
+

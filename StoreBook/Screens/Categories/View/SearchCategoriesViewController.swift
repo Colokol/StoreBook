@@ -2,8 +2,8 @@ import UIKit
 
 final class SearchCategoriesViewController: UITableViewController {
     
-    var category: String!
-    var selectedBook: [Any] = []
+    var category = ""
+    var selectedBook: [Doc] = []
     
     private let cellID = "cell"
     
@@ -23,7 +23,7 @@ final class SearchCategoriesViewController: UITableViewController {
 extension SearchCategoriesViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedBook.count
+        return 3
     }
 
     

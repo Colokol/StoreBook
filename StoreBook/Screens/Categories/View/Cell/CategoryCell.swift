@@ -15,7 +15,6 @@ final class CategoryCell: UICollectionViewCell {
     
     private let categoryImage: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(named: "5")
         img.contentMode = .scaleToFill
         img.clipsToBounds = true
         img.layer.cornerRadius = 5
