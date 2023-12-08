@@ -3,8 +3,9 @@ import Foundation
 final class SearchViewModel {
     
     @Published var searchedBook: SearchBook?
+    @Published var tableData: [Doc] = []
     private var networkManager = NetworkManager.shared
-    private var cancellables: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = []
 
     func fetchData(with category: String) {
         networkManager.getBook(for: category)
@@ -18,6 +19,7 @@ final class SearchViewModel {
                 }
             } receiveValue: { [weak self] books in
                 self?.searchedBook = books
+                self?.tableData = books.docs
             }
             .store(in: &cancellables)
     }
