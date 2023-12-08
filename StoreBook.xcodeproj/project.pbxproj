@@ -11,6 +11,7 @@
 		2CDA37F12B1D241400C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F32B1D244000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F52B1E105900C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		2CDA383E2B2359AC00C9963B /* TopBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA383D2B2359AC00C9963B /* TopBook.swift */; };
 		3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */; };
 		3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */; };
 		3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2CDA383D2B2359AC00C9963B /* TopBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBook.swift; sourceTree = "<group>"; };
 		3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTestModel.swift; sourceTree = "<group>"; };
 		3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewBuilder.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				3CCCA1A22B21CBC500776433 /* SearchBook.swift */,
+				2CDA383D2B2359AC00C9963B /* TopBook.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */,
 				CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */,
 				CEB1DC202B222DFC004DCEF6 /* OnboardingViewModel.swift in Sources */,
+				2CDA383E2B2359AC00C9963B /* TopBook.swift in Sources */,
 				3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */,
 				E1CF2F1E2B23071700A4BB70 /* APIManager.swift in Sources */,
 				3CCCA1A32B21CBC500776433 /* SearchBook.swift in Sources */,

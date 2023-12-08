@@ -13,6 +13,9 @@ struct NetworkManager {
         switch endpoint {
         case .searchBookWith(category: let category):
             parameters["q"] = "\(category) -subject_key"
+        case .getTopBook(let timeframe):
+            parameters["timeframe"] = timeframe.rawValue
+
         }
         return parameters
     }
@@ -31,6 +34,21 @@ struct NetworkManager {
         return components.url
     }
     
+    func getTrendingBooks(timeframe: Timeframe) -> AnyPublisher<TopBook, NetworkError> {
+        guard let url = createURL(for: .getTopBook(timeframe: timeframe)) else {
+            return Fail(error: NetworkError.noData)
+                .eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+                .map{ output in
+                    return output.data
+                }
+                .decode(type: TopBook.self, decoder: JSONDecoder())
+                .mapError { NetworkError.decodingError($0) }
+                .receive(on: DispatchQueue.main)
+                .eraseToAnyPublisher()
+        }
+        
     func getBook(for category: String) -> AnyPublisher<SearchBook, NetworkError> {
         guard let url = createURL(for: .searchBookWith(category: category)) else {
             

@@ -14,15 +14,22 @@ enum NetworkError: Error {
     case noData
     case decodingError(Error)
 }
-
+enum Timeframe: String {
+    case weekly = "weekly"
+    case monthly = "monthly"
+    case yearly = "yearly"
+}
 // добавить свой Endpoint
 enum Endpoint {
     case searchBookWith(category: String)
-    
+    case getTopBook(timeframe: Timeframe)
     var path: String {
         switch self {
         case .searchBookWith:
             return "search.json"
+        case .getTopBook(let timeframe):
+            return "/trending/\(timeframe.rawValue).json"
+        }
         }
     }
-}
+
