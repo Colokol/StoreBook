@@ -11,31 +11,31 @@ final class CategoriesViewModel {
             ),
             CategoryModel(
                 title: "Classics",
-                image: "1"
+                image: "2"
             ),
             CategoryModel(
                 title: "Fantasy",
-                image: "1"
+                image: "3"
             ),
             CategoryModel(
                 title: "Young Adult",
-                image: "1"
+                image: "4"
             ),
             CategoryModel(
                 title: "Crime",
-                image: "1"
+                image: "8"
             ),
             CategoryModel(
                 title: "Horror",
-                image: "1"
+                image: "7"
             ),
             CategoryModel(
                 title: "Sci-fi",
-                image: "1"
+                image: "6"
             ),
             CategoryModel(
                 title: "Drama",
-                image: "1"
+                image: "5"
             ),
         ]
     }
