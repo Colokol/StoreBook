@@ -1,6 +1,5 @@
 import Combine
 import Foundation
-
 final class SearchViewModel {
     
     @Published var searchedBook: SearchBook?
