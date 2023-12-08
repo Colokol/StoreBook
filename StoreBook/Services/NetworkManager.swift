@@ -7,24 +7,25 @@ struct NetworkManager {
     
     private init() {}
     
-    private func makeParameters(for endpoint: Endpoint, with category: String) -> [String: String] {
+    private func makeParameters(for endpoint: Endpoint, with query: String?) -> [String: String] {
         var parameters = [String: String]()
 
         switch endpoint {
         case .searchBookWith(category: let category):
-            parameters["q"] = "\(category) -subject_key"
+            if query != nil { parameters["query"] = query }
+            parameters["q"] = "\(category)+-subject_key"
         }
         return parameters
     }
     
     
-    private func createURL(for endPoint: Endpoint, with category: String? = nil) -> URL? {
+    private func createURL(for endPoint: Endpoint, with query: String? = nil) -> URL? {
         var components = URLComponents()
         components.scheme = APIManager.scheme
         components.host = APIManager.host
         components.path = endPoint.path
         
-        components.queryItems = makeParameters(for: endPoint, with: category ?? "").compactMap {
+        components.queryItems = makeParameters(for: endPoint, with: query).compactMap {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         

@@ -22,7 +22,7 @@ enum Endpoint {
     var path: String {
         switch self {
         case .searchBookWith:
-            return "search.json"
+            return "search.json?q="
         }
     }
 }
