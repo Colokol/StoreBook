@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum CoverKey: String {
+    case ID = "id"
+    // Другие возможные значения ключей для обложки
+}
+enum CoverSize: String {
+    case S = "S"
+    case M = "M"
+    case L = "L"
+    
+}
 struct TopBook: Decodable {
     let title: String
     let authorName: [String]
@@ -21,10 +31,13 @@ struct TopBook: Decodable {
         case coverI = "cover_i"
     }
     
-    var coverURL: URL? {
-        if let coverI = coverI {
-            return URL(string: "https://covers.openlibrary.org/b/id/\(coverI)-L.jpg")
+    func coverURL(coverKey: CoverKey = .ID, coverSize: CoverSize = .M) -> URL? {
+            guard
+                let coverI = coverI,
+                let url = URL(string: "https://covers.openlibrary.org/b/\(coverKey.rawValue)/\(coverI)-\(coverSize.rawValue).jpg")
+            else {
+                return nil
+            }
+            return url
         }
-        return nil
-    }
 }

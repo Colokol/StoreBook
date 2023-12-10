@@ -34,7 +34,7 @@ struct NetworkManager {
         return components.url
     }
     
-    func getTrendingBooks(timeframe: Timeframe) -> AnyPublisher<TopBook, NetworkError> {
+    func getTopBooks(timeframe: Timeframe) -> AnyPublisher<TopBook, NetworkError> {
         guard let url = createURL(for: .getTopBook(timeframe: timeframe)) else {
             return Fail(error: NetworkError.noData)
                 .eraseToAnyPublisher()
