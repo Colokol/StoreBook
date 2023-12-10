@@ -1,27 +1,11 @@
 import UIKit
 import SDWebImage
 
-struct ConstantsForCell {
-    static let topAnchor: CGFloat = 4
-    static let leadingAnchor: CGFloat = 16
-    static let trailingAnchor: CGFloat = -16
-    static let bottomAnchor: CGFloat = -16
-    static let interSpacing: CGFloat = 8
-    static let widthAnchorForIW: CGFloat = 95
-    static let widthMultiplier: CGFloat = 145/95
-}
-
 final class SearchCategoriesCell: UITableViewCell {
 
     static let cellID = String(describing: SearchCategoriesCell.self)
 
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.color = .magenta
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
+    private lazy var activityIndicator = BookLoadIndicator()
     
     private lazy var bookImageView: UIImageView = {
         let view = UIImageView()
@@ -129,8 +113,8 @@ final class SearchCategoriesCell: UITableViewCell {
             bookImageView.widthAnchor.constraint(equalToConstant: ConstantsForCell.widthAnchorForIW),
             bookImageView.heightAnchor.constraint(equalTo: bookImageView.widthAnchor, multiplier: ConstantsForCell.widthMultiplier),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
         ])
     }
 
