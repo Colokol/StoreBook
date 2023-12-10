@@ -1,52 +1,60 @@
 import Combine
 import Foundation
 
-struct NetworkManager {
+protocol APIClient {
+    associatedtype EndpointType: APIEndpoint
+    func request<T: Decodable>(_ endpoint: EndpointType) -> AnyPublisher<T, Error>
+    
+}
+
+final class NetworkManager {
     
     static let shared = NetworkManager()
     
     private init() {}
     
-    private func makeParameters(for endpoint: Endpoint, with category: String) -> [String: String] {
-        var parameters = [String: String]()
-
-        switch endpoint {
-        case .searchBookWith(category: let category):
-            parameters["q"] = "\(category) -subject_key"
-        }
-        return parameters
-    }
-    
-    
-    private func createURL(for endPoint: Endpoint, with category: String? = nil) -> URL? {
-        var components = URLComponents()
-        components.scheme = APIManager.scheme
-        components.host = APIManager.host
-        components.path = endPoint.path
-        
-        components.queryItems = makeParameters(for: endPoint, with: category ?? "").compactMap {
-            URLQueryItem(name: $0.key, value: $0.value)
-        }
-        
-        return components.url
-    }
-    
     func getBook(for category: String) -> AnyPublisher<SearchBook, NetworkError> {
-        guard let url = createURL(for: .searchBookWith(category: category)) else {
-            
-            return Fail(error: NetworkError.noData)
-                .eraseToAnyPublisher()
+        let endpoint = BookEndpoint.searchBookWith(category: category)
+        return URLSessionAPIClient<BookEndpoint>()
+            .request(endpoint)
+            .mapError { error -> NetworkError in
+                if let networkError = error as? NetworkError {
+                    return networkError
+                } else {
+                    return NetworkError.transportError(error)
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+}
+
+final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
+    func request<T>(_ endpoint: EndpointType) -> AnyPublisher<T, Error> where T: Decodable {
+        let url = endpoint.baseURL.appendingPathComponent(endpoint.path)
+        var request = URLRequest(url: url)
+        print(url)
+        if let headers = endpoint.headers {
+            headers.forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
         }
         
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .map { output in
-                return output.data
+        if let parameters = endpoint.parameters {
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+            components?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+            if let urlWithParameters = components?.url {
+                request.url = urlWithParameters
+                print("Request URL:", urlWithParameters)
             }
-            .decode(type: SearchBook.self, decoder: JSONDecoder())
-            .mapError { error in
-                return NetworkError.decodingError(error)
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    throw NetworkError.invalidResponse
+                }
+                return data
             }
-            .receive(on: DispatchQueue.main)
+            .decode(type: T.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
 }
