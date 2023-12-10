@@ -3,7 +3,7 @@ import UIKit
 extension UINavigationController {
     
     func setupNavigationBar() {
-        navigationBar.barTintColor = .black
+        navigationBar.barTintColor = .white
         
         let backButtonImage = UIImage(systemName: "arrow.left")
         let alignInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)

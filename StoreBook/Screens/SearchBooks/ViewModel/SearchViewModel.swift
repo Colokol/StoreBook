@@ -1,8 +1,6 @@
 import Combine
 import Foundation
 final class SearchViewModel {
-    
-    @Published var searchedBook: SearchBook?
     @Published var tableData: [Doc] = []
     private var networkManager = NetworkManager.shared
     var cancellables: Set<AnyCancellable> = []
@@ -18,7 +16,6 @@ final class SearchViewModel {
                     print(error)
                 }
             } receiveValue: { [weak self] books in
-                self?.searchedBook = books
                 self?.tableData = books.docs
             }
             .store(in: &cancellables)

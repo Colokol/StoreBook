@@ -4,7 +4,6 @@ import Foundation
 protocol APIClient {
     associatedtype EndpointType: APIEndpoint
     func request<T: Decodable>(_ endpoint: EndpointType) -> AnyPublisher<T, Error>
-    
 }
 
 final class NetworkManager {
