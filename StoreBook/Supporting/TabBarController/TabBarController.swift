@@ -26,7 +26,7 @@ final class TabBarController: UITabBarController {
 
         let vc1 = UINavigationController(rootViewController: HomeViewController())
         let vc2 = UINavigationController(rootViewController: CategoriesViewController())
-        let vc3 = UINavigationController(rootViewController: UIViewController())
+        let vc3 = UINavigationController(rootViewController: LikesViewController())
         let vc4 = UINavigationController(rootViewController: UIViewController())
 
         vc1.title = "Home"
