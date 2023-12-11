@@ -25,6 +25,17 @@ final class NetworkManager {
             }
             .eraseToAnyPublisher()
     }
+
+    func getTopBook(for timeFrame: TimeFrame) -> AnyPublisher<TopBookResponse,NetworkError> {
+        let endPoint = BookEndpoint.topBook(timeFrame: timeFrame)
+
+        return URLSessionAPIClient<BookEndpoint>().request(endPoint)
+            .mapError { error in
+                return NetworkError.transportError(error)
+            }
+            .eraseToAnyPublisher()
+    }
+
 }
 
 final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
@@ -44,7 +55,7 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
                 print("Request URL:", urlWithParameters)
             }
         }
-        
+        print(T.self)
         return URLSession.shared.dataTaskPublisher(for: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .tryMap { data, response -> Data in
