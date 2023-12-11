@@ -1,13 +1,10 @@
 import UIKit
 
-struct ConstantsForCell {
-    static let topAnchor: CGFloat = 4
-    static let leadingAnchor: CGFloat = 20
-    static let trailingAnchor: CGFloat = -20
-    static let bottomAnchor: CGFloat = -20
+struct ConstantsSearch {
+    static let verticalSpacing: CGFloat = 4
+    static let horizontalSpacing: CGFloat = 20
     static let interSpacing: CGFloat = 8
-    static let widthAnchorForIW: CGFloat = 95
-    static let widthMultiplier: CGFloat = 145/95
+    static let rowHeight: CGFloat = 160
 }
 
 final class SearchCategoriesViewController: UITableViewController {
@@ -21,17 +18,18 @@ final class SearchCategoriesViewController: UITableViewController {
         super.viewDidLoad()
         registeredCell()
         title = category
-        setConstraints()
+        setActivityIndicator()
         viewModel.fetchData(with: category)
   
         setupBindings()
     }
     
     private func registeredCell() {
-        view.addSubview(activityIndicator)
+ 
         
+        tableView.rowHeight = ConstantsSearch.rowHeight
         tableView.separatorStyle = .none
-        tableView.rowHeight = 170
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(SearchCategoriesCell.self, forCellReuseIdentifier: SearchCategoriesCell.cellID)
     }
     
@@ -56,12 +54,12 @@ final class SearchCategoriesViewController: UITableViewController {
             .store(in: &viewModel.cancellables)
     }
     
-    private func setConstraints() {
+    private func setActivityIndicator() {
+        view.addSubview(activityIndicator)
+        
         NSLayoutConstraint.activate([
-            
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150)
-    
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
         ])
     }
 }

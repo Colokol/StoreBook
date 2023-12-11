@@ -45,7 +45,6 @@ class BookLoadIndicator: UIImageView {
                 widthConstraint
             ])
             
-            // Анимация увеличения ширины
             UIView.animate(withDuration: 0.5) {
                 widthConstraint.constant = (screenHeight / 2) * widthMultiplier
                 self.layoutIfNeeded()
@@ -57,7 +56,6 @@ class BookLoadIndicator: UIImageView {
                 widthConstraint
             ])
             
-            // Анимация увеличения ширины
             UIView.animate(withDuration: 0.5) {
                 widthConstraint.constant = (screenHeight / 2) * widthMultiplier
                 self.layoutIfNeeded()

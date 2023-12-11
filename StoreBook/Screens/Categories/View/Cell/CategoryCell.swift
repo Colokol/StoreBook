@@ -8,7 +8,7 @@ final class CategoryCell: UICollectionViewCell {
         label.text = "Drama"
         label.textColor = UIColor.white
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = UIFont(name: "OpenSans-SemiBold", size: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
