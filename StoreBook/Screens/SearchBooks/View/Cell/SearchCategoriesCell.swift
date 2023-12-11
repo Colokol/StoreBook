@@ -69,18 +69,21 @@ final class SearchCategoriesCell: UITableViewCell {
     
     // MARK: - Public methods
     func configure(with searchedBook: Doc?) {
-        activityIndicator.startAnimating()
+//        activityIndicator.startAnimating()
         guard let searchedBook = searchedBook else { return }
         
         activityIndicator.isHidden = true
         
         if let coverURL = searchedBook.coverURL() {
-            activityIndicator.isHidden = false
-            bookImageView.sd_setImage(with: coverURL, placeholderImage: UIImage(named: "noimage_detail")) { [weak self] (_, _, _, _) in
-                self?.activityIndicator.isHidden = true
-            }
-        } else {
-            activityIndicator.isHidden = true
+
+            // add
+            bookImageView.bookLoadingImageView.sd_setImage(with: coverURL )
+//            activityIndicator.isHidden = false
+//            bookImageView.sd_setImage(with: coverURL, placeholderImage: UIImage(named: "noimage_detail")) { [weak self] (_, _, _, _) in
+//                self?.activityIndicator.isHidden = true
+//            }
+//        } else {
+//            activityIndicator.isHidden = true
         }
         
         bookNameLabel.text = "Title: \(searchedBook.title)"
@@ -117,8 +120,8 @@ final class SearchCategoriesCell: UITableViewCell {
             labelsStackView.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -ConstantsSearch.horizontalSpacing),
             labelsStackView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor, constant: -ConstantsSearch.interSpacing),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
+         //   activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
+         //   activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
         ])
     }
     
