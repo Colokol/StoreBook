@@ -4,9 +4,8 @@ class BookLoadIndicator: UIImageView {
     
     lazy var bookLoadingImageView: UIImageView = {
         let imageView = UIImageView()
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         if let gifUrl = URL(string: "https://usagif.com/wp-content/uploads/gifs/book-73.gif") {
             imageView.sd_setImage(with: gifUrl) { (image, error, cacheType, url) in
                 if error != nil {
@@ -16,7 +15,8 @@ class BookLoadIndicator: UIImageView {
                 }
             }
         }
-        
+// add
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -33,9 +33,8 @@ class BookLoadIndicator: UIImageView {
     
     convenience init(isCell: Bool = false) {
         self.init(frame: .zero)
-        
         let screenHeight = UIScreen.main.bounds.height
-        
+
         let widthMultiplier: CGFloat = 1.3
         
         if isCell {
@@ -44,7 +43,7 @@ class BookLoadIndicator: UIImageView {
                 bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 10),
                 widthConstraint
             ])
-            
+
             // Анимация увеличения ширины
             UIView.animate(withDuration: 0.5) {
                 widthConstraint.constant = (screenHeight / 2) * widthMultiplier
@@ -72,12 +71,17 @@ class BookLoadIndicator: UIImageView {
         
         addSubview(backView)
         addSubview(bookLoadingImageView)
+
         
         NSLayoutConstraint.activate([
-            bookLoadingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            bookLoadingImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
+//            bookLoadingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+//            bookLoadingImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
+            bookLoadingImageView.topAnchor.constraint(equalTo: topAnchor),
+            bookLoadingImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bookLoadingImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bookLoadingImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
+
         NSLayoutConstraint.activate([
             backView.topAnchor.constraint(equalTo: topAnchor),
             backView.leadingAnchor.constraint(equalTo: leadingAnchor),

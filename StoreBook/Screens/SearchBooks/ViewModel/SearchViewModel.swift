@@ -5,10 +5,10 @@ final class SearchViewModel {
     @Published var isLoading: Bool = false
     
     private var networkManager = NetworkManager.shared
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = [] // так себе название
 
     func fetchData(with category: String) {
-        isLoading = true
+        //isLoading = true
         networkManager.getBook(for: category)
             .receive(on: DispatchQueue.main)
             .sink { completion in

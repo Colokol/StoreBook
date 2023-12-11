@@ -139,9 +139,9 @@ extension CategoriesViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension CategoriesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let categoryResultViewController = SearchCategoriesViewController()
         let category = viewModel.categories[indexPath.row]
-        categoryResultViewController.category = category.title
+//        categoryResultViewController.category = category.title
+        let categoryResultViewController = SearchCategoriesViewController(category: category.title)
         navigationController?.pushViewController(categoryResultViewController, animated: true)
     }
     

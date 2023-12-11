@@ -5,11 +5,11 @@ final class SearchCategoriesCell: UITableViewCell {
 
     static let cellID = String(describing: SearchCategoriesCell.self)
 
-    private lazy var activityIndicator = BookLoadIndicator()
-    
-    private lazy var bookImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
+//    private lazy var activityIndicator = BookLoadIndicator()
+
+    // UIView to BookLoad
+    private lazy var bookImageView: BookLoadIndicator = {
+        let view = BookLoadIndicator(frame: .zero) // UIImageView()
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -72,18 +72,22 @@ final class SearchCategoriesCell: UITableViewCell {
 
     // MARK: - Public methods
     func configure(with searchedBook: Doc?) {
-        activityIndicator.startAnimating()
+//        activityIndicator.startAnimating()
         guard let searchedBook = searchedBook else { return }
 
-        activityIndicator.isHidden = true
+//        activityIndicator.isHidden = true
+
 
         if let coverURL = searchedBook.coverURL() {
-            activityIndicator.isHidden = false
-            bookImageView.sd_setImage(with: coverURL, placeholderImage: UIImage(named: "noimage_detail")) { [weak self] (_, _, _, _) in
-                self?.activityIndicator.isHidden = true
-            }
-        } else {
-            activityIndicator.isHidden = true
+
+            // add
+            bookImageView.bookLoadingImageView.sd_setImage(with: coverURL )
+//            activityIndicator.isHidden = false
+//            bookImageView.sd_setImage(with: coverURL, placeholderImage: UIImage(named: "noimage_detail")) { [weak self] (_, _, _, _) in
+//                self?.activityIndicator.isHidden = true
+//            }
+//        } else {
+//            activityIndicator.isHidden = true
         }
         
         bookNameLabel.text = "Title: \(searchedBook.title)"
@@ -100,7 +104,7 @@ final class SearchCategoriesCell: UITableViewCell {
         clipsToBounds = true
         contentStackView.backgroundColor = .black
         contentView.addSubview(contentStackView)
-        contentView.addSubview(activityIndicator)
+        //contentView.addSubview(activityIndicator)
     }
 
     private func setConstraints() {
@@ -111,10 +115,10 @@ final class SearchCategoriesCell: UITableViewCell {
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: ConstantsForCell.bottomAnchor),
             
             bookImageView.widthAnchor.constraint(equalToConstant: ConstantsForCell.widthAnchorForIW),
-            bookImageView.heightAnchor.constraint(equalTo: bookImageView.widthAnchor, multiplier: ConstantsForCell.widthMultiplier),
+//            bookImageView.heightAnchor.constraint(equalTo: bookImageView.widthAnchor, multiplier: ConstantsForCell.widthMultiplier),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
+         //   activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
+         //   activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
         ])
     }
 
