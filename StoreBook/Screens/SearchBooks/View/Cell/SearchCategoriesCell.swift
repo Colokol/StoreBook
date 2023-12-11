@@ -1,76 +1,123 @@
 import UIKit
+import SDWebImage
 
 final class SearchCategoriesCell: UITableViewCell {
     
     static let cellID = String(describing: SearchCategoriesCell.self)
     
-    private let bookImageView: UIImageView = {
-        let view = UIImageView()
-        view.layer.cornerRadius = 10
-        view.contentMode = .scaleAspectFill
+    private lazy var bookImageView: BookLoadIndicator = {
+        let view = BookLoadIndicator(frame: .zero)
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let bookNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.numberOfLines = 0
-        return label
+    lazy var bookContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 8
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-  
-    override init(
-        style: UITableViewCell.CellStyle,
-        reuseIdentifier: String?
+    private let bookNameLabel: UILabel = makeLabel(
+        fontSize: 16,
+        name: "OpenSans-Regular" ,
+        textColor: .white
     )
-    {
+    
+    private let authorNameLabel: UILabel = makeLabel(
+        fontSize: 14,
+        name: "OpenSans-Light",
+        textColor: .white
+    )
+    
+    private let ratingLabel: UILabel = makeLabel(
+        fontSize: 12,
+        name: "OpenSans-Light",
+        textColor: .white
+    )
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
+        setupView()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     // MARK: - Public methods
-    func configure(with category: Doc?) {
-        guard let category else { return }
-        bookNameLabel.text = category.title
-        bookImageView.image = UIImage(named: "2")
-    }
-}
-// MARK: - setupUI
-private extension SearchCategoriesCell {
-    
-    func setupUI() {
-        setupView()
-        setConstraints()
-    }
-    
-    func setupView() {
-        clipsToBounds = true
-        contentView.addSubview(bookImageView)
-        contentView.addSubview(bookNameLabel)
+    func configure(with searchedBook: Doc?) {
+        guard let searchedBook = searchedBook else { return }
+        if let coverURL = searchedBook.coverURL() {
+            bookImageView.bookLoadingImageView.sd_setImage(with: coverURL )
+        }
+        
+        bookNameLabel.text = "Title: \(searchedBook.title)"
+        if let authorName = searchedBook.authorName?.joined(separator: "\n") {
+            authorNameLabel.text = "Autors: \(authorName)"
+        }
+        if let ratingsAverage = searchedBook.ratingsAverage {
+            ratingLabel.text = String(format: "Rating: %.1f", ratingsAverage)
+        }
     }
     
-    func setConstraints() {
+    // MARK: - Private methods
+    private func setupView() {
+        addSubview(bookContentView)
+        bookContentView.addSubview(bookImageView)
+        bookContentView.addSubview(bookNameLabel)
+        bookContentView.addSubview(authorNameLabel)
+        bookContentView.addSubview(ratingLabel)
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
-            bookImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bookImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingAnchor),
-            bookImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingAnchor),
-            bookImageView.heightAnchor.constraint(equalToConstant: 200),
-
-            bookNameLabel.topAnchor.constraint(equalTo: bookImageView.bottomAnchor, constant: Constants.topAnchor),
-            bookNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingAnchor),
-            bookNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constants.trailingAnchor),
-            bookNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingAnchor)
+            bookContentView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalSpacing),
+            bookContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.horizontalSpacing),
+            bookContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.horizontalSpacing),
+            bookContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.horizontalSpacing),
+            
+            bookImageView.topAnchor.constraint(equalTo: bookContentView.topAnchor),
+            bookImageView.leadingAnchor.constraint(equalTo: bookContentView.leadingAnchor),
+            bookImageView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor),
+            bookImageView.widthAnchor.constraint(equalTo: bookContentView.widthAnchor, multiplier: 1.0 / 4.5),
+            
+            bookNameLabel.topAnchor.constraint(equalTo: bookContentView.topAnchor, constant: Constants.interSpacing),
+            bookNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            bookNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            
+            authorNameLabel.topAnchor.constraint(equalTo: bookNameLabel.bottomAnchor, constant: Constants.interSpacing),
+            authorNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            authorNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            
+            ratingLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: Constants.interSpacing + 4),
+            ratingLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            ratingLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            ratingLabel.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor, constant: -Constants.verticalSpacing * 12 ),
+            
         ])
     }
+    
+    private static func makeLabel(fontSize: CGFloat, name: String, textColor: UIColor) -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.textColor = textColor
+        label.font = UIFont(name: "OpenSans-Light", size: fontSize)
+        label.numberOfLines = 0
+        return label
+    }
+    
+    struct Constants {
+        static let verticalSpacing: CGFloat = 4
+        static let horizontalSpacing: CGFloat = 20
+        static let interSpacing: CGFloat = 8
+    }
 }
-
-

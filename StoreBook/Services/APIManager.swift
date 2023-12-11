@@ -66,8 +66,11 @@ enum BookEndpoint: APIEndpoint {
     var parameters: [String: String]? {
         switch self {
         case .searchBookWith(category: let category):
-            let params = ["q":"\(category)+-subject_key"]
-            
+            let params = [
+                "q":"\(category)+-subject_key",
+                "land":"rus",
+                "limit":"30"
+            ]
             return params
         }
     }

@@ -1,12 +1,14 @@
 import Combine
 import Foundation
 final class SearchViewModel {
+    @Published var tableData: [Doc] = []
+    @Published var isLoading: Bool = false
     
-    @Published var searchedBook: SearchBook?
     private var networkManager = NetworkManager.shared
-    private var cancellables: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = [] // так себе название
 
     func fetchData(with category: String) {
+        //isLoading = true
         networkManager.getBook(for: category)
             .receive(on: DispatchQueue.main)
             .sink { completion in
@@ -17,7 +19,8 @@ final class SearchViewModel {
                     print(error)
                 }
             } receiveValue: { [weak self] books in
-                self?.searchedBook = books
+                self?.isLoading = true
+                self?.tableData = books.docs
             }
             .store(in: &cancellables)
     }
