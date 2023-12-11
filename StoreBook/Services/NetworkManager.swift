@@ -34,16 +34,15 @@ struct NetworkManager {
         return components.url
     }
     
-    func getTopBooks(timeframe: Timeframe) -> AnyPublisher<TopBook, NetworkError> {
+    func getTopBooks(timeframe: Timeframe) -> AnyPublisher<[TopBook], NetworkError> {
         guard let url = createURL(for: .getTopBook(timeframe: timeframe)) else {
             return Fail(error: NetworkError.noData)
                 .eraseToAnyPublisher()
         }
         return URLSession.shared.dataTaskPublisher(for: url)
-                .map{ output in
-                    return output.data
-                }
-                .decode(type: TopBook.self, decoder: JSONDecoder())
+                .map { $0.data }
+                .decode(type: TopBookResponse.self, decoder: JSONDecoder())
+                .map { $0.works }
                 .mapError { NetworkError.decodingError($0) }
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()

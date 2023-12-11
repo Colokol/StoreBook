@@ -17,6 +17,9 @@ enum CoverSize: String {
     case L = "L"
     
 }
+struct TopBookResponse: Decodable {
+    let works: [TopBook]
+}
 struct TopBook: Decodable {
     let title: String
     let authorName: [String]
@@ -26,7 +29,7 @@ struct TopBook: Decodable {
     // var genre: String?
 
     private enum CodingKeys: String, CodingKey {
-        case title
+        case title = "title"
         case authorName = "author_name"
         case coverI = "cover_i"
     }
