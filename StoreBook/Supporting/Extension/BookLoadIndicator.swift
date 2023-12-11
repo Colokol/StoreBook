@@ -15,7 +15,6 @@ class BookLoadIndicator: UIImageView {
                 }
             }
         }
-// add
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -44,7 +43,6 @@ class BookLoadIndicator: UIImageView {
                 widthConstraint
             ])
 
-            // Анимация увеличения ширины
             UIView.animate(withDuration: 0.5) {
                 widthConstraint.constant = (screenHeight / 2) * widthMultiplier
                 self.layoutIfNeeded()
@@ -73,8 +71,6 @@ class BookLoadIndicator: UIImageView {
 
         
         NSLayoutConstraint.activate([
-//            bookLoadingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-//            bookLoadingImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
             bookLoadingImageView.topAnchor.constraint(equalTo: topAnchor),
             bookLoadingImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bookLoadingImageView.trailingAnchor.constraint(equalTo: trailingAnchor),

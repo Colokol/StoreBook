@@ -1,12 +1,5 @@
 import UIKit
 
-struct ConstantsSearch {
-    static let verticalSpacing: CGFloat = 4
-    static let horizontalSpacing: CGFloat = 20
-    static let interSpacing: CGFloat = 8
-    static let rowHeight: CGFloat = 160
-}
-
 final class SearchCategoriesViewController: UITableViewController {
     
     var category: String
@@ -15,7 +8,6 @@ final class SearchCategoriesViewController: UITableViewController {
     
     private lazy var activityIndicator = BookLoadIndicator()
 
-// Категория назначается при инициализации
     init(category: String) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
@@ -27,19 +19,15 @@ final class SearchCategoriesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        registeredCell()
         title = category
         setActivityIndicator()
         viewModel.fetchData(with: category)
-  
         setupBindings()
+        configureTableView()
     }
 
-    // нарушение S
-    private func registeredCell() {
- 
-        
-        tableView.rowHeight = ConstantsSearch.rowHeight
+    private func configureTableView() {
+        tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.register(SearchCategoriesCell.self, forCellReuseIdentifier: SearchCategoriesCell.cellID)
@@ -50,19 +38,12 @@ final class SearchCategoriesViewController: UITableViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
-                //self?.activityIndicator.isHidden = true
             }
             .store(in: &viewModel.cancellables)
 
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-//                if isLoading {
-//                    self?.activityIndicator.isHidden = false
-//                } else {
-//                    self?.activityIndicator.isHidden = true
-//                }
-                    //add
                   self?.activityIndicator.isHidden = isLoading
             }
             .store(in: &viewModel.cancellables)
@@ -92,4 +73,12 @@ extension SearchCategoriesViewController {
     }
 }
 
+extension SearchCategoriesViewController {
+    struct Constants {
+        static let verticalSpacing: CGFloat = 4
+        static let horizontalSpacing: CGFloat = 20
+        static let interSpacing: CGFloat = 8
+        static let rowHeight: CGFloat = 160
+    }
+}
 

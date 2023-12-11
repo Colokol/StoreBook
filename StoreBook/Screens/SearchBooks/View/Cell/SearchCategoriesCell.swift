@@ -5,7 +5,12 @@ final class SearchCategoriesCell: UITableViewCell {
     
     static let cellID = String(describing: SearchCategoriesCell.self)
     
-    private lazy var activityIndicator = BookLoadIndicator()
+    private lazy var bookImageView: BookLoadIndicator = {
+        let view = BookLoadIndicator(frame: .zero)
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     lazy var bookContentView: UIView = {
         let view = UIView()
@@ -13,14 +18,6 @@ final class SearchCategoriesCell: UITableViewCell {
         view.layer.cornerRadius = 8
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.borderWidth = 1
-        view.clipsToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var bookImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -44,18 +41,6 @@ final class SearchCategoriesCell: UITableViewCell {
         textColor: .white
     )
     
-    private lazy var labelsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            bookNameLabel,
-            authorNameLabel,
-            ratingLabel
-        ])
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = ConstantsSearch.interSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -69,21 +54,9 @@ final class SearchCategoriesCell: UITableViewCell {
     
     // MARK: - Public methods
     func configure(with searchedBook: Doc?) {
-//        activityIndicator.startAnimating()
         guard let searchedBook = searchedBook else { return }
-        
-        activityIndicator.isHidden = true
-        
         if let coverURL = searchedBook.coverURL() {
-
-            // add
             bookImageView.bookLoadingImageView.sd_setImage(with: coverURL )
-//            activityIndicator.isHidden = false
-//            bookImageView.sd_setImage(with: coverURL, placeholderImage: UIImage(named: "noimage_detail")) { [weak self] (_, _, _, _) in
-//                self?.activityIndicator.isHidden = true
-//            }
-//        } else {
-//            activityIndicator.isHidden = true
         }
         
         bookNameLabel.text = "Title: \(searchedBook.title)"
@@ -99,29 +72,36 @@ final class SearchCategoriesCell: UITableViewCell {
     private func setupView() {
         addSubview(bookContentView)
         bookContentView.addSubview(bookImageView)
-        bookContentView.addSubview(labelsStackView)
-        bookContentView.addSubview(activityIndicator)
+        bookContentView.addSubview(bookNameLabel)
+        bookContentView.addSubview(authorNameLabel)
+        bookContentView.addSubview(ratingLabel)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            bookContentView.topAnchor.constraint(equalTo: topAnchor, constant: ConstantsSearch.verticalSpacing),
-            bookContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: ConstantsSearch.horizontalSpacing),
-            bookContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -ConstantsSearch.horizontalSpacing),
-            bookContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -ConstantsSearch.horizontalSpacing),
+            bookContentView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalSpacing),
+            bookContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.horizontalSpacing),
+            bookContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.horizontalSpacing),
+            bookContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.horizontalSpacing),
             
             bookImageView.topAnchor.constraint(equalTo: bookContentView.topAnchor),
             bookImageView.leadingAnchor.constraint(equalTo: bookContentView.leadingAnchor),
             bookImageView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor),
             bookImageView.widthAnchor.constraint(equalTo: bookContentView.widthAnchor, multiplier: 1.0 / 4.5),
             
-            labelsStackView.topAnchor.constraint(equalTo: bookContentView.topAnchor, constant: ConstantsSearch.interSpacing),
-            labelsStackView.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: ConstantsSearch.interSpacing),
-            labelsStackView.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -ConstantsSearch.horizontalSpacing),
-            labelsStackView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor, constant: -ConstantsSearch.interSpacing),
+            bookNameLabel.topAnchor.constraint(equalTo: bookContentView.topAnchor, constant: Constants.interSpacing),
+            bookNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            bookNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
             
-         //   activityIndicator.centerXAnchor.constraint(equalTo: bookImageView.centerXAnchor),
-         //   activityIndicator.centerYAnchor.constraint(equalTo: bookImageView.centerYAnchor)
+            authorNameLabel.topAnchor.constraint(equalTo: bookNameLabel.bottomAnchor, constant: Constants.interSpacing),
+            authorNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            authorNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            
+            ratingLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: Constants.interSpacing + 4),
+            ratingLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
+            ratingLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
+            ratingLabel.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor, constant: -Constants.verticalSpacing * 12 ),
+            
         ])
     }
     
@@ -133,5 +113,11 @@ final class SearchCategoriesCell: UITableViewCell {
         label.font = UIFont(name: "OpenSans-Light", size: fontSize)
         label.numberOfLines = 0
         return label
+    }
+    
+    struct Constants {
+        static let verticalSpacing: CGFloat = 4
+        static let horizontalSpacing: CGFloat = 20
+        static let interSpacing: CGFloat = 8
     }
 }
