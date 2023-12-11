@@ -4,7 +4,7 @@ import Foundation
 final class CategoriesViewModel {
     var categories: [CategoryModel] = []
     
-    @Published var tableData: [Doc] = []
+    @Published var searchedBooks: [Doc] = []
     @Published var isLoading: Bool = false
     
     private var networkManager = NetworkManager.shared
@@ -57,8 +57,9 @@ final class CategoriesViewModel {
                 case .failure(let error):
                     print(error)
                 }
-            } receiveValue: { [weak self] books in
-                self?.tableData = books.docs
+            } receiveValue: {  books in
+                let authors = books
+                print(authors)
             }
             .store(in: &networkCancellables)
     }

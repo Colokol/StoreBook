@@ -43,7 +43,12 @@ enum BookEndpoint: APIEndpoint {
     }
     
     var path: String {
-        return "search.json"
+        switch self {
+        case .searchBookFor(category: _):
+            return "search.json"
+        case .searchBookWith(searchText: _):
+            return "search.json"
+        }
     }
     
     var method: HTTPMethod {
@@ -65,8 +70,7 @@ enum BookEndpoint: APIEndpoint {
             
         case .searchBookWith(searchText: let searchText):
             let params = [
-                "author": "\(searchText)+-subject_key",
-                "title":"\(searchText)",
+                "author":"\(searchText)",
                 "limit": "10"
             ]
             return params
