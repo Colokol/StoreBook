@@ -7,11 +7,12 @@
 
 import Foundation
 
+// MARK: - BookModel
 struct BookModel {
     let title: String
     let author: String
     let category: String
     let rating: String
-    let imageUrl: String
+    let imageUrl: URL?
 }
 

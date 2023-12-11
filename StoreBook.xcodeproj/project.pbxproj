@@ -25,6 +25,7 @@
 		3CCCA1302B1F3F5100776433 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12F2B1F3F5100776433 /* UIView + Extension.swift */; };
 		3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1312B1F577700776433 /* DetailsViewModel.swift */; };
 		3CCCA1A32B21CBC500776433 /* SearchBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1A22B21CBC500776433 /* SearchBook.swift */; };
+		3CD187962B279AA200AB7F3A /* TopBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F852B2780F400993F30 /* TopBookModel.swift */; };
 		CE1E4F662B262B4700993F30 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F622B262B4700993F30 /* LikesViewController.swift */; };
 		CE1E4F672B262B4700993F30 /* BooksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F632B262B4700993F30 /* BooksModel.swift */; };
 		CE1E4F682B262B4700993F30 /* LikesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F642B262B4700993F30 /* LikesTableViewCell.swift */; };
@@ -37,7 +38,6 @@
 		CE1E4F792B26453300993F30 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE1E4F732B26313C00993F30 /* OpenSans-Regular.ttf */; };
 		CE1E4F7A2B26453600993F30 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE1E4F722B26313C00993F30 /* OpenSans-SemiBold.ttf */; };
 		CE1E4F7C2B264B9500993F30 /* LikesViewController + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F7B2B264B9500993F30 /* LikesViewController + UITableView.swift */; };
-		CE1E4F862B2780F400993F30 /* TopBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F852B2780F400993F30 /* TopBookModel.swift */; };
 		CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */; };
 		CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */; };
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
@@ -598,6 +598,7 @@
 				E1CF2F142B227BDB00A4BB70 /* CategoriesViewController.swift in Sources */,
 				CE1E4F672B262B4700993F30 /* BooksModel.swift in Sources */,
 				161074272B25BF1700A71BD5 /* UIButton+Extension.swift in Sources */,
+				3CD187962B279AA200AB7F3A /* TopBookModel.swift in Sources */,
 				CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */,
 				CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */,
 				CEB1DC202B222DFC004DCEF6 /* OnboardingViewModel.swift in Sources */,

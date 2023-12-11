@@ -17,8 +17,7 @@ final class DetailsViewController: UIViewController {
     
     // MARK: - Private UI Properties
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = viewBuilder.makeActivityIndicator()
-        return indicator
+        return viewBuilder.makeActivityIndicator()
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -42,7 +41,7 @@ final class DetailsViewController: UIViewController {
     }()
     
     private lazy var authorLabel: UILabel = {
-        let label = viewBuilder.makeInfoLabel()
+        let label = viewBuilder.makeInfoLabel(numberOfLines: 0)
         return label
     }()
     
@@ -50,7 +49,6 @@ final class DetailsViewController: UIViewController {
         let label =  viewBuilder.makeInfoLabel()
         return label
     }()
-    
     
     private lazy var ratingLabel: UILabel = {
         let label = viewBuilder.makeInfoLabel()
@@ -88,6 +86,7 @@ final class DetailsViewController: UIViewController {
     
     private lazy var infoStackView: UIStackView = {
         let stackView = viewBuilder.makeStackView()
+        stackView.distribution = .fill
         stackView.addArrangedSubview(authorLabel)
         stackView.addArrangedSubview(categoryLabel)
         stackView.addArrangedSubview(ratingLabel)
@@ -104,17 +103,6 @@ final class DetailsViewController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-//        
-//        viewModel = DetailsViewModel(
-//            key: "OL27448W",
-//            bookModel: BookModel(
-//                title: "The Lord Of The Rings",
-//                author: "Brad Pitt",
-//                category: "History",
-//                rating: "4.5",
-//                imageUrl: "https://covers.openlibrary.org/b/ID/8474036-M.jpg"
-//            ))
-//        
         setViewsVisibility(to: false)
         loadBookDetails()
         setViews()
@@ -128,17 +116,32 @@ final class DetailsViewController: UIViewController {
         
     }
     
+    @objc private func addToListButtonDidTapped() {
+        
+    }
+    
+    @objc private func readButtonDidTapped() {
+        
+    }
+    
     // MARK: - Private Methods
     private func loadBookDetails() {
-        viewModel.getImage {
+        
+        viewModel.getImage { [weak self] in
             DispatchQueue.main.async {
-                self.bookImageView.image = UIImage(data: self.viewModel.bookImage ?? Data())
+                if let bookImagaData = self?.viewModel.bookImage {
+                    self?.bookImageView.image = UIImage(data: bookImagaData)
+                }
+//                } else {
+//                    self?.bookImageView.image = UIImage(systemName: "questionmark")
+//                    self?.bookImageView.tintColor = .white
+//                }
                 
-                self.viewModel.getData {
-                    self.activityIndicator.stopAnimating()
-                    self.setupUI()
+                self?.viewModel.getData {
+                    self?.activityIndicator.stopAnimating()
+                    self?.setupUI()
                     UIView.animate(withDuration: 0.4) {
-                        self.setViewsVisibility(to: true)
+                        self?.setViewsVisibility(to: true)
                     }
                 }
             }
@@ -184,11 +187,12 @@ final class DetailsViewController: UIViewController {
             label.text = text
             return
         }
+        guard let normalFont = label.font else { return }
         
         let normalText = components[0] + ":"
         let boldText = components[1]
         
-        let normalAttributes = [NSAttributedString.Key.font: label.font!]
+        let normalAttributes = [NSAttributedString.Key.font: normalFont]
         let boldAttributes = [NSAttributedString.Key.font: boldFont]
         
         let attributedString = NSMutableAttributedString(string: normalText, attributes: normalAttributes)
@@ -233,55 +237,56 @@ private extension DetailsViewController {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(
                 equalTo: containerView.topAnchor,
-                constant: NameLabelLayout.top
+                constant: LayoutConsrants.nameLabelTop
             ),
             nameLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: NameLabelLayout.leading
+                constant: LayoutConsrants.leading
             ),
             nameLabel.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: NameLabelLayout.trailing
+                constant: LayoutConsrants.trailing
             ),
             
             bookImageView.topAnchor.constraint(
                 equalTo: nameLabel.bottomAnchor,
-                constant: BookImageViewLayout.top
+                constant: LayoutConsrants.bookImageViewTOp
             ),
             bookImageView.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: BookImageViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookImageView.widthAnchor.constraint(
-                equalToConstant: BookImageViewLayout.width
+                equalToConstant: LayoutConsrants.width
             ),
             bookImageView.heightAnchor.constraint(
-                equalToConstant: BookImageViewLayout.height
+                equalToConstant: LayoutConsrants.height
             ),
             
             infoStackView.leadingAnchor.constraint(
                 equalTo: bookImageView.trailingAnchor,
-                constant: InfoStackViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             infoStackView.topAnchor.constraint(
                 equalTo: bookImageView.topAnchor,
-                constant: InfoStackViewLayout.top
+                constant: LayoutConsrants.stackViewTop
             ),
             infoStackView.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: InfoStackViewLayout.trailing),
+                constant: LayoutConsrants.trailing
+            ),
             
             buttonStackView.topAnchor.constraint(
                 equalTo: infoStackView.bottomAnchor,
-                constant: ButtonStackViewLayout.top
+                constant: LayoutConsrants.stackViewTop
             ),
             buttonStackView.leadingAnchor.constraint(
                 equalTo: bookImageView.trailingAnchor,
-                constant: ButtonStackViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             buttonStackView.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: ButtonStackViewLayout.trailing
+                constant: LayoutConsrants.trailing
             ),
             buttonStackView.bottomAnchor.constraint(
                 equalTo: bookImageView.bottomAnchor
@@ -289,27 +294,27 @@ private extension DetailsViewController {
             
             descriptionLabel.topAnchor.constraint(
                 equalTo: bookImageView.bottomAnchor,
-                constant: DescriptionLabelLayout.top
+                constant: LayoutConsrants.descriptionLabelTop
             ),
             descriptionLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: DescriptionLabelLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookDescriptionLabel.topAnchor.constraint(
                 equalTo: descriptionLabel.bottomAnchor,
-                constant: BookDescriptionLabelLayout.top
+                constant: LayoutConsrants.bookDescriptionTop
             ),
             bookDescriptionLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: BookDescriptionLabelLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookDescriptionLabel.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: BookDescriptionLabelLayout.trailing
+                constant: LayoutConsrants.trailing
             ),
             bookDescriptionLabel.bottomAnchor.constraint(
                 equalTo: containerView.bottomAnchor,
-                constant: BookDescriptionLabelLayout.bottom
+                constant: LayoutConsrants.bookDescriptionBottom
             ),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -348,43 +353,19 @@ private extension DetailsViewController {
     }
 }
 
-// MARK: - Enums
+// MARK: - Constraints
 extension DetailsViewController {
-    enum NameLabelLayout {
-        static let top: CGFloat = 40
+    struct LayoutConsrants {
         static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-    }
-    
-    enum BookImageViewLayout {
-        static let top: CGFloat = 20
-        static let leading: CGFloat = 20
-        static let width: CGFloat = 160
-        static let height: CGFloat = 220
-    }
-    
-    enum InfoStackViewLayout {
-        static let leading: CGFloat = 20
-        static let top: CGFloat = 25
-        static let trailing: CGFloat = -20
-    }
-    
-    enum ButtonStackViewLayout {
-        static let top: CGFloat = 25
-        static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-    }
-    
-    enum DescriptionLabelLayout {
-        static let top: CGFloat = 30
-        static let leading: CGFloat = 20
-    }
-    
-    enum BookDescriptionLabelLayout {
-        static let top: CGFloat = 15
-        static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-        static let bottom: CGFloat = -20
+        static let trailing: CGFloat  = -20
+        static let nameLabelTop: CGFloat  = 40
+        static let bookImageViewTOp: CGFloat  = 20
+        static let height: CGFloat  = 220
+        static let width: CGFloat  = 160
+        static let stackViewTop: CGFloat = 25
+        static let descriptionLabelTop: CGFloat  = 30
+        static let bookDescriptionTop: CGFloat  = 15
+        static let bookDescriptionBottom: CGFloat  = -20
     }
 }
 

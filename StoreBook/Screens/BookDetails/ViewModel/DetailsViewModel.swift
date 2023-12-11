@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SDWebImage
 
 protocol DetailsViewModelProtocol {
     
@@ -57,8 +58,10 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     
     // MARK: - Public Methods
     func getData(completion: @escaping () -> Void) {
-        guard let url = URL(string: "https://openlibrary.org/works/\(key).json") else { return }
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        
+        guard let url = URL(string: "https://openlibrary.org\(key).json") else { return }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data else {
                 print(error?.localizedDescription ?? "No error description")
                 return
@@ -67,7 +70,15 @@ final class DetailsViewModel: DetailsViewModelProtocol {
             do {
                 let book = try JSONDecoder().decode(Book.self, from: data)
                 
-                self.description = self.processServerResponse(book.description.value)
+                switch book.description {
+                case .text(let text):
+                    self?.description = text
+                case .object(let descriptionObject):
+                    self?.description = descriptionObject.value
+                case .none:
+                    print("No description")
+                }
+                
                 DispatchQueue.main.async {
                     completion()
                 }
@@ -79,15 +90,27 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     func getImage(completion: @escaping () -> Void) {
-        guard let url = URL(string: bookModel.imageUrl) else { return }
         
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else { return }
-            self.bookImage = imageData
+        guard let url = bookModel.imageUrl else {
             DispatchQueue.main.async {
                 completion()
             }
+            return
         }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion()
+                }
+                return
+            }
+            
+            self?.bookImage = data
+            DispatchQueue.main.async {
+                completion()
+            }
+        }.resume()
     }
     
     // MARK: - Private Methods

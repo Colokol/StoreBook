@@ -28,7 +28,7 @@ final class DetailsViewBuilder {
     func makeImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         return imageView

@@ -71,6 +71,23 @@ extension SearchCategoriesViewController {
         cell.configure(with: searchedCategoryBook)
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = viewModel.tableData[indexPath.row]
+        let bookModel = BookModel(
+            title: book.title,
+            author: book.authorName?.first ?? "",
+            category: title ?? "",
+            rating: book.ratingsAverage?.formatted() ?? "no rating",
+            imageUrl: book.coverURL(coverSize: .L)
+        )
+        print("BookModel for currentBook is: \(bookModel)")
+        let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
+        print(book.key)
+        let detailsVC = DetailsViewController()
+        detailsVC.viewModel = detailsViewModel
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
 }
 
 extension SearchCategoriesViewController {
