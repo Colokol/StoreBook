@@ -37,6 +37,7 @@
 		CE1E4F792B26453300993F30 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE1E4F732B26313C00993F30 /* OpenSans-Regular.ttf */; };
 		CE1E4F7A2B26453600993F30 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE1E4F722B26313C00993F30 /* OpenSans-SemiBold.ttf */; };
 		CE1E4F7C2B264B9500993F30 /* LikesViewController + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F7B2B264B9500993F30 /* LikesViewController + UITableView.swift */; };
+		CE1E4F862B2780F400993F30 /* TopBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1E4F852B2780F400993F30 /* TopBookModel.swift */; };
 		CE57DC8D2B1B6DCA006DF243 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */; };
 		CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */; };
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
@@ -90,6 +91,7 @@
 		CE1E4F732B26313C00993F30 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		CE1E4F742B26313C00993F30 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		CE1E4F7B2B264B9500993F30 /* LikesViewController + UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LikesViewController + UITableView.swift"; sourceTree = "<group>"; };
+		CE1E4F852B2780F400993F30 /* TopBookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBookModel.swift; sourceTree = "<group>"; };
 		CE57DC892B1B6DCA006DF243 /* StoreBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE57DC8C2B1B6DCA006DF243 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				3CCCA1A22B21CBC500776433 /* SearchBook.swift */,
+				CE1E4F852B2780F400993F30 /* TopBookModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
