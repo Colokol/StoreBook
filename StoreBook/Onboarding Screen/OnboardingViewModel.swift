@@ -8,23 +8,24 @@ final class OnboardingViewModel {
         self.contentView = contentView
     }
     public var currentTextIndex = 0
-    
-     var currentText: String {
+    var shouldNavigate = false
+    var currentText: String {
         return contentView.description[currentTextIndex]
     }
     
     func nextText() {
         if currentTextIndex < contentView.description.count - 1  {
             currentTextIndex += 1
+            
             print (currentTextIndex)
             
         } else {
-            currentTextIndex = 0
+            shouldNavigate = true
         }
     }
     
      func shouldNavigateToNextScreen() -> Bool {
-        return currentTextIndex == 3
+        return shouldNavigate 
         
     }
 }

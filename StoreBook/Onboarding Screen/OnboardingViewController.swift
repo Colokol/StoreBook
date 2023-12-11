@@ -100,9 +100,14 @@ final class OnboardingViewController: UIViewController {
         }
     }
     
-    private func navigateToNextScreen() {
+     public func navigateToNextScreen() {
         print ("Go to home screen")
-        // Здесь код для перехода на другой экран
+        UserDefaults.standard.set(true, forKey: "HasShownWelcomeScreen")
+        let tabBarController = TabBarController()
+        if let window = view.window {
+            window.rootViewController = tabBarController
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {}, completion: nil)
+        }
     }
 }
 
