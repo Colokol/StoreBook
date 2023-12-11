@@ -13,7 +13,21 @@ final class NetworkManager {
     private init() {}
     
     func getBook(for category: String) -> AnyPublisher<SearchBook, NetworkError> {
-        let endpoint = BookEndpoint.searchBookWith(category: category)
+        let endpoint = BookEndpoint.searchBookFor(category: category)
+        return URLSessionAPIClient<BookEndpoint>()
+            .request(endpoint)
+            .mapError { error -> NetworkError in
+                if let networkError = error as? NetworkError {
+                    return networkError
+                } else {
+                    return NetworkError.transportError(error)
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func getBook(with searchText: String) -> AnyPublisher<SearchBook, NetworkError> {
+        let endpoint = BookEndpoint.searchBookWith(searchText: searchText)
         return URLSessionAPIClient<BookEndpoint>()
             .request(endpoint)
             .mapError { error -> NetworkError in

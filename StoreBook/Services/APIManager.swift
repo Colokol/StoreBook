@@ -30,10 +30,10 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-
 // добавить свой Endpoint в BookEndpoint и соответственно в каждое свойство необходимые параметры
 enum BookEndpoint: APIEndpoint {
-    case searchBookWith(category: String)
+    case searchBookFor(category: String)
+    case searchBookWith(searchText: String)
     
     var baseURL: URL {
         guard let url = URL(string: "https://openlibrary.org/") else {
@@ -43,33 +43,31 @@ enum BookEndpoint: APIEndpoint {
     }
     
     var path: String {
-        switch self {
-        case .searchBookWith(category: _):
-            return "search.json"
-        }
+        return "search.json"
     }
     
     var method: HTTPMethod {
-        switch self {
-        case .searchBookWith(category: _):
-            return .get
-        }
+        return .get
     }
     
     var headers: [String : String]? {
-        switch self {
-        case .searchBookWith(category: _):
-            return nil
-        }
+        return nil
     }
     
     var parameters: [String: String]? {
         switch self {
-        case .searchBookWith(category: let category):
+        case .searchBookFor(category: let category):
             let params = [
-                "q":"\(category)+-subject_key",
-                "land":"rus",
-                "limit":"30"
+                "q": "\(category)+-subject_key",
+                "limit": "10"
+            ]
+            return params
+            
+        case .searchBookWith(searchText: let searchText):
+            let params = [
+                "author": "\(searchText)+-subject_key",
+                "title":"\(searchText)",
+                "limit": "10"
             ]
             return params
         }
