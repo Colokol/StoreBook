@@ -9,43 +9,82 @@ import UIKit
 
 final class DetailsViewController: UIViewController {
     
-    // MARK: - Public Properties
+    // MARK: - ViewModel
     var viewModel: DetailsViewModelProtocol!
     
-    // MARK: - Private Properties
+    // MARK: - ViewBuilder
     private let viewBuilder = DetailsViewBuilder.shared
     
     // MARK: - Private UI Properties
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = viewBuilder.makeActivityIndicator()
+        return indicator
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = viewBuilder.makeScrollView()
         return scrollView
     }()
     
     private lazy var containerView: UIView = {
-        var view = viewBuilder.makeView()
+        let view = viewBuilder.makeView()
         return view
     }()
     
-    private lazy var nameLabel = viewBuilder.makeNameLabel()
-    private lazy var bookImageView = viewBuilder.makeImageView()
-    private lazy var authorLabel = viewBuilder.makeInfoLabel()
-    private lazy var categoryLabel = viewBuilder.makeInfoLabel()
-    private lazy var ratingLabel = viewBuilder.makeInfoLabel()
-    private lazy var addButton = viewBuilder.makeButton(
-        with: "Add to list",
-        with: .gray
-    )
-    private lazy var readButton = viewBuilder.makeButton(
-        with: "Read",
-        with: .black
-    )
-    private lazy var descriptionLabel = viewBuilder.makeInfoLabel(
-        with: UIFont.boldSystemFont(ofSize: 18)
-    )
-    private lazy var bookDescriptionLabel = viewBuilder.makeInfoLabel(
-        with: UIFont.systemFont(ofSize: 15),
-        numberOfLines: 0
-    )
+    private lazy var nameLabel: UILabel = {
+        let label = viewBuilder.makeNameLabel()
+        return label
+    }()
+    
+    private lazy var bookImageView: UIImageView = {
+        let label = viewBuilder.makeImageView()
+        return label
+    }()
+    
+    private lazy var authorLabel: UILabel = {
+        let label = viewBuilder.makeInfoLabel()
+        return label
+    }()
+    
+    private lazy var categoryLabel: UILabel = {
+        let label =  viewBuilder.makeInfoLabel()
+        return label
+    }()
+    
+    
+    private lazy var ratingLabel: UILabel = {
+        let label = viewBuilder.makeInfoLabel()
+        return label
+    }()
+    
+    private lazy var addButton: UIButton = {
+        let button = viewBuilder.makeButton(
+            with: "Add to list",
+            with: .gray
+        )
+        return button
+    }()
+    
+    private lazy var readButton: UIButton = {
+        let button = viewBuilder.makeButton(
+            with: "Read",
+            with: .black
+        )
+        return button
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = viewBuilder.makeInfoLabel(
+            with: UIFont.boldSystemFont(ofSize: 18))
+        return label
+    }()
+    
+    private lazy var bookDescriptionLabel: UILabel = {
+        let label = viewBuilder.makeInfoLabel(
+            with: UIFont.systemFont(ofSize: 15),
+            numberOfLines: 0)
+        return label
+    }()
     
     private lazy var infoStackView: UIStackView = {
         let stackView = viewBuilder.makeStackView()
@@ -65,19 +104,22 @@ final class DetailsViewController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = DetailsViewModel(book: BookTestModel(
-            name: "TestData",
-            author: "TestData",
-            category: "TestData",
-            rating: "TestData",
-            imageURL: "TestData",
-            description: "TestData")
-        )
-        
+//        
+//        viewModel = DetailsViewModel(
+//            key: "OL27448W",
+//            bookModel: BookModel(
+//                title: "The Lord Of The Rings",
+//                author: "Brad Pitt",
+//                category: "History",
+//                rating: "4.5",
+//                imageUrl: "https://covers.openlibrary.org/b/ID/8474036-M.jpg"
+//            ))
+//        
+        setViewsVisibility(to: false)
+        loadBookDetails()
         setViews()
         setupScrollView()
         setupConstraints()
-        setupUI()
         setupNavigationBar()
     }
     
@@ -87,14 +129,89 @@ final class DetailsViewController: UIViewController {
     }
     
     // MARK: - Private Methods
+    private func loadBookDetails() {
+        viewModel.getImage {
+            DispatchQueue.main.async {
+                self.bookImageView.image = UIImage(data: self.viewModel.bookImage ?? Data())
+                
+                self.viewModel.getData {
+                    self.activityIndicator.stopAnimating()
+                    self.setupUI()
+                    UIView.animate(withDuration: 0.4) {
+                        self.setViewsVisibility(to: true)
+                    }
+                }
+            }
+        }
+    }
+    
     private func setupUI() {
+        let authorText = viewModel.author
+        let categoryText = viewModel.category
+        let ratingText = viewModel.rating
+        
         nameLabel.text = viewModel.bookTitle
-        authorLabel.text = viewModel.author
-        categoryLabel.text = viewModel.category
-        ratingLabel.text = viewModel.rating
         descriptionLabel.text = "Description:"
-        bookDescriptionLabel.text = viewModel.description
-        bookImageView.image = UIImage(data: viewModel.bookImage ?? Data())
+        
+        if let categoryTitle = viewModel.category.split(separator: ":").last {
+            title = categoryTitle.trimmingCharacters(in: .whitespaces)
+        } else {
+            title = viewModel.category
+        }
+        
+        updateLabelText(
+            label: authorLabel,
+            text: authorText,
+            boldFont: UIFont.boldSystemFont(ofSize: 14)
+        )
+        updateLabelText(
+            label: categoryLabel,
+            text: categoryText,
+            boldFont: UIFont.boldSystemFont(ofSize: 14)
+        )
+        updateLabelText(
+            label: ratingLabel,
+            text: ratingText,
+            boldFont: UIFont.boldSystemFont(ofSize: 14)
+        )
+        
+        self.bookDescriptionLabel.text = self.viewModel.description
+    }
+    
+    func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
+        let components = text.components(separatedBy: ":")
+        guard components.count > 1 else {
+            label.text = text
+            return
+        }
+        
+        let normalText = components[0] + ":"
+        let boldText = components[1]
+        
+        let normalAttributes = [NSAttributedString.Key.font: label.font!]
+        let boldAttributes = [NSAttributedString.Key.font: boldFont]
+        
+        let attributedString = NSMutableAttributedString(string: normalText, attributes: normalAttributes)
+        let boldAttributedString = NSAttributedString(string: boldText, attributes: boldAttributes)
+        
+        attributedString.append(boldAttributedString)
+        label.attributedText = attributedString
+    }
+    
+    private func setViewsVisibility(to isVisible: Bool) {
+        let views = [
+            infoStackView,
+            buttonStackView,
+            descriptionLabel,
+            bookImageView,
+            nameLabel,
+            bookDescriptionLabel
+        ]
+        
+        let alphaValue = isVisible ? 1.0 : 0.0
+        views.forEach { view in
+            view.alpha = alphaValue
+        }
     }
 }
 
@@ -107,7 +224,8 @@ private extension DetailsViewController {
                                     infoStackView,
                                     buttonStackView,
                                     descriptionLabel,
-                                    bookDescriptionLabel
+                                    bookDescriptionLabel,
+                                    activityIndicator
         )
     }
     
@@ -192,7 +310,10 @@ private extension DetailsViewController {
             bookDescriptionLabel.bottomAnchor.constraint(
                 equalTo: containerView.bottomAnchor,
                 constant: BookDescriptionLabelLayout.bottom
-            )
+            ),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     

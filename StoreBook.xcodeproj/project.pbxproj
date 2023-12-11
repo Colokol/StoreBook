@@ -19,8 +19,8 @@
 		2CDA37F12B1D241400C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F32B1D244000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F52B1E105900C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		3C4BE58C2B273B68002CBEB7 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4BE58B2B273B68002CBEB7 /* BookModel.swift */; };
 		3CCCA1282B1F3D0000776433 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */; };
-		3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */; };
 		3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */; };
 		3CCCA1302B1F3F5100776433 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA12F2B1F3F5100776433 /* UIView + Extension.swift */; };
 		3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCA1312B1F577700776433 /* DetailsViewModel.swift */; };
@@ -73,8 +73,8 @@
 		161074262B25BF1700A71BD5 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		161074282B25CC8C00A71BD5 /* HomeBookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBookModel.swift; sourceTree = "<group>"; };
 		1610742A2B25CCA800A71BD5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		3C4BE58B2B273B68002CBEB7 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
-		3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTestModel.swift; sourceTree = "<group>"; };
 		3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewBuilder.swift; sourceTree = "<group>"; };
 		3CCCA12F2B1F3F5100776433 /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		3CCCA1312B1F577700776433 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		3CCCA1242B1F3C6900776433 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3CCCA1292B1F3D5F00776433 /* BookTestModel.swift */,
+				3C4BE58B2B273B68002CBEB7 /* BookModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -594,7 +594,6 @@
 				E1CF2F202B230B5900A4BB70 /* NetworkManager.swift in Sources */,
 				E1CF2F142B227BDB00A4BB70 /* CategoriesViewController.swift in Sources */,
 				CE1E4F672B262B4700993F30 /* BooksModel.swift in Sources */,
-				3CCCA12A2B1F3D5F00776433 /* BookTestModel.swift in Sources */,
 				161074272B25BF1700A71BD5 /* UIButton+Extension.swift in Sources */,
 				CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */,
 				CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */,
@@ -609,6 +608,7 @@
 				E1CF2F162B227BDB00A4BB70 /* SearchResultCell.swift in Sources */,
 				161074292B25CC8C00A71BD5 /* HomeBookModel.swift in Sources */,
 				1610741C2B25BE0F00A71BD5 /* HomeViewController.swift in Sources */,
+				3C4BE58C2B273B68002CBEB7 /* BookModel.swift in Sources */,
 				CE1E4F692B262B4700993F30 /* LikesViewModel.swift in Sources */,
 				CEB1DC1F2B222DFC004DCEF6 /* CustomPageControl.swift in Sources */,
 				E1CF2F192B22FA4100A4BB70 /* SearchCategoriesCell.swift in Sources */,

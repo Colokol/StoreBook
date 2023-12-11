@@ -8,7 +8,6 @@
 import Foundation
 
 // MARK: - SearchBook
-
 struct SearchBook: Codable {
     let q: String
     let docs: [Doc]
