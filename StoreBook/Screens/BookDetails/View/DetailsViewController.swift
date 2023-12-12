@@ -131,11 +131,10 @@ final class DetailsViewController: UIViewController {
             DispatchQueue.main.async {
                 if let bookImagaData = self?.viewModel.bookImage {
                     self?.bookImageView.image = UIImage(data: bookImagaData)
+                } else {
+                    self?.bookImageView.image = UIImage(systemName: "questionmark")
+                    self?.bookImageView.tintColor = .white
                 }
-//                } else {
-//                    self?.bookImageView.image = UIImage(systemName: "questionmark")
-//                    self?.bookImageView.tintColor = .white
-//                }
                 
                 self?.viewModel.getData {
                     self?.activityIndicator.stopAnimating()
