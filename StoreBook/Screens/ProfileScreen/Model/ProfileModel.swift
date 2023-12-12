@@ -11,5 +11,4 @@ struct ProfileModel {
     
     var name: String
     
-    
 }
