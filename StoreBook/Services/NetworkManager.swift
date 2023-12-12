@@ -26,7 +26,7 @@ final class NetworkManager {
             .eraseToAnyPublisher()
     }
     
-    func getBook(with searchText: String) -> AnyPublisher<SearchBook, NetworkError> {
+    func getBook(with searchText: String) -> AnyPublisher<SearchBook, NetworkError> { 
         let endpoint = BookEndpoint.searchBookWith(searchText: searchText)
         return URLSessionAPIClient<BookEndpoint>()
             .request(endpoint)

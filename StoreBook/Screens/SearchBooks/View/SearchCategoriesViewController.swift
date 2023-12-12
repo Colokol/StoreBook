@@ -78,7 +78,7 @@ extension SearchCategoriesViewController {
             title: book.title,
             author: book.authorName?.first ?? "",
             category: title ?? "",
-            rating: book.ratingsAverage?.formatted() ?? "no rating",
+            rating: book.ratingsAverage,
             imageUrl: book.coverURL(coverSize: .L)
         )
         let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
