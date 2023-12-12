@@ -15,7 +15,7 @@ class HomeViewController: UIViewController{
     private var topBooksView = TopBooksView()
     private var recentBooksView = RecentBooksView()
     // MARK: - UI Components
-    private let topBookCollectionView:UICollectionView = {
+    let topBookCollectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(BookCell.self, forCellWithReuseIdentifier: BookCell.identifier)
@@ -23,30 +23,25 @@ class HomeViewController: UIViewController{
     }()
    
     //MARK: - Lifecycle
-//    init(viewModel: HomeViewModel) {
-//        self.viewModel = viewModel
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
+        navigationItem.rightBarButtonItem?.tintColor = .black
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Happy Reading!", style: .plain, target: self, action: nil)
-        UITabBar.appearance().unselectedItemTintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .black
         setupUI()
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
         topBookCollectionView.collectionViewLayout = createCompositionalLayout()
+        viewModel.getData(period: .daily)
         viewModel.$topBook
             .sink { welcome in
-                print(welcome?.works[3])
+                self.topBookCollectionView.reloadData()
             }.store(in: &viewModel.subscription)
+        
     }
-
+  
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
                 self.horizontalSection()
@@ -85,14 +80,14 @@ class HomeViewController: UIViewController{
             topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 112),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             topBooksView.widthAnchor.constraint(equalToConstant: 365),
-            topBooksView.heightAnchor.constraint(equalToConstant: 319),
+            topBooksView.heightAnchor.constraint(equalToConstant: 339),
             
             topBookCollectionView.topAnchor.constraint(equalTo: topBooksView.topAnchor,constant: 94),
             topBookCollectionView.leadingAnchor.constraint(equalTo: topBooksView.leadingAnchor),
             topBookCollectionView.trailingAnchor.constraint(equalTo: topBooksView.trailingAnchor),
             topBookCollectionView.bottomAnchor.constraint(equalTo: topBooksView.bottomAnchor),
             
-            recentBooksView.topAnchor.constraint(equalTo: topBookCollectionView.bottomAnchor,constant: 50),
+            recentBooksView.topAnchor.constraint(equalTo: topBookCollectionView.bottomAnchor,constant: 45),
             recentBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             recentBooksView.widthAnchor.constraint(equalToConstant: 360),
             recentBooksView.heightAnchor.constraint(equalToConstant: 310),
@@ -105,17 +100,31 @@ class HomeViewController: UIViewController{
 // MARK: - CollectionViewFunctions
 extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.topBook?.works.count ?? 1
+        return viewModel.topBook.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.bookNameLabel.text = viewModel.topBook?.works[indexPath.row].title
-        print(cellOne.bookNameLabel.text)
+        cellOne.configure(for: viewModel.topBook[indexPath.row])
+       
 //        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
 //        cellOne.categoryLabel.text = viewModel.bookCategory
 //        cellOne.bookNameLabel.text = viewModel.bookTitle
 //        cellOne.authorLabel.text = viewModel.bookAuthor
         return cellOne
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let book = viewModel.topBook[indexPath.row]
+            let bookModel = BookModel(
+                title: book.title,
+                author: book.authorName?.first ?? "",
+                category: title ?? "",
+                rating: book.ratingsAverage?.formatted() ?? "no rating",
+                imageUrl: book.coverURL(coverSize: .L)
+            )
+            let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
+            let detailsVC = DetailsViewController()
+            detailsVC.viewModel = detailsViewModel
+            navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

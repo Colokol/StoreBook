@@ -101,22 +101,22 @@ private func setupUI(){
         imageBackgroundView.topAnchor.constraint(equalTo: self.topAnchor),
         imageBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
         imageBackgroundView.widthAnchor.constraint(equalToConstant: 176),
-        imageBackgroundView.heightAnchor.constraint(equalToConstant: 232),
+        imageBackgroundView.heightAnchor.constraint(equalToConstant: 252),
 
         bookImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 11),
         bookImage.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 44),
         bookImage.widthAnchor.constraint(equalToConstant: 91),
         bookImage.heightAnchor.constraint(equalToConstant: 140),
 
-        descriptionBackgroundView.topAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor,constant: -82),
+        descriptionBackgroundView.topAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor,constant: -102),
         descriptionBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
         descriptionBackgroundView.widthAnchor.constraint(equalToConstant: 176),
-        descriptionBackgroundView.heightAnchor.constraint(equalToConstant: 82),
+        descriptionBackgroundView.heightAnchor.constraint(equalToConstant: 102),
 
         descriptionLabelsStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 152),
         descriptionLabelsStackView.leadingAnchor.constraint(equalTo: descriptionBackgroundView.leadingAnchor,constant: 10),
         descriptionLabelsStackView.widthAnchor.constraint(equalToConstant: 160),
-        descriptionLabelsStackView.heightAnchor.constraint(equalToConstant: 70)
+        descriptionLabelsStackView.heightAnchor.constraint(equalToConstant: 90)
     ])
 }
 }
