@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class DetailsViewController: UIViewController {
     
@@ -14,6 +15,9 @@ final class DetailsViewController: UIViewController {
     
     // MARK: - ViewBuilder
     private let viewBuilder = DetailsViewBuilder.shared
+    
+    // MARK: - Combine Properties
+    private var cancellabels = Set<AnyCancellable>()
     
     // MARK: - Private UI Properties
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -126,26 +130,51 @@ final class DetailsViewController: UIViewController {
     
     // MARK: - Private Methods
     private func loadBookDetails() {
-        
-        viewModel.getImage { [weak self] in
-            DispatchQueue.main.async {
-                if let bookImagaData = self?.viewModel.bookImage {
-                    self?.bookImageView.image = UIImage(data: bookImagaData)
-                } else {
-                    self?.bookImageView.image = UIImage(systemName: "questionmark")
-                    self?.bookImageView.tintColor = .white
-                }
-                
-                self?.viewModel.getData {
-                    self?.activityIndicator.stopAnimating()
-                    self?.setupUI()
-                    UIView.animate(withDuration: 0.4) {
-                        self?.setViewsVisibility(to: true)
-                    }
+        viewModel.getImage()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+            } receiveValue: { [weak self] imageData in
+                self?.bookImageView.image = UIImage(data: imageData)
+                self?.loadBookDescription()
+            }
+            .store(in: &cancellabels)
+    }
+    
+    private func loadBookDescription() {
+        viewModel.getData()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.activityIndicator.stopAnimating()
+            } receiveValue: { [weak self] book in
+                self?.setupUI()
+                UIView.animate(withDuration: 0.4) {
+                    self?.setViewsVisibility(to: true)
                 }
             }
-        }
+            .store(in: &cancellabels)
+
     }
+//    private func loadBookDetails() {
+//
+//        viewModel.getImage { [weak self] in
+//            DispatchQueue.main.async {
+//                if let bookImagaData = self?.viewModel.bookImage {
+//                    self?.bookImageView.image = UIImage(data: bookImagaData)
+//                } else {
+//                    self?.bookImageView.image = UIImage(systemName: "questionmark")
+//                    self?.bookImageView.tintColor = .white
+//                }
+//
+//                self?.viewModel.getData {
+//                    self?.activityIndicator.stopAnimating()
+//                    self?.setupUI()
+//                    UIView.animate(withDuration: 0.4) {
+//                        self?.setViewsVisibility(to: true)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     private func setupUI() {
         let authorText = viewModel.author

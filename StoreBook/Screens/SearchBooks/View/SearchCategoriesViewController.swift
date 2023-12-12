@@ -84,6 +84,10 @@ extension SearchCategoriesViewController {
         let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
+        
+        // delete title in backButton
+        navigationItem.backButtonTitle = ""
+        
         navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
