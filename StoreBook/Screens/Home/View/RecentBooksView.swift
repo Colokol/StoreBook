@@ -10,7 +10,7 @@ import UIKit
 
 class RecentBooksView:UICollectionView{
     static let shared = RecentBooksView()
-    var viewModel:HomeViewModelProtocol!
+//    var viewModel:HomeViewModelProtocol!
     //MARK: - Lifecycle
     init(){
         let layout = UICollectionViewLayout()
@@ -19,12 +19,12 @@ class RecentBooksView:UICollectionView{
         self.collectionViewLayout = createCompositionalLayout()
         dataSource = self
         delegate = self
-        viewModel = HomeViewModel(book: HomeBookModel(
-            name: "TestData",
-            author: "TestData",
-            category: "TestData",
-            imageURL: "TestData")
-        )
+//        viewModel = HomeViewModel(book: HomeBookModel(
+//            name: "TestData",
+//            author: "TestData",
+//            category: "TestData",
+//            imageURL: "TestData")
+//        )
     }
     
     required init?(coder: NSCoder) {
@@ -58,10 +58,10 @@ extension RecentBooksView:UICollectionViewDelegate,UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = self.dequeueReusableCell(withReuseIdentifier: RecentCell.identifier, for: indexPath) as? RecentCell else {fatalError("Unable to dequeue BookCell in ViewController")}
-        cell.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-        cell.categoryLabel.text = viewModel.bookCategory
-        cell.bookNameLabel.text = viewModel.bookTitle
-        cell.authorLabel.text = viewModel.bookAuthor
+//        cell.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
+//        cell.categoryLabel.text = viewModel.bookCategory
+//        cell.bookNameLabel.text = viewModel.bookTitle
+//        cell.authorLabel.text = viewModel.bookAuthor
         return cell
     }
     
