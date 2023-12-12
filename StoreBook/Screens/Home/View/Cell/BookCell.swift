@@ -82,8 +82,16 @@ class BookCell:UICollectionViewCell{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-   
+//    func configure(with topBook:TopBook){
+//        bookNameLabel.text = topBook.title
+//        if let authorName = topBook.authorName?.joined(separator: "\n"){
+//            authorLabel.text = authorName
+//        }
+//        if let imageUrl = topBook.coverURL(){
+//            bookImage.sd_setImage(with: imageUrl)
+//
+//        }
+//    }
 
 //MARK: - UI Setup
     private func setupUI(){
@@ -119,5 +127,18 @@ class BookCell:UICollectionViewCell{
             descriptionLabelsStackView.widthAnchor.constraint(equalToConstant: 160),
             descriptionLabelsStackView.heightAnchor.constraint(equalToConstant: 70)
         ])
+    }
+}
+extension BookCell{
+    func configure(for topBook:TopBook){
+        print(topBook)
+        bookNameLabel.text = topBook.title
+        if let authorName = topBook.authorName?.joined(separator: "\n"){
+            authorLabel.text = authorName
+        }
+        if let imageUrl = topBook.coverURL(){
+            bookImage.sd_setImage(with: imageUrl)
+            
+        }
     }
 }

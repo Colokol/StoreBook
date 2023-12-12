@@ -20,6 +20,7 @@ enum NetworkError: Error {
     case serverError(statusCode: Int)
     case noData
     case decodingError(Error)
+    case invalidURL
 }
 
 enum HTTPMethod: String {
@@ -38,53 +39,52 @@ enum TimeFrame: String {
 
 // добавить свой Endpoint в BookEndpoint и соответственно в каждое свойство необходимые параметры
 enum BookEndpoint: APIEndpoint {
-    case searchBookWith(category: String)
+    case searchBookFor(category: String)
+    case searchBookWith(searchText: String)
     case topBook(timeFrame: TimeFrame)
-
+    
     var baseURL: URL {
         guard let url = URL(string: "https://openlibrary.org/") else {
             fatalError("Invalid baseURL")
         }
         return url
     }
-
+    
     var path: String {
         switch self {
-            case .searchBookWith(category: _):
-                return "search.json"
-            case .topBook(timeFrame: let timeFrame):
-                return "trending/\(timeFrame.rawValue).json"
+        case .searchBookFor(category: _):
+            return "search.json"
+        case .searchBookWith(searchText: _):
+            return "search.json"
+        case .topBook(timeFrame: let timeFrame):
+            return "trending/\(timeFrame.rawValue).json"
         }
     }
-
+    
     var method: HTTPMethod {
-        switch self {
-        case .searchBookWith(category: _):
-            return .get
-            case .topBook(timeFrame:):
-            return .get
-
-        }
+        return .get
     }
-
+    
     var headers: [String : String]? {
-        switch self {
-        case .searchBookWith(category: _):
-            return nil
-            case .topBook(timeFrame: ):
-            return nil
-        }
+        return nil
     }
-
+    
     var parameters: [String: String]? {
         switch self {
-        case .searchBookWith(category: let category):
+        case .searchBookFor(category: let category):
             let params = [
-                "q":"\(category)+-subject_key",
-                "land":"rus",
-                "limit":"30"
+                "q": "\(category)+-subject_key",
+                "limit": "10"
             ]
             return params
+            
+        case .searchBookWith(searchText: let searchText):
+            let params = [
+                "author":"\(searchText)",
+                "limit": "10"
+            ]
+            return params
+            
         case .topBook(timeFrame:):
             return nil
         }

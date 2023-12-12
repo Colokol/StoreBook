@@ -6,49 +6,82 @@
 //
 
 import UIKit
+import Combine
 
 final class DetailsViewController: UIViewController {
     
-    // MARK: - Public Properties
+    // MARK: - ViewModel
     var viewModel: DetailsViewModelProtocol!
     
-    // MARK: - Private Properties
-    private let viewBuilder = DetailsViewBuilder.shared
+    // MARK: - ViewBuilder
+    private let viewBuilder = DetailsViewBuilder()
+    
+    // MARK: - Combine Properties
+    private var cancellabels = Set<AnyCancellable>()
     
     // MARK: - Private UI Properties
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        viewBuilder.makeActivityIndicator()
+    }()
+    
     private lazy var scrollView: UIScrollView = {
-        let scrollView = viewBuilder.makeScrollView()
-        return scrollView
+        viewBuilder.makeScrollView()
     }()
     
     private lazy var containerView: UIView = {
-        var view = viewBuilder.makeView()
-        return view
+        viewBuilder.makeView()
     }()
     
-    private lazy var nameLabel = viewBuilder.makeNameLabel()
-    private lazy var bookImageView = viewBuilder.makeImageView()
-    private lazy var authorLabel = viewBuilder.makeInfoLabel()
-    private lazy var categoryLabel = viewBuilder.makeInfoLabel()
-    private lazy var ratingLabel = viewBuilder.makeInfoLabel()
-    private lazy var addButton = viewBuilder.makeButton(
-        with: "Add to list",
-        with: .gray
-    )
-    private lazy var readButton = viewBuilder.makeButton(
-        with: "Read",
-        with: .black
-    )
-    private lazy var descriptionLabel = viewBuilder.makeInfoLabel(
-        with: UIFont.boldSystemFont(ofSize: 18)
-    )
-    private lazy var bookDescriptionLabel = viewBuilder.makeInfoLabel(
-        with: UIFont.systemFont(ofSize: 15),
-        numberOfLines: 0
-    )
+    private lazy var titleLabel: UILabel = {
+        viewBuilder.makeTitleLabel()
+    }()
+    
+    private lazy var bookImageView: UIImageView = {
+        viewBuilder.makeImageView()
+    }()
+    
+    private lazy var authorLabel: UILabel = {
+        viewBuilder.makeInfoLabel(numberOfLines: 0)
+    }()
+    
+    private lazy var categoryLabel: UILabel = {
+        viewBuilder.makeInfoLabel()
+    }()
+    
+    private lazy var ratingLabel: UILabel = {
+        viewBuilder.makeInfoLabel()
+    }()
+    
+    private lazy var addButton: UIButton = {
+        viewBuilder.makeButton(
+            with: "Add to list",
+            with: .gray
+        )
+    }()
+    
+    private lazy var readButton: UIButton = {
+        viewBuilder.makeButton(
+            with: "Read",
+            with: .black
+        )
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        viewBuilder.makeInfoLabel(
+            with: UIFont.makeOpenSans(.semibold, size: 18)
+        )
+    }()
+    
+    private lazy var bookDescriptionLabel: UILabel = {
+        viewBuilder.makeInfoLabel(
+            with: UIFont.makeOpenSans(.regular, size: 14),
+            numberOfLines: 0
+        )
+    }()
     
     private lazy var infoStackView: UIStackView = {
         let stackView = viewBuilder.makeStackView()
+        stackView.distribution = .fill
         stackView.addArrangedSubview(authorLabel)
         stackView.addArrangedSubview(categoryLabel)
         stackView.addArrangedSubview(ratingLabel)
@@ -65,19 +98,11 @@ final class DetailsViewController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = DetailsViewModel(book: BookTestModel(
-            name: "TestData",
-            author: "TestData",
-            category: "TestData",
-            rating: "TestData",
-            imageURL: "TestData",
-            description: "TestData")
-        )
-        
+        setViewsVisibility(to: false)
+        loadBookDetails()
         setViews()
         setupScrollView()
         setupConstraints()
-        setupUI()
         setupNavigationBar()
     }
     
@@ -86,15 +111,128 @@ final class DetailsViewController: UIViewController {
         
     }
     
+    @objc private func addToListButtonDidTapped() {
+        
+    }
+    
+    @objc private func readButtonDidTapped() {
+        
+    }
+    
     // MARK: - Private Methods
+    private func loadBookDetails() {
+        viewModel.getImage()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("Finished")
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        self?.bookImageView.image = UIImage(systemName: "questionmark")
+                        self?.bookImageView.tintColor = .white
+                        self?.loadBookDescription()
+                    }
+                }
+            } receiveValue: { [weak self] imageData in
+                DispatchQueue.main.async {
+                    self?.bookImageView.image = UIImage(data: imageData)
+                    
+                    self?.loadBookDescription()
+                }
+            }
+            .store(in: &cancellabels)
+    }
+    
+    private func loadBookDescription() {
+        viewModel.getData()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.activityIndicator.stopAnimating()
+            } receiveValue: { [weak self] book in
+                self?.setupUI()
+                UIView.animate(withDuration: 0.4) {
+                    self?.setViewsVisibility(to: true)
+                }
+            }
+            .store(in: &cancellabels)
+        
+    }
+    
     private func setupUI() {
-        nameLabel.text = viewModel.bookTitle
-        authorLabel.text = viewModel.author
-        categoryLabel.text = viewModel.category
-        ratingLabel.text = viewModel.rating
+        let authorText = viewModel.author
+        let categoryText = viewModel.category
+        let ratingText = viewModel.rating
+        
+        titleLabel.text = viewModel.bookTitle
         descriptionLabel.text = "Description:"
-        bookDescriptionLabel.text = viewModel.description
-        bookImageView.image = UIImage(data: viewModel.bookImage ?? Data())
+        
+        if let categoryTitle = viewModel.category.split(separator: ":").last {
+            title = categoryTitle.trimmingCharacters(in: .whitespaces)
+        } else {
+            title = viewModel.category
+        }
+        
+        updateLabelText(
+            label: authorLabel,
+            text: authorText,
+            boldFont: UIFont.makeOpenSans(.semibold, size: 15)
+        )
+        updateLabelText(
+            label: categoryLabel,
+            text: categoryText,
+            boldFont:UIFont.makeOpenSans(.semibold, size: 15)
+        )
+        updateLabelText(
+            label: ratingLabel,
+            text: ratingText,
+            boldFont: UIFont.makeOpenSans(.semibold, size: 15)
+        )
+        
+        self.bookDescriptionLabel.text = self.viewModel.description
+    }
+    
+    func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
+        let components = text.components(separatedBy: ":")
+        guard components.count > 1 else {
+            label.text = text
+            return
+        }
+        guard let normalFont = label.font else { return }
+        
+        let normalText = components[0] + ":"
+        let boldText = components[1]
+        
+        let normalAttributes = [NSAttributedString.Key.font: normalFont]
+        let boldAttributes = [NSAttributedString.Key.font: boldFont]
+        
+        let attributedString = NSMutableAttributedString(
+            string: normalText,
+            attributes: normalAttributes
+        )
+        let boldAttributedString = NSAttributedString(
+            string: boldText,
+            attributes: boldAttributes
+        )
+        
+        attributedString.append(boldAttributedString)
+        label.attributedText = attributedString
+    }
+    
+    private func setViewsVisibility(to isVisible: Bool) {
+        let views = [
+            infoStackView,
+            buttonStackView,
+            descriptionLabel,
+            bookImageView,
+            titleLabel,
+            bookDescriptionLabel
+        ]
+        
+        let alphaValue = isVisible ? 1.0 : 0.0
+        views.forEach { view in
+            view.alpha = alphaValue
+        }
     }
 }
 
@@ -102,68 +240,70 @@ final class DetailsViewController: UIViewController {
 private extension DetailsViewController {
     func setViews() {
         view.backgroundColor = .white
-        containerView.setupSubviews(nameLabel,
+        containerView.setupSubviews(titleLabel,
                                     bookImageView,
                                     infoStackView,
                                     buttonStackView,
                                     descriptionLabel,
-                                    bookDescriptionLabel
+                                    bookDescriptionLabel,
+                                    activityIndicator
         )
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(
+            titleLabel.topAnchor.constraint(
                 equalTo: containerView.topAnchor,
-                constant: NameLabelLayout.top
+                constant: LayoutConsrants.titleLabelTop
             ),
-            nameLabel.leadingAnchor.constraint(
+            titleLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: NameLabelLayout.leading
+                constant: LayoutConsrants.titleLabelLeading
             ),
-            nameLabel.trailingAnchor.constraint(
+            titleLabel.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: NameLabelLayout.trailing
+                constant: LayoutConsrants.titleLabelTrailing
             ),
             
             bookImageView.topAnchor.constraint(
-                equalTo: nameLabel.bottomAnchor,
-                constant: BookImageViewLayout.top
+                equalTo: titleLabel.bottomAnchor,
+                constant: LayoutConsrants.top
             ),
             bookImageView.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: BookImageViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookImageView.widthAnchor.constraint(
-                equalToConstant: BookImageViewLayout.width
+                equalToConstant: LayoutConsrants.width
             ),
             bookImageView.heightAnchor.constraint(
-                equalToConstant: BookImageViewLayout.height
+                equalToConstant: LayoutConsrants.height
             ),
             
             infoStackView.leadingAnchor.constraint(
                 equalTo: bookImageView.trailingAnchor,
-                constant: InfoStackViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             infoStackView.topAnchor.constraint(
                 equalTo: bookImageView.topAnchor,
-                constant: InfoStackViewLayout.top
+                constant: LayoutConsrants.top
             ),
             infoStackView.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: InfoStackViewLayout.trailing),
+                constant: LayoutConsrants.infoStackViewTrailing
+            ),
             
             buttonStackView.topAnchor.constraint(
                 equalTo: infoStackView.bottomAnchor,
-                constant: ButtonStackViewLayout.top
+                constant: LayoutConsrants.stackViewTop
             ),
             buttonStackView.leadingAnchor.constraint(
                 equalTo: bookImageView.trailingAnchor,
-                constant: ButtonStackViewLayout.leading
+                constant: LayoutConsrants.leading
             ),
             buttonStackView.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: ButtonStackViewLayout.trailing
+                constant: LayoutConsrants.trailing
             ),
             buttonStackView.bottomAnchor.constraint(
                 equalTo: bookImageView.bottomAnchor
@@ -171,28 +311,31 @@ private extension DetailsViewController {
             
             descriptionLabel.topAnchor.constraint(
                 equalTo: bookImageView.bottomAnchor,
-                constant: DescriptionLabelLayout.top
+                constant: LayoutConsrants.descriptionLabelTop
             ),
             descriptionLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: DescriptionLabelLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookDescriptionLabel.topAnchor.constraint(
                 equalTo: descriptionLabel.bottomAnchor,
-                constant: BookDescriptionLabelLayout.top
+                constant: LayoutConsrants.bookDescriptionTop
             ),
             bookDescriptionLabel.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
-                constant: BookDescriptionLabelLayout.leading
+                constant: LayoutConsrants.leading
             ),
             bookDescriptionLabel.trailingAnchor.constraint(
                 equalTo: containerView.trailingAnchor,
-                constant: BookDescriptionLabelLayout.trailing
+                constant: LayoutConsrants.trailing
             ),
             bookDescriptionLabel.bottomAnchor.constraint(
                 equalTo: containerView.bottomAnchor,
-                constant: BookDescriptionLabelLayout.bottom
-            )
+                constant: LayoutConsrants.bookDescriptionBottom
+            ),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -227,43 +370,22 @@ private extension DetailsViewController {
     }
 }
 
-// MARK: - Enums
+// MARK: - Constraints
 extension DetailsViewController {
-    enum NameLabelLayout {
-        static let top: CGFloat = 40
+    struct LayoutConsrants {
         static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-    }
-    
-    enum BookImageViewLayout {
-        static let top: CGFloat = 20
-        static let leading: CGFloat = 20
-        static let width: CGFloat = 160
-        static let height: CGFloat = 220
-    }
-    
-    enum InfoStackViewLayout {
-        static let leading: CGFloat = 20
-        static let top: CGFloat = 25
-        static let trailing: CGFloat = -20
-    }
-    
-    enum ButtonStackViewLayout {
-        static let top: CGFloat = 25
-        static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-    }
-    
-    enum DescriptionLabelLayout {
-        static let top: CGFloat = 30
-        static let leading: CGFloat = 20
-    }
-    
-    enum BookDescriptionLabelLayout {
-        static let top: CGFloat = 15
-        static let leading: CGFloat = 20
-        static let trailing: CGFloat = -20
-        static let bottom: CGFloat = -20
+        static let trailing: CGFloat  = -20
+        static let titleLabelTop: CGFloat  = 40
+        static let titleLabelLeading: CGFloat = 10
+        static let titleLabelTrailing: CGFloat = -10
+        static let top: CGFloat  = 20
+        static let height: CGFloat  = 220
+        static let width: CGFloat  = 137
+        static let infoStackViewTrailing: CGFloat = -15
+        static let stackViewTop: CGFloat = 25
+        static let descriptionLabelTop: CGFloat  = 30
+        static let bookDescriptionTop: CGFloat  = 15
+        static let bookDescriptionBottom: CGFloat  = -20
     }
 }
 

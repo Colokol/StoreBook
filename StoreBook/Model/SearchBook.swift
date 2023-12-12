@@ -8,7 +8,6 @@
 import Foundation
 
 // MARK: - SearchBook
-
 struct SearchBook: Codable {
     let q: String
     let docs: [Doc]
@@ -54,9 +53,35 @@ struct Doc: Codable, SearchBookProtocol {
 struct Book: Codable {
     let title: String
     let key: String
-    let description: Description
-    let covers: [Int]
-    let subjects: [String]
+    let description: DescriptionType?
+    let covers: [Int]?
+    let subjects: [String]?
+    
+    enum DescriptionType: Codable {
+        case text(String)
+        case object(Description)
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let text = try? container.decode(String.self) {
+                self = .text(text)
+            } else if let obj = try? container.decode(Description.self) {
+                self = .object(obj)
+            } else {
+                throw DecodingError.typeMismatch(
+                    DescriptionType.self,
+                    DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Wrong type for DescriptionType"
+                    )
+                )
+            }
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case title, key, description, covers, subjects
+    }
 }
 
 // MARK: - Description

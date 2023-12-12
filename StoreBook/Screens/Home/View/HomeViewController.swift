@@ -11,7 +11,7 @@ import UIKit
 class HomeViewController: UIViewController{
 
     // MARK: - Variables
-    var viewModel:HomeViewModelProtocol!
+    var viewModel = HomeViewModel()
     private var topBooksView = TopBooksView()
     private var recentBooksView = RecentBooksView()
     // MARK: - UI Components
@@ -23,24 +23,35 @@ class HomeViewController: UIViewController{
     }()
    
     //MARK: - Lifecycle
+//    init(viewModel: HomeViewModel) {
+//        self.viewModel = viewModel
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = HomeViewModel(book: HomeBookModel(
-            name: "TestData",
-            author: "TestData",
-            category: "TestData",
-            imageURL: "TestData")
-        )
         view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Happy Reading!", style: .plain, target: self, action: nil)
-        self.additionalSafeAreaInsets.top = 22
         UITabBar.appearance().unselectedItemTintColor = .black
         setupUI()
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
         topBookCollectionView.collectionViewLayout = createCompositionalLayout()
+        viewModel.getData()
+//        viewModel.$topBook
+//            .sink { welcome in
+//                print(welcome?.works.first())
+//            }.store(in: &viewModel.subscription)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        topBookCollectionView.reloadData()
+    }
+  
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
@@ -100,15 +111,18 @@ class HomeViewController: UIViewController{
 // MARK: - CollectionViewFunctions
 extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        return viewModel.topBook.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-        cellOne.categoryLabel.text = viewModel.bookCategory
-        cellOne.bookNameLabel.text = viewModel.bookTitle
-        cellOne.authorLabel.text = viewModel.bookAuthor
+        print(viewModel.topBook)
+        cellOne.configure(for: viewModel.topBook[indexPath.row])
+       
+//        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
+//        cellOne.categoryLabel.text = viewModel.bookCategory
+//        cellOne.bookNameLabel.text = viewModel.bookTitle
+//        cellOne.authorLabel.text = viewModel.bookAuthor
         return cellOne
     }
 }

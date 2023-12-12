@@ -21,7 +21,7 @@ final class SearchCategoriesViewController: UITableViewController {
         super.viewDidLoad()
         title = category
         setActivityIndicator()
-        viewModel.fetchData(with: category)
+        viewModel.fetchData(for: category)
         setupBindings()
         configureTableView()
     }
@@ -39,14 +39,14 @@ final class SearchCategoriesViewController: UITableViewController {
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
-            .store(in: &viewModel.cancellables)
+            .store(in: &viewModel.networkCancellables)
 
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
                   self?.activityIndicator.isHidden = isLoading
             }
-            .store(in: &viewModel.cancellables)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func setActivityIndicator() {
@@ -70,6 +70,25 @@ extension SearchCategoriesViewController {
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = viewModel.tableData[indexPath.row]
+        let bookModel = BookModel(
+            title: book.title,
+            author: book.authorName?.first ?? "",
+            category: title ?? "",
+            rating: book.ratingsAverage,
+            imageUrl: book.coverURL(coverSize: .L)
+        )
+        let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
+        let detailsVC = DetailsViewController()
+        detailsVC.viewModel = detailsViewModel
+        
+        // delete title in backButton
+        navigationItem.backButtonTitle = ""
+        
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
