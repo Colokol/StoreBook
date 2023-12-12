@@ -90,28 +90,50 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     func getImage(completion: @escaping () -> Void) {
-        
         guard let url = bookModel.imageUrl else {
             DispatchQueue.main.async {
                 completion()
             }
             return
         }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    completion()
-                }
-                return
-            }
-            
-            self?.bookImage = data
+
+        SDWebImageDownloader.shared.downloadImage(with: url) { [weak self] (_, data, error, finished) in
             DispatchQueue.main.async {
+                if let data = data, finished {
+                    self?.bookImage = data
+                } else {
+                    print(error?.localizedDescription ?? "Error in downloading image")
+                }
                 completion()
             }
-        }.resume()
+        }
     }
+    
+
+    
+//    func getImage(completion: @escaping () -> Void) {
+//
+//        guard let url = bookModel.imageUrl else {
+//            DispatchQueue.main.async {
+//                completion()
+//            }
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+//            guard let data = data else {
+//                DispatchQueue.main.async {
+//                    completion()
+//                }
+//                return
+//            }
+//
+//            self?.bookImage = data
+//            DispatchQueue.main.async {
+//                completion()
+//            }
+//        }.resume()
+//    }
     
     // MARK: - Private Methods
     private func processServerResponse(_ response: String) -> String {
