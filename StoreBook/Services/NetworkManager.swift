@@ -26,7 +26,7 @@ final class NetworkManager {
             .eraseToAnyPublisher()
     }
     
-    func getBook(with searchText: String) -> AnyPublisher<SearchBook, NetworkError> {
+    func getBook(with searchText: String) -> AnyPublisher<SearchBook, NetworkError> { 
         let endpoint = BookEndpoint.searchBookWith(searchText: searchText)
         return URLSessionAPIClient<BookEndpoint>()
             .request(endpoint)
@@ -47,6 +47,32 @@ final class NetworkManager {
             .mapError { error in
                 return NetworkError.transportError(error)
             }
+            .eraseToAnyPublisher()
+    }
+    
+    func fetchBook(with url: URL?) -> AnyPublisher<Book, NetworkError> {
+        guard let url = url else {
+            return Fail(error: NetworkError.invalidURL)
+                .eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    throw NetworkError.invalidResponse
+                }
+                return data
+            }
+            .decode(type: Book.self, decoder: JSONDecoder())
+            .mapError { error -> NetworkError in
+                if let networkError = error as? NetworkError {
+                    return networkError
+                } else {
+                    return NetworkError.transportError(error)
+                }
+             }
             .eraseToAnyPublisher()
     }
 

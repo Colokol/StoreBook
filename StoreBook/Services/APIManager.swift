@@ -20,6 +20,7 @@ enum NetworkError: Error {
     case serverError(statusCode: Int)
     case noData
     case decodingError(Error)
+    case invalidURL
 }
 
 enum HTTPMethod: String {

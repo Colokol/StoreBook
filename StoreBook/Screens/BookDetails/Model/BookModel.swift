@@ -12,7 +12,7 @@ struct BookModel {
     let title: String
     let author: String
     let category: String
-    let rating: String
+    let rating: Double?
     let imageUrl: URL?
 }
 
