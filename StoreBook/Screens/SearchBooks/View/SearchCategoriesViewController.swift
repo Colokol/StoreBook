@@ -21,7 +21,7 @@ final class SearchCategoriesViewController: UITableViewController {
         super.viewDidLoad()
         title = category
         setActivityIndicator()
-        viewModel.fetchData(with: category)
+        viewModel.fetchData(for: category)
         setupBindings()
         configureTableView()
     }
@@ -39,14 +39,14 @@ final class SearchCategoriesViewController: UITableViewController {
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
-            .store(in: &viewModel.cancellables)
+            .store(in: &viewModel.networkCancellables)
 
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
                   self?.activityIndicator.isHidden = isLoading
             }
-            .store(in: &viewModel.cancellables)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func setActivityIndicator() {
@@ -70,6 +70,15 @@ extension SearchCategoriesViewController {
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let searchedBookID = viewModel.tableData[indexPath.row]
+        
+        let category = category
+        
+        let detailViewController = DetailsViewController()
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
