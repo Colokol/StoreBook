@@ -1,10 +1,9 @@
 import UIKit
 import SDWebImage
 
-final class SearchCategoriesCell: UITableViewCell {
-    
-    static let cellID = String(describing: SearchCategoriesCell.self)
-    
+final class SearchResultCell: UITableViewCell {
+    static let cellID = String(describing: SearchResultCell.self)
+
     private lazy var bookImageView: BookLoadIndicator = {
         let view = BookLoadIndicator(frame: .zero)
         view.clipsToBounds = true
@@ -121,3 +120,4 @@ final class SearchCategoriesCell: UITableViewCell {
         static let interSpacing: CGFloat = 8
     }
 }
+

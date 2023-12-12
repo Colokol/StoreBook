@@ -41,11 +41,17 @@ class HomeViewController: UIViewController{
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
         topBookCollectionView.collectionViewLayout = createCompositionalLayout()
-        viewModel.$topBook
-            .sink { welcome in
-                print(welcome?.works[3])
-            }.store(in: &viewModel.subscription)
+        viewModel.getData()
+//        viewModel.$topBook
+//            .sink { welcome in
+//                print(welcome?.works.first())
+//            }.store(in: &viewModel.subscription)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        topBookCollectionView.reloadData()
+    }
+  
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
@@ -105,13 +111,14 @@ class HomeViewController: UIViewController{
 // MARK: - CollectionViewFunctions
 extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.topBook?.works.count ?? 1
+        return viewModel.topBook.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.bookNameLabel.text = viewModel.topBook?.works[indexPath.row].title
-        print(cellOne.bookNameLabel.text)
+        print(viewModel.topBook)
+        cellOne.configure(for: viewModel.topBook[indexPath.row])
+       
 //        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
 //        cellOne.categoryLabel.text = viewModel.bookCategory
 //        cellOne.bookNameLabel.text = viewModel.bookTitle

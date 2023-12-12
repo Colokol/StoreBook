@@ -16,7 +16,7 @@ import Combine
 //
 //}
 final class HomeViewModel{
-    @Published var topBook:Welcome?
+    @Published var topBook:[TopBook] = []
     var subscription:Set<AnyCancellable> = []
 //    var bookTitle: String{
 //        book.name
@@ -38,12 +38,12 @@ final class HomeViewModel{
         self.getData()
     }
     func getData(){
-        NetworkManager.shared.getTopBooks(for: "")
+        NetworkManager.shared.getTopBook(for: .weekly)
             .receive(on: DispatchQueue.main)
             .sink { error in
                 print(error)
             } receiveValue: { value in
-                self.topBook = value
+                self.topBook = value.works
             }
             .store(in: &subscription)
     }
