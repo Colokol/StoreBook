@@ -30,35 +30,52 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+enum TimeFrame: String {
+    case weekly = "weekly"
+    case monthly = "monthly"
+    case yearly = "yearly"
+}
+
 // добавить свой Endpoint в BookEndpoint и соответственно в каждое свойство необходимые параметры
 enum BookEndpoint: APIEndpoint {
-    case searchBookFor(category: String)
-    case searchBookWith(searchText: String)
-    
+    case searchBookWith(category: String)
+    case topBook(timeFrame: TimeFrame)
+
     var baseURL: URL {
         guard let url = URL(string: "https://openlibrary.org/") else {
             fatalError("Invalid baseURL")
         }
         return url
     }
-    
+
     var path: String {
         switch self {
-        case .searchBookFor(category: _):
-            return "search.json"
-        case .searchBookWith(searchText: _):
-            return "search.json"
+            case .searchBookWith(category: _):
+                return "search.json"
+            case .topBook(timeFrame: let timeFrame):
+                return "trending/\(timeFrame.rawValue).json"
         }
     }
-    
+
     var method: HTTPMethod {
-        return .get
+        switch self {
+        case .searchBookWith(category: _):
+            return .get
+            case .topBook(timeFrame:):
+            return .get
+
+        }
     }
-    
+
     var headers: [String : String]? {
-        return nil
+        switch self {
+        case .searchBookWith(category: _):
+            return nil
+            case .topBook(timeFrame: ):
+            return nil
+        }
     }
-    
+
     var parameters: [String: String]? {
         switch self {
         case .searchBookFor(category: let category):
@@ -74,6 +91,11 @@ enum BookEndpoint: APIEndpoint {
                 "limit": "10"
             ]
             return params
+        case .topBook(timeFrame:):
+            return nil
         }
     }
 }
+
+
+
