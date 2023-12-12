@@ -8,9 +8,14 @@
 import UIKit
 
 final class DetailsViewBuilder {
+    
+    // MARK: - Static Properties
     static let shared = DetailsViewBuilder()
+    
+    // MARK: - Init
     private init() {}
     
+    // MARK: - Public Methods
     func makeNameLabel() -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
@@ -23,8 +28,9 @@ final class DetailsViewBuilder {
     func makeImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         return imageView
     }
     
@@ -67,5 +73,15 @@ final class DetailsViewBuilder {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }
+    
+    func makeActivityIndicator() -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView()
+        indicator.hidesWhenStopped = true
+        indicator.color = .darkGray
+        indicator.style = .large
+        indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }
 }
