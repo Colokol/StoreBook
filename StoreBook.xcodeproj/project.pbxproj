@@ -430,6 +430,7 @@
 		E1CF2F0D2B227BDB00A4BB70 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				E1CF2F0F2B227BDB00A4BB70 /* SearchResultCell.swift */,
 				E1CF2F0E2B227BDB00A4BB70 /* CategoryCell.swift */,
 			);
 			path = Cell;
@@ -484,7 +485,6 @@
 			isa = PBXGroup;
 			children = (
 				E1CF2F182B22FA4100A4BB70 /* SearchCategoriesCell.swift */,
-				E1CF2F0F2B227BDB00A4BB70 /* SearchResultCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
