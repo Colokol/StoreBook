@@ -9,6 +9,6 @@ import Foundation
 
 struct ProfileModel {
     
-    var name: String
+    //var accountImage:
     
 }
