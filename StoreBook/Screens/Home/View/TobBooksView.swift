@@ -122,7 +122,6 @@ class TopBooksView:UIView{
         NSLayoutConstraint.activate([
             topBooksLabel.topAnchor.constraint(equalTo: self.topAnchor),
             topBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            //topBooksLabel.widthAnchor.constraint(equalToConstant: 120),
             topBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
             seeMoreTopBooksButton.topAnchor.constraint(equalTo: self.topAnchor),
