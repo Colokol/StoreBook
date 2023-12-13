@@ -17,7 +17,7 @@ class ProfileView: UIViewController {
         accountTitle.text = "Account"
         accountTitle.textAlignment = .center
         accountTitle.textColor = .black
-        accountTitle.font = UIFont(name: "OpenSans-SemiBold", size: 16)
+        accountTitle.font = .makeOpenSans(.semibold, size: 16)
         return accountTitle
     }()
     let accountLogo: UIImageView = {
@@ -26,11 +26,23 @@ class ProfileView: UIViewController {
         logo.contentMode = .scaleAspectFit
         return logo
     }()
-    let textField: UILabel = {
-        let additionalText = UILabel()
+    let textField: UITextField = {
+        let additionalText = UITextField()
+        let markedLabel = UILabel()
+        
+        markedLabel.text = "Name:"
+        markedLabel.textColor = .black
+        markedLabel.font = .makeOpenSans(.regular, size: 14)
+        markedLabel.sizeToFit()
+    
         additionalText.layer.cornerRadius = 5
-        additionalText.layer.masksToBounds = true
+        additionalText.leftView = markedLabel
+        additionalText.leftViewMode = .unlessEditing
+        additionalText.textColor = .black
+        additionalText.font = .makeOpenSans(.semibold, size: 16)
         additionalText.backgroundColor = UIColor(red: 0.871, green: 0.871, blue: 0.871, alpha: 1)
+        additionalText.textAlignment = .center
+        additionalText.contentVerticalAlignment = .center
         return additionalText
     }()
     
@@ -38,14 +50,14 @@ class ProfileView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        let profileModel = ProfileModel(name: "John Doe")
-        viewModel = ProfileViewModel(profileModel: profileModel)
-        updateUI()
+        //let profileModel = ProfileModel(name: "John Doe")
+        //viewModel = ProfileViewModel(profileModel: profileModel)
+        //updateUI()
         navigationController?.setupNavigationBar()
     }
-    private func updateUI() {
-            textField.attributedText = viewModel.displayName
-        }
+//    private func updateUI() {
+//            textField.attributedText = viewModel.displayName
+//        }
     
     private func setupViews() {
         view.backgroundColor = .white
