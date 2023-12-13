@@ -9,6 +9,7 @@ import CoreData
 
 final class StorageManager {
     
+    // MARK: - Static Properties
     static let shared = StorageManager()
     
     // MARK: - Core Data stack
@@ -24,18 +25,20 @@ final class StorageManager {
     
     private let viewContext: NSManagedObjectContext
     
+    // MARK: - Init
     private init() {
         viewContext = persistentContainter.viewContext
     }
     
     // MARK: - CRUD
-    func create(_ book: BookModel, completion: (BookData) -> Void) {
+    func create(_ book: BookModel, completion: ((BookData) -> Void)? = nil) {
         let bookData = BookData(context: viewContext)
         bookData.title = book.title
         bookData.category = book.category
         bookData.imageUrl = book.imageUrl?.absoluteString
         bookData.author = book.author
-        completion(bookData)
+        bookData.isFavorite = true
+        completion?(bookData)
         saveContext()
     }
     
@@ -50,9 +53,21 @@ final class StorageManager {
         }
     }
     
-    func delete(object: NSManagedObject) {
-        viewContext.delete(object)
-        saveContext()
+    // пока оставил так, возможно как-то по-другому можно удалять, не через cвойство модели
+    func delete(withImageUrl imageUrl: String) {
+        let fetchRequest = BookData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", imageUrl)
+        
+        do {
+            let results = try viewContext.fetch(fetchRequest)
+            if let objectToDelete = results.first {
+                viewContext.delete(objectToDelete)
+                print("\(imageUrl) deleted")
+                saveContext()
+            }
+        } catch let error {
+            print("Ошибка при удалении объекта: \(error)")
+        }
     }
     
     // MARK: - Core Data Saving support
@@ -60,6 +75,7 @@ final class StorageManager {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
+                print("Your object was successfully saved")
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
