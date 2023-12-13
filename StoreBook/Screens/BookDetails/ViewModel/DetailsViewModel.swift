@@ -9,22 +9,23 @@ import Foundation
 import SDWebImage
 import Combine
 
-protocol DetailsViewModelProtocol {
-    
-    var bookTitle: String { get }
-    var bookImage: Data? { get }
-    var author: String { get }
-    var category: String { get }
-    var rating: String { get }
-    var description: String? { get }
-    
-    init(key: String, bookModel: BookModel)
-    
-    func getData() -> AnyPublisher<Book, NetworkError>
-    func getImage() -> AnyPublisher<Data, Error>
-}
+//protocol DetailsViewModelProtocol {
+//    
+//    var bookTitle: String { get }
+//    var bookImage: Data? { get }
+//    var author: String { get }
+//    var category: String { get }
+//    var rating: String { get }
+//    var description: String? { get }
+//    var isFavorite: Bool { get }
+//
+//    init(key: String, bookModel: BookModel)
+//    
+//    func getData() -> AnyPublisher<Book, NetworkError>
+//    func getImage() -> AnyPublisher<Data, Error>
+//}
 
-final class DetailsViewModel: DetailsViewModelProtocol {
+final class DetailsViewModel {
     
     // MARK: - Public Properties
     @Published var bookImage: Data?
