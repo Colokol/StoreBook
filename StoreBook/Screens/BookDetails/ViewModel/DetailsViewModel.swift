@@ -32,7 +32,6 @@ final class DetailsViewModel {
     @Published var description: String?
     @Published var isFavorite: Bool
 
-    
     var bookTitle: String {
         bookModel.title
     }
