@@ -9,22 +9,6 @@ import Foundation
 import SDWebImage
 import Combine
 
-//protocol DetailsViewModelProtocol {
-//    
-//    var bookTitle: String { get }
-//    var bookImage: Data? { get }
-//    var author: String { get }
-//    var category: String { get }
-//    var rating: String { get }
-//    var description: String? { get }
-//    var isFavorite: Bool { get }
-//
-//    init(key: String, bookModel: BookModel)
-//    
-//    func getData() -> AnyPublisher<Book, NetworkError>
-//    func getImage() -> AnyPublisher<Data, Error>
-//}
-
 final class DetailsViewModel {
     
     // MARK: - Public Properties
@@ -56,11 +40,27 @@ final class DetailsViewModel {
     }
     private let bookModel: BookModel
     private var networkCancellables: Set<AnyCancellable> = []
+    private let storageManager = StorageManager.shared
     
     // MARK: - Init
     init(bookModel: BookModel) {
         self.bookModel = bookModel
         self.isFavorite = false
+        
+        // Проверяем есть такой title в bookData
+        storageManager.fetchData { result in
+            switch result {
+                
+            case .success(let data):
+                data.forEach { bookData in
+                    if bookData.title == bookModel.title {
+                        isFavorite = true
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     // MARK: - Public Methods
@@ -97,6 +97,16 @@ final class DetailsViewModel {
     
     func favoriteButtonPressed() {
         isFavorite.toggle()
+        
+        guard let imageUrlString = bookModel.imageUrl?.absoluteString else {
+            print("No URL")
+            return
+        }
+        
+        // добавляем или удаляем книгу в зависимости от свойства isFavorite
+        isFavorite
+        ? storageManager.create(bookModel)
+        : storageManager.delete(withImageUrl: imageUrlString)
     }
     
     // MARK: - Private Methods
