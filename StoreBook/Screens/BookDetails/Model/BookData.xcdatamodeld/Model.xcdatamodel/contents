@@ -4,6 +4,7 @@
         <attribute name="author" attributeType="String"/>
         <attribute name="category" attributeType="String"/>
         <attribute name="imageUrl" attributeType="String"/>
+        <attribute name="isFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
     </entity>
 </model>

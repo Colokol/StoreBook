@@ -104,13 +104,7 @@ final class DetailsViewController: UIViewController {
         setupScrollView()
         setupConstraints()
         setupNavigationBar()
-        
-        viewModel.$isFavorite
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isFavorite in
-                self?.setStatusFoFavoriteButton(isFavorite)
-            }
-            .store(in: &cancellabels)
+        changeFavoriteButton()
     }
     
     // MARK: - Private Actions
@@ -125,6 +119,15 @@ final class DetailsViewController: UIViewController {
     }
     
     // MARK: - Private Methods
+    private func changeFavoriteButton() {
+        viewModel.$isFavorite
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isFavorite in
+                self?.setStatusFoFavoriteButton(isFavorite)
+            }
+            .store(in: &cancellabels)
+    }
+    
     private func setStatusForFavoriteButton(_ status: Bool) {
         navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .black
     }
@@ -146,7 +149,6 @@ final class DetailsViewController: UIViewController {
             } receiveValue: { [weak self] imageData in
                 DispatchQueue.main.async {
                     self?.bookImageView.image = UIImage(data: imageData)
-                    
                     self?.loadBookDescription()
                 }
             }
