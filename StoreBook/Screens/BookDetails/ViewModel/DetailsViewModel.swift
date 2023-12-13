@@ -30,6 +30,8 @@ final class DetailsViewModel {
     // MARK: - Public Properties
     @Published var bookImage: Data?
     @Published var description: String?
+    @Published var isFavorite: Bool
+
     
     var bookTitle: String {
         bookModel.title
@@ -50,14 +52,16 @@ final class DetailsViewModel {
     }
     
     // MARK: - Private Properties
-    private let key: String
+    private var key: String {
+        bookModel.key
+    }
     private let bookModel: BookModel
     private var networkCancellables: Set<AnyCancellable> = []
     
     // MARK: - Init
-    init(key: String, bookModel: BookModel) {
-        self.key = key
+    init(bookModel: BookModel) {
         self.bookModel = bookModel
+        self.isFavorite = false
     }
     
     // MARK: - Public Methods
@@ -90,6 +94,10 @@ final class DetailsViewModel {
             }
         }
         .eraseToAnyPublisher()
+    }
+    
+    func favoriteButtonPressed() {
+        isFavorite.toggle()
     }
     
     // MARK: - Private Methods
