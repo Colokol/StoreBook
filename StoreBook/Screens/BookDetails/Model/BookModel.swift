@@ -14,5 +14,6 @@ struct BookModel {
     let category: String
     let rating: Double?
     let imageUrl: URL?
+    let key: String
 }
 
