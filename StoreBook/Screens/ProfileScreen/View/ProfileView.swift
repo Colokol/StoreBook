@@ -59,16 +59,9 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         super.viewDidLoad()
         setupViews()
         setup()
-        //setPicker(imageButton)
-        //let profileModel = ProfileModel(name: "John Doe")
-        //viewModel = ProfileViewModel(profileModel: profileModel)
-        
-        //setupBindings()
         navigationController?.setupNavigationBar()
     }
-    //    private func updateUI() {
-    //            textField.attributedText = viewModel.displayName
-    //        }
+    
     
     private func setupViews() {
         view.backgroundColor = .white
@@ -101,9 +94,7 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     func setup () {
         imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
     }
-//        @objc func imageButtonTapped (_ sender: UIButton) {
-//            setPicker()
-//        }
+
     @objc func setPicker(_ sender: UIButton) {
         var configuration = PHPickerConfiguration()
         configuration.preferredAssetRepresentationMode = .automatic

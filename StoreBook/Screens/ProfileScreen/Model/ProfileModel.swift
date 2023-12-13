@@ -5,10 +5,9 @@
 //  Created by Дмитрий on 12.12.2023.
 //
 
-import Foundation
+import UIKit
 
-struct ProfileModel {
-    
-    //var accountImage:
-    
+class Profile {
+  var name: String?
+  var image: UIImage?
 }

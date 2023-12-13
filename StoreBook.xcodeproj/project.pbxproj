@@ -807,6 +807,8 @@
 				DEVELOPMENT_TEAM = Q32WAK9PQ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StoreBook/Supporting/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Это приложение хочет сохранять изображения в вашу фотогалерею.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Это приложение требует доступа к вашим фотографиям для загрузки и обработки изображений";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -838,6 +840,8 @@
 				DEVELOPMENT_TEAM = Q32WAK9PQ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StoreBook/Supporting/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Это приложение хочет сохранять изображения в вашу фотогалерею.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Это приложение требует доступа к вашим фотографиям для загрузки и обработки изображений";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
