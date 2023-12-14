@@ -7,45 +7,54 @@
 
 import Foundation
 import Combine
-//protocol HomeViewModelProtocol{
-//    var bookTitle:String {get}
-//    var bookCategory:String {get}
-//    var bookImage:Data? {get}
-//    var bookAuthor: String {get}
-//
-//
-//}
+
 final class HomeViewModel{
     @Published var topBook:[TopBook] = []
     var subscription:Set<AnyCancellable> = []
-//    var bookTitle: String{
-//        book.name
-//    }
-//
-//    var bookCategory: String {
-//        book.category
-//    }
-//
-//    var bookImage: Data?
-//
-//    var bookAuthor: String {
-//        book.author
-//    }
-//
-//    private let book:HomeBookModel?
-
+    
+    
     init(){
-        self.getData()
+        self.getData(period: .daily)
     }
-    func getData(){
-        NetworkManager.shared.getTopBook(for: .weekly)
-            .receive(on: DispatchQueue.main)
-            .sink { error in
-                print(error)
-            } receiveValue: { value in
-                self.topBook = value.works
-            }
-            .store(in: &subscription)
+    public func getData(period:TimeFrame){
+            NetworkManager.shared.getTopBook(for: period)
+                .receive(on: DispatchQueue.main)
+                .sink { error in
+                    print(error)
+                } receiveValue: { value in
+                    self.topBook = value.works
+                    
+                }
+                .store(in: &subscription)
+        }
     }
-}
 
+//        switch period{
+//        case .weekly:
+//            NetworkManager.shared.getTopBook(for: .weekly)
+//                .receive(on: DispatchQueue.main)
+//                .sink { error in
+//                    print(error)
+//                } receiveValue: { value in
+//                    self.topBook = value.works
+//                }
+//                .store(in: &subscription)
+//        case .monthly:
+//            NetworkManager.shared.getTopBook(for: .monthly)
+//                .receive(on: DispatchQueue.main)
+//                .sink { error in
+//                    print(error)
+//                } receiveValue: { value in
+//                    self.topBook = value.works
+//                }
+//                .store(in: &subscription)
+//        case .yearly:
+//            NetworkManager.shared.getTopBook(for: .yearly)
+//                .receive(on: DispatchQueue.main)
+//                .sink { error in
+//                    print(error)
+//                } receiveValue: { value in
+//                    self.topBook = value.works
+//                }
+//                .store(in: &subscription)
+//        default:

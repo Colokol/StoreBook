@@ -7,9 +7,10 @@
 
 import Foundation
 import UIKit
+
 class TopBooksView:UIView{
     static let shared = TopBooksView()
-   
+    
     // MARK: - UI Components
     let topBooksLabel:UILabel = {
        let label = UILabel()
@@ -82,13 +83,20 @@ class TopBooksView:UIView{
         print("see details")
     }
     @objc private func didTapWeekButton(){
-        print("week button tap")
+//        viewController.viewModel.getData(period: .weekly)
     }
     @objc private func didTapMonthButton(){
-        print("month button tap")
+//        viewController.viewModel.getData(period: .monthly)
     }
     @objc private func didTapYearButton(){
-        print("year button tap")
+//        viewController.viewModel.getData(period: .yearly)
+//        viewModel.getData(period: .weekly)
+    }
+    @objc private func didTapMonthButton(){
+//        viewModel.getData(period: .monthly)
+    }
+    @objc private func didTapYearButton(){
+//        viewModel.getData(period: .yearly)
     }
     @objc private func didTapSeeMoreRecentButton(){
         print("see details")
@@ -96,6 +104,9 @@ class TopBooksView:UIView{
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+//     init(viewModel: HomeViewModel) {
+//         super.init(frame: CGRect())
+//        self.viewModel = viewModel
         setupUI()
     }
     
@@ -118,7 +129,6 @@ class TopBooksView:UIView{
         NSLayoutConstraint.activate([
             topBooksLabel.topAnchor.constraint(equalTo: self.topAnchor),
             topBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            //topBooksLabel.widthAnchor.constraint(equalToConstant: 120),
             topBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
             seeMoreTopBooksButton.topAnchor.constraint(equalTo: self.topAnchor),
@@ -131,11 +141,11 @@ class TopBooksView:UIView{
             timeStackView.widthAnchor.constraint(equalToConstant: 290),
             timeStackView.heightAnchor.constraint(equalToConstant: 32),
             
-            recentBooksLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 330),
+            recentBooksLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
             recentBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             recentBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
-            seeMoreRecentBooksButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 330),
+            seeMoreRecentBooksButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
             seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             seeMoreRecentBooksButton.widthAnchor.constraint(equalToConstant: 62),
             seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 35),
