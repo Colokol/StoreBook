@@ -9,27 +9,13 @@ import Foundation
 import SDWebImage
 import Combine
 
-protocol DetailsViewModelProtocol {
-    
-    var bookTitle: String { get }
-    var bookImage: Data? { get }
-    var author: String { get }
-    var category: String { get }
-    var rating: String { get }
-    var description: String? { get }
-    
-    init(key: String, bookModel: BookModel)
-    
-    func getData() -> AnyPublisher<Book, NetworkError>
-    func getImage() -> AnyPublisher<Data, Error>
-}
-
-final class DetailsViewModel: DetailsViewModelProtocol {
+final class DetailsViewModel {
     
     // MARK: - Public Properties
     @Published var bookImage: Data?
     @Published var description: String?
-    
+    @Published var isFavorite: Bool
+
     var bookTitle: String {
         bookModel.title
     }
@@ -49,14 +35,32 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     // MARK: - Private Properties
-    private let key: String
+    private var key: String {
+        bookModel.key
+    }
     private let bookModel: BookModel
     private var networkCancellables: Set<AnyCancellable> = []
+    private let storageManager = StorageManager.shared
     
     // MARK: - Init
-    init(key: String, bookModel: BookModel) {
-        self.key = key
+    init(bookModel: BookModel) {
         self.bookModel = bookModel
+        self.isFavorite = false
+        
+        // Проверяем есть такой title в bookData
+        storageManager.fetchData { result in
+            switch result {
+                
+            case .success(let data):
+                data.forEach { bookData in
+                    if bookData.title == bookModel.title {
+                        isFavorite = true
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     // MARK: - Public Methods
@@ -89,6 +93,20 @@ final class DetailsViewModel: DetailsViewModelProtocol {
             }
         }
         .eraseToAnyPublisher()
+    }
+    
+    func favoriteButtonPressed() {
+        isFavorite.toggle()
+        
+        guard let imageUrlString = bookModel.imageUrl?.absoluteString else {
+            print("No URL")
+            return
+        }
+        
+        // добавляем или удаляем книгу в зависимости от свойства isFavorite
+        isFavorite
+        ? storageManager.create(bookModel)
+        : storageManager.delete(withImageUrl: imageUrlString)
     }
     
     // MARK: - Private Methods
