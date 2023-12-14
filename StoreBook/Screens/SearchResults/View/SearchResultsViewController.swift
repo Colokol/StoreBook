@@ -3,11 +3,13 @@ import UIKit
 
 final class SearchResultsViewController: UIViewController {
     // MARK: - Private properties
-    var searchedBooks:[Doc]
     
-    let categoryVC = CategoriesViewController()
+    var searchText: String
+    var viewModel = SearchResultsViewModel()
     
     private lazy var activityIndicator = BookLoadIndicator()
+    
+    weak var navigationControllerFromCategories: UINavigationController?
     
     lazy var searchTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -17,8 +19,8 @@ final class SearchResultsViewController: UIViewController {
         return tableView
     }()
     
-    init(searchedBooks: [Doc]) {
-        self.searchedBooks = searchedBooks
+    init(searchText: String) {
+        self.searchText = searchText
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,28 +32,28 @@ final class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
+        viewModel.fetchData(with: searchText)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-       
+    override func viewDidAppear(_ animated: Bool) {
+      
     }
     
     private func setupBindings() {
-        categoryVC.viewModel.$searchedBooks
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.searchTableView.reloadData()
-            }
-            .store(in: &categoryVC.viewModel.networkCancellables)
-        
-        categoryVC.viewModel.$isLoading
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isLoading in
-                self?.activityIndicator.isHidden = isLoading
-            }
-            .store(in: &categoryVC.viewModel.networkCancellables)
-    }
+          viewModel.$searchedBooks
+               .receive(on: DispatchQueue.main)
+               .sink { [weak self] _ in
+                   self?.searchTableView.reloadData()
+               }
+               .store(in: &viewModel.networkCancellables)
+           
+           viewModel.$isLoading
+               .receive(on: DispatchQueue.main)
+               .sink { [weak self] isLoading in
+                   self?.activityIndicator.isHidden = isLoading
+               }
+               .store(in: &viewModel.networkCancellables)
+       }
     
     private func setupUI() {
         view.backgroundColor = .white
@@ -85,18 +87,18 @@ final class SearchResultsViewController: UIViewController {
 extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchedBooks.count
+        return viewModel.searchedBooks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
-        let searchedBook = searchedBooks[indexPath.row]
+        let searchedBook = viewModel.searchedBooks[indexPath.row]
         cell.configure(with: searchedBook)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = searchedBooks[indexPath.row]
+        let book = viewModel.searchedBooks[indexPath.row]
         let bookModel = BookModel(
             title: book.title,
             author: book.authorName?.first ?? "",
@@ -105,16 +107,14 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
             imageUrl: book.coverURL(coverSize: .L),
             key: book.key
         )
-        categoryVC.navigationItem.searchController?.isActive = false
+
         let detailsViewModel = DetailsViewModel(bookModel: bookModel)
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
         
         navigationItem.backButtonTitle = ""
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.navigationController?.pushViewController(detailsVC, animated: true)
-        }
+
+            self.navigationControllerFromCategories?.pushViewController(detailsVC, animated: true)
     }
 }
 

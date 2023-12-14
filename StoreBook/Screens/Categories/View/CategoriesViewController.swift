@@ -5,15 +5,14 @@ final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     
     var viewModel = CategoriesViewModel()
-    
-    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
+    var searchText = ""
+    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchText: searchText))
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
- 
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -148,13 +147,11 @@ extension CategoriesViewController: UICollectionViewDelegate {
 extension CategoriesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
-
-        viewModel.fetchData(with: searchText)
-
+        
         if let resultController = searchController.searchResultsController as? SearchResultsViewController {
             DispatchQueue.main.async {
-                resultController.searchedBooks = self.viewModel.searchedBooks
-                resultController.searchTableView.reloadData()
+                resultController.navigationControllerFromCategories = self.navigationController
+                resultController.searchText = searchText
             }
         }
     }

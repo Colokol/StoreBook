@@ -1,6 +1,6 @@
 import Foundation
 
-final class CategoryResultsCellViewModel {
+final class SearchResultsCellViewModel {
     let searchBook: SearchBook
     
     init(searchBook: SearchBook) {
