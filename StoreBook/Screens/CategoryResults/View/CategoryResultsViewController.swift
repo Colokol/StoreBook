@@ -79,9 +79,10 @@ extension CategoryResultsViewController {
             author: book.authorName?.first ?? "",
             category: title ?? "",
             rating: book.ratingsAverage,
-            imageUrl: book.coverURL(coverSize: .L)
+            imageUrl: book.coverURL(coverSize: .L),
+            key: book.key
         )
-        let detailsViewModel = DetailsViewModel(key: book.key, bookModel: bookModel)
+        let detailsViewModel = DetailsViewModel(bookModel: bookModel)
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
         
