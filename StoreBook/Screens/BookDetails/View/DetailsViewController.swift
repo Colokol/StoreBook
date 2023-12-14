@@ -11,7 +11,7 @@ import Combine
 final class DetailsViewController: UIViewController {
     
     // MARK: - ViewModel
-    var viewModel: DetailsViewModelProtocol!
+    var viewModel: DetailsViewModel!
     
     // MARK: - ViewBuilder
     private let viewBuilder = DetailsViewBuilder()
@@ -104,22 +104,34 @@ final class DetailsViewController: UIViewController {
         setupScrollView()
         setupConstraints()
         setupNavigationBar()
+        changeFavoriteButton()
     }
     
     // MARK: - Private Actions
     @objc private func likeButtonDidTapped() {
-        
+        viewModel.favoriteButtonPressed()
     }
     
     @objc private func addToListButtonDidTapped() {
-        
     }
     
     @objc private func readButtonDidTapped() {
-        
     }
     
     // MARK: - Private Methods
+    private func changeFavoriteButton() {
+        viewModel.$isFavorite
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isFavorite in
+                self?.setStatusFoFavoriteButton(isFavorite)
+            }
+            .store(in: &cancellabels)
+    }
+    
+    private func setStatusForFavoriteButton(_ status: Bool) {
+        navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .black
+    }
+    
     private func loadBookDetails() {
         viewModel.getImage()
             .receive(on: DispatchQueue.main)
@@ -137,7 +149,6 @@ final class DetailsViewController: UIViewController {
             } receiveValue: { [weak self] imageData in
                 DispatchQueue.main.async {
                     self?.bookImageView.image = UIImage(data: imageData)
-                    
                     self?.loadBookDescription()
                 }
             }
@@ -160,6 +171,7 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setupUI() {
+        setStatusFoFavoriteButton(viewModel.isFavorite)
         let authorText = viewModel.author
         let categoryText = viewModel.category
         let ratingText = viewModel.rating
@@ -190,6 +202,7 @@ final class DetailsViewController: UIViewController {
         )
         
         self.bookDescriptionLabel.text = self.viewModel.description
+        
     }
     
     func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
@@ -233,6 +246,10 @@ final class DetailsViewController: UIViewController {
         views.forEach { view in
             view.alpha = alphaValue
         }
+    }
+    
+    private func setStatusFoFavoriteButton(_ status: Bool) {
+        navigationItem.rightBarButtonItem?.tintColor = status ? .red : .black
     }
 }
 
