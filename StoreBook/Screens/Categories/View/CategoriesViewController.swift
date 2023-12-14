@@ -4,9 +4,9 @@ import Combine
 final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     
-    private var viewModel = CategoriesViewModel()
+    var viewModel = CategoriesViewModel()
     
-    private lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
+    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
@@ -115,6 +115,8 @@ final class CategoriesViewController: UIViewController {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    
 }
 
 // MARK: - UICollectionViewDataSource

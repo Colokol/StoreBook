@@ -80,8 +80,8 @@ enum BookEndpoint: APIEndpoint {
             
         case .searchBookWith(searchText: let searchText):
             let params = [
-                "author":"\(searchText)",
-               // "title":"\(searchText)",
+                //"author":"\(searchText)",
+                "title":"\(searchText)",
                 "limit": "10"
             ]
             return params

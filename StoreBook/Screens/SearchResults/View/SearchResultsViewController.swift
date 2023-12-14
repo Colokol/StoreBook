@@ -5,6 +5,10 @@ final class SearchResultsViewController: UIViewController {
     // MARK: - Private properties
     var searchedBooks:[Doc]
     
+    let categoryVC = CategoriesViewController()
+    
+    private lazy var activityIndicator = BookLoadIndicator()
+    
     lazy var searchTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
@@ -17,17 +21,41 @@ final class SearchResultsViewController: UIViewController {
         self.searchedBooks = searchedBooks
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBindings()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+       
+    }
+    
+    private func setupBindings() {
+        categoryVC.viewModel.$searchedBooks
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.searchTableView.reloadData()
+            }
+            .store(in: &categoryVC.viewModel.networkCancellables)
+        
+        categoryVC.viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.activityIndicator.isHidden = isLoading
+            }
+            .store(in: &categoryVC.viewModel.networkCancellables)
     }
     
     private func setupUI() {
         view.backgroundColor = .white
+        view.addSubview(activityIndicator)
         setupTableView()
         setConstraints()
     }
@@ -42,6 +70,9 @@ final class SearchResultsViewController: UIViewController {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
+            
             searchTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.horizontalSpacing * 2 ),
             searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor ),
             searchTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor ),
@@ -74,14 +105,16 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
             imageUrl: book.coverURL(coverSize: .L),
             key: book.key
         )
+        categoryVC.navigationItem.searchController?.isActive = false
         let detailsViewModel = DetailsViewModel(bookModel: bookModel)
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
         
-        // delete title in backButton
         navigationItem.backButtonTitle = ""
         
-        navigationController?.pushViewController(detailsVC, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
     }
 }
 
