@@ -81,12 +81,14 @@ enum BookEndpoint: APIEndpoint {
         case .searchBookWith(searchText: let searchText):
             let params = [
                 "author":"\(searchText)",
+                "title":"\(searchText)",
                 "limit": "10"
             ]
             return params
             
         case .topBook(timeFrame:):
-            return nil
+            let params = ["limit": "10"]
+            return params
         }
     }
 }

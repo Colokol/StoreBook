@@ -1,9 +1,9 @@
 import UIKit
 import SDWebImage
 
-final class SearchCategoriesCell: UITableViewCell {
+final class CategoryResultsCell: UITableViewCell {
     
-    static let cellID = String(describing: SearchCategoriesCell.self)
+    static let cellID = String(describing: CategoryResultsCell.self)
     
     private lazy var bookImageView: BookLoadIndicator = {
         let view = BookLoadIndicator(frame: .zero)

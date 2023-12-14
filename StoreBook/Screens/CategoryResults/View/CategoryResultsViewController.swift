@@ -1,10 +1,10 @@
 import UIKit
 
-final class SearchCategoriesViewController: UITableViewController {
+final class CategoryResultsViewController: UITableViewController {
     
     var category: String
 
-    private var viewModel = SearchViewModel()
+    private var viewModel = CategoryResultsViewModel()
     
     private lazy var activityIndicator = BookLoadIndicator()
 
@@ -30,7 +30,7 @@ final class SearchCategoriesViewController: UITableViewController {
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchCategoriesCell.self, forCellReuseIdentifier: SearchCategoriesCell.cellID)
+        tableView.register(CategoryResultsCell.self, forCellReuseIdentifier: CategoryResultsCell.cellID)
     }
     
     private func setupBindings() {
@@ -59,14 +59,14 @@ final class SearchCategoriesViewController: UITableViewController {
     }
 }
 
-extension SearchCategoriesViewController {
+extension CategoryResultsViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.tableData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCategoriesCell.cellID, for: indexPath) as? SearchCategoriesCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryResultsCell.cellID, for: indexPath) as? CategoryResultsCell else { return UITableViewCell() }
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell
@@ -92,7 +92,7 @@ extension SearchCategoriesViewController {
     }
 }
 
-extension SearchCategoriesViewController {
+extension CategoryResultsViewController {
     struct Constants {
         static let verticalSpacing: CGFloat = 4
         static let horizontalSpacing: CGFloat = 20

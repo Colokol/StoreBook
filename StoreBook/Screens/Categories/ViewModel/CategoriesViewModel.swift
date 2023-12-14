@@ -3,13 +3,13 @@ import Foundation
 
 final class CategoriesViewModel {
     var categories: [CategoryModel] = []
-    
     @Published var searchedBooks: [Doc] = []
     @Published var isLoading: Bool = false
     
-    private var networkManager = NetworkManager.shared
     var networkCancellables: Set<AnyCancellable> = []
     
+    private var networkManager = NetworkManager.shared
+
     func fetchCategories() {
         categories = [
             CategoryModel(
@@ -58,8 +58,7 @@ final class CategoriesViewModel {
                     print(error)
                 }
             } receiveValue: {  books in
-                let authors = books
-                print(authors)
+                self.searchedBooks = books.docs
             }
             .store(in: &networkCancellables)
     }

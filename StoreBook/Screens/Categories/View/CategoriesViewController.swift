@@ -3,25 +3,15 @@ import Combine
 
 final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
+    private var viewModel = CategoriesViewModel()
+    
+    private var searchController: UISearchController!
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
-    private lazy var searchTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.cellID)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
-    private var viewModel = CategoriesViewModel()
-    
-    private let searchController = UISearchController(searchResultsController: nil)
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -38,15 +28,10 @@ final class CategoriesViewController: UIViewController {
         setupUI()
         
         viewModel.fetchCategories()
-
+        
         navigationController?.setupNavigationBar()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        searchController.isActive = false
-        hideSearchTableView(isHidden: true)
-        collectionView.reloadData()
-    }
     
     // MARK: - UI Setup
     private func setupUI() {
@@ -57,6 +42,7 @@ final class CategoriesViewController: UIViewController {
     }
     
     private func setupSearchController() {
+        searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search title/author/ISBN no"
@@ -79,12 +65,12 @@ final class CategoriesViewController: UIViewController {
     }
     
     private func configureCollectionView(with layout: UICollectionViewLayout) {
+        view.addSubview(collectionView)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionView)
     }
     
     private func registerCollectionViewCells() {
@@ -151,80 +137,19 @@ extension CategoriesViewController: UICollectionViewDataSource {
 extension CategoriesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let category = viewModel.categories[indexPath.row]
-        let categoryResultViewController = SearchCategoriesViewController(category: category.title)
+        let categoryResultViewController = CategoryResultsViewController(category: category.title)
         navigationController?.pushViewController(categoryResultViewController, animated: true)
     }
 }
-
-// MARK: - AddSearchTableView, UISearchResultsUpdating, UISearchBarDelegate
-extension CategoriesViewController: UISearchResultsUpdating, UISearchBarDelegate {
-    
-    func setDelegate() {
-       searchTableView.delegate = self
-       searchTableView.dataSource = self
-    }
-    
-    private func addSearchTableView() {
-       
-            view.addSubview(searchTableView)
-            
-            NSLayoutConstraint.activate([
-                searchTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.interItemSpacing),
-               searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-               searchTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-               searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-    }
-
-    func updateMainTableView() {
-        searchTableView.reloadData()
-    }
-    
-    private func hideSearchTableView(isHidden: Bool) {
-        searchTableView.isHidden = isHidden
-        collectionView.isHidden = !isHidden
-    }
-    
-    
-    internal func updateSearchResults(for searchController: UISearchController) {
-        guard searchController.isActive else { return }
-        guard searchController.isActive,
-              let searchText = searchController.searchBar.text,
-              !searchText.isEmpty
-        else {
-            return
+// MARK: - UISearchResultsUpdating
+extension CategoriesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text  else { return }
+        if searchText.count >= 2, let resultController = searchController.searchResultsController as? SearchResultsViewController {
+            viewModel.fetchData(with: searchText)
+            resultController.searchedBooks = viewModel.searchedBooks
+            resultController.searchTableView.reloadData()
         }
-        addSearchTableView()
-        viewModel.fetchData(with: searchText)
-    }
-    
-    internal func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard searchText.isEmpty else { return }
-        searchController.isActive = false
-        viewModel.searchedBooks = []
-    }
-    
-    internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        hideSearchTableView(isHidden: true)
-    }
-    
-    internal func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.fetchData(with: "")
-        hideSearchTableView(isHidden: true)
-        searchTableView.reloadData()
-    }
-}
-
-extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.searchedBooks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
-        let searchedBook = viewModel.searchedBooks[indexPath.row]
-        cell.configure(with: searchedBook)
-        return cell
     }
 }
 
