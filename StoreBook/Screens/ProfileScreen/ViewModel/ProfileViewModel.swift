@@ -9,10 +9,10 @@ import UIKit
 
 class ProfileViewModel: NSObject, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
-    var profileModel: ProfileModel
-
-    init(profileModel: ProfileModel) {
-        self.profileModel = profileModel
-    }
+//    var profileModel: ProfileModel
+//
+//    init(profileModel: ProfileModel) {
+//        self.profileModel = profileModel
+//    }
     
 }
