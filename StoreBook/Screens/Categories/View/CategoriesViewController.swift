@@ -13,7 +13,7 @@ final class CategoriesViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
+ 
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -30,7 +30,7 @@ final class CategoriesViewController: UIViewController {
         setupUI()
         
         viewModel.fetchCategories()
-        
+
         navigationController?.setupNavigationBar()
     }
     
@@ -145,11 +145,15 @@ extension CategoriesViewController: UICollectionViewDelegate {
 // MARK: - UISearchResultsUpdating
 extension CategoriesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text  else { return }
-        if searchText.count >= 2, let resultController = searchController.searchResultsController as? SearchResultsViewController {
-            viewModel.fetchData(with: searchText)
-            resultController.searchedBooks = viewModel.searchedBooks
-            resultController.searchTableView.reloadData()
+        guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
+
+        viewModel.fetchData(with: searchText)
+
+        if let resultController = searchController.searchResultsController as? SearchResultsViewController {
+            DispatchQueue.main.async {
+                resultController.searchedBooks = self.viewModel.searchedBooks
+                resultController.searchTableView.reloadData()
+            }
         }
     }
 }

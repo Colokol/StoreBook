@@ -3,13 +3,25 @@ import Foundation
 
 final class CategoriesViewModel {
     var categories: [CategoryModel] = []
+    
     @Published var searchedBooks: [Doc] = []
     @Published var isLoading: Bool = false
+    @Published var searchText: String = ""
     
     var networkCancellables: Set<AnyCancellable> = []
     
     private var networkManager = NetworkManager.shared
-
+    
+    init() {
+        $searchText
+            .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] searchText in
+                self?.fetchData(with: searchText)
+            }
+            .store(in: &networkCancellables)
+    }
+    
     func fetchCategories() {
         categories = [
             CategoryModel(
@@ -57,8 +69,9 @@ final class CategoriesViewModel {
                 case .failure(let error):
                     print(error)
                 }
-            } receiveValue: {  books in
+            } receiveValue: { books in
                 self.searchedBooks = books.docs
+                print(self.searchedBooks)
             }
             .store(in: &networkCancellables)
     }

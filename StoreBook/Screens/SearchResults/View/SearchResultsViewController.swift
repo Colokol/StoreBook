@@ -6,7 +6,7 @@ final class SearchResultsViewController: UIViewController {
     var searchedBooks:[Doc]
     
     lazy var searchTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,6 +33,7 @@ final class SearchResultsViewController: UIViewController {
     }
     
     private func setupTableView() {
+        view.addSubview(searchTableView)
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.rowHeight = Constants.rowHeight
@@ -41,7 +42,7 @@ final class SearchResultsViewController: UIViewController {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            searchTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.horizontalSpacing ),
+            searchTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.horizontalSpacing * 2 ),
             searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor ),
             searchTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor ),
             searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor )
@@ -61,6 +62,26 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
         let searchedBook = searchedBooks[indexPath.row]
         cell.configure(with: searchedBook)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = searchedBooks[indexPath.row]
+        let bookModel = BookModel(
+            title: book.title,
+            author: book.authorName?.first ?? "",
+            category: title ?? "",
+            rating: book.ratingsAverage,
+            imageUrl: book.coverURL(coverSize: .L),
+            key: book.key
+        )
+        let detailsViewModel = DetailsViewModel(bookModel: bookModel)
+        let detailsVC = DetailsViewController()
+        detailsVC.viewModel = detailsViewModel
+        
+        // delete title in backButton
+        navigationItem.backButtonTitle = ""
+        
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
