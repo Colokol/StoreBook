@@ -10,7 +10,6 @@ import UIKit
 
 class RecentBooksView:UICollectionView{
     static let shared = RecentBooksView()
-//    var viewModel:HomeViewModelProtocol!
     //MARK: - Lifecycle
     init(){
         let layout = UICollectionViewLayout()
@@ -19,12 +18,6 @@ class RecentBooksView:UICollectionView{
         self.collectionViewLayout = createCompositionalLayout()
         dataSource = self
         delegate = self
-//        viewModel = HomeViewModel(book: HomeBookModel(
-//            name: "TestData",
-//            author: "TestData",
-//            category: "TestData",
-//            imageURL: "TestData")
-//        )
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +33,7 @@ class RecentBooksView:UICollectionView{
 
         private func horizontalSection() -> NSCollectionLayoutSection {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1))
+                                                  heightDimension: .fractionalHeight(1.1))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.1),
                                                    heightDimension: .estimated(200))
@@ -64,6 +57,4 @@ extension RecentBooksView:UICollectionViewDelegate,UICollectionViewDataSource{
 //        cell.authorLabel.text = viewModel.bookAuthor
         return cell
     }
-    
-    
 }
