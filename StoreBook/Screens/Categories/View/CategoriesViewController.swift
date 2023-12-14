@@ -3,15 +3,17 @@ import Combine
 
 final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
+    
     private var viewModel = CategoriesViewModel()
     
-    private var searchController: UISearchController!
+    private lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +44,6 @@ final class CategoriesViewController: UIViewController {
     }
     
     private func setupSearchController() {
-        searchController = UISearchController(searchResultsController: SearchResultsViewController(searchedBooks: viewModel.searchedBooks))
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search title/author/ISBN no"
@@ -65,12 +66,12 @@ final class CategoriesViewController: UIViewController {
     }
     
     private func configureCollectionView(with layout: UICollectionViewLayout) {
-        view.addSubview(collectionView)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
     }
     
     private func registerCollectionViewCells() {
@@ -153,6 +154,7 @@ extension CategoriesViewController: UISearchResultsUpdating {
     }
 }
 
+//MARK: Constants
 extension CategoriesViewController{
     struct Constants {
         static let topAnchorForCategory: CGFloat = 28
