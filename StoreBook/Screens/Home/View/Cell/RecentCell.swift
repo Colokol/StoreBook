@@ -17,11 +17,9 @@ static let identifier = "RecentCell"
 // MARK: - UI Components
 let bookImage:UIImageView = {
     let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
     imageView.image = UIImage(systemName: "questionmark")
     imageView.tintColor = .black
-    imageView.backgroundColor = .green
-    imageView.layer.cornerRadius = 10
     return imageView
 }()
 let imageBackgroundView:UIImageView = {

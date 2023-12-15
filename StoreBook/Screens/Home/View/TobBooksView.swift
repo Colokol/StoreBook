@@ -76,11 +76,14 @@ class TopBooksView:UIView{
     private lazy var seeMoreRecentBooksButton:UIButton = {
         let button = UIButton.seeButton()
         button.addTarget(self, action: #selector(didTapSeeMoreRecentButton), for: .touchUpInside)
+    
         return button
     }()
     // MARK: - Private actions
     @objc private func didTapSeeMoreTopButton(){
-        print("see details")
+        let seeMoreTopBookViewController = SeeMoreTopBookViewController()
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
+        
     }
     @objc private func didTapWeekButton(){
 //        viewController.viewModel.getData(period: .weekly)
@@ -90,16 +93,12 @@ class TopBooksView:UIView{
     }
     @objc private func didTapYearButton(){
 //        viewController.viewModel.getData(period: .yearly)
-//        viewModel.getData(period: .weekly)
     }
-    @objc private func didTapMonthButton(){
-//        viewModel.getData(period: .monthly)
-    }
-    @objc private func didTapYearButton(){
-//        viewModel.getData(period: .yearly)
-    }
+
     @objc private func didTapSeeMoreRecentButton(){
-        print("see details")
+        print("avada kidavra")
+//        let seeMoreRecentBookViewController = SeeMoreRecentBookViewController()
+//        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreRecentBookViewController, animated: true)
     }
     //MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -143,12 +142,12 @@ class TopBooksView:UIView{
             
             recentBooksLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
             recentBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            recentBooksLabel.heightAnchor.constraint(equalToConstant: 35),
+            recentBooksLabel.heightAnchor.constraint(equalToConstant: 30),
             
             seeMoreRecentBooksButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
             seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            seeMoreRecentBooksButton.widthAnchor.constraint(equalToConstant: 62),
-            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 35),
+            //seeMoreRecentBooksButton.widthAnchor.constraint(equalToConstant: 52),
+            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
 }
