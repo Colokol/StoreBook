@@ -11,11 +11,12 @@ import UIKit
 class HomeViewController: UIViewController{
 
     // MARK: - Variables
+    
     var viewModel = HomeViewModel()
     private var topBooksView = TopBooksView()
     private var recentBooksView = RecentBooksView()
     // MARK: - UI Components
-    private let topBookCollectionView:UICollectionView = {
+    let topBookCollectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(BookCell.self, forCellWithReuseIdentifier: BookCell.identifier)
@@ -23,36 +24,33 @@ class HomeViewController: UIViewController{
     }()
    
     //MARK: - Lifecycle
-//    init(viewModel: HomeViewModel) {
-//        self.viewModel = viewModel
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
+        navigationItem.rightBarButtonItem?.tintColor = .black
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Happy Reading!", style: .plain, target: self, action: nil)
-        UITabBar.appearance().unselectedItemTintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .black
         setupUI()
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
         topBookCollectionView.collectionViewLayout = createCompositionalLayout()
-        viewModel.getData()
-//        viewModel.$topBook
-//            .sink { welcome in
-//                print(welcome?.works.first())
-//            }.store(in: &viewModel.subscription)
+        viewModel.getData(period: .daily)
+        viewModel.$topBook
+            .sink { welcome in
+                self.topBookCollectionView.reloadData()
+            }.store(in: &viewModel.subscription)
+        
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        topBookCollectionView.reloadData()
-    }
-  
-
+//    init(viewModel:HomeViewModel){
+//        self.viewModel = viewModel
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
                 self.horizontalSection()
@@ -91,14 +89,14 @@ class HomeViewController: UIViewController{
             topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 112),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             topBooksView.widthAnchor.constraint(equalToConstant: 365),
-            topBooksView.heightAnchor.constraint(equalToConstant: 319),
+            topBooksView.heightAnchor.constraint(equalToConstant: 339),
             
             topBookCollectionView.topAnchor.constraint(equalTo: topBooksView.topAnchor,constant: 94),
             topBookCollectionView.leadingAnchor.constraint(equalTo: topBooksView.leadingAnchor),
             topBookCollectionView.trailingAnchor.constraint(equalTo: topBooksView.trailingAnchor),
             topBookCollectionView.bottomAnchor.constraint(equalTo: topBooksView.bottomAnchor),
             
-            recentBooksView.topAnchor.constraint(equalTo: topBookCollectionView.bottomAnchor,constant: 50),
+            recentBooksView.topAnchor.constraint(equalTo: topBookCollectionView.bottomAnchor,constant: 45),
             recentBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             recentBooksView.widthAnchor.constraint(equalToConstant: 360),
             recentBooksView.heightAnchor.constraint(equalToConstant: 310),
@@ -116,7 +114,6 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        print(viewModel.topBook)
         cellOne.configure(for: viewModel.topBook[indexPath.row])
        
 //        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
@@ -124,5 +121,20 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
 //        cellOne.bookNameLabel.text = viewModel.bookTitle
 //        cellOne.authorLabel.text = viewModel.bookAuthor
         return cellOne
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let book = viewModel.topBook[indexPath.row]
+            let bookModel = BookModel(
+                title: book.title,
+                author: book.authorName?.first ?? "",
+                category: title ?? "",
+                rating: book.ratingsAverage ?? 0.0,
+                imageUrl: book.coverURL(coverSize: .L),
+                key: book.key
+            )
+            let detailsViewModel = DetailsViewModel(bookModel: bookModel)
+            let detailsVC = DetailsViewController()
+            detailsVC.viewModel = detailsViewModel
+            navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

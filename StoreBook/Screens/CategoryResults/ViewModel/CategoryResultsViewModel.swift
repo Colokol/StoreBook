@@ -21,6 +21,7 @@ final class CategoryResultsViewModel {
             } receiveValue: { [weak self] books in
                 self?.isLoading = true
                 self?.tableData = books.docs
+                
             }
             .store(in: &networkCancellables)
     }

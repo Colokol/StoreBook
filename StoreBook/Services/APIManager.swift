@@ -32,6 +32,7 @@ enum HTTPMethod: String {
 }
 
 enum TimeFrame: String {
+    case daily = "daily"
     case weekly = "weekly"
     case monthly = "monthly"
     case yearly = "yearly"

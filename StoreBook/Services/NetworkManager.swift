@@ -107,35 +107,4 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
             .decode(type: T.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
-    
-    final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
-        func request<T>(_ endpoint: EndpointType) -> AnyPublisher<T, Error> where T: Decodable {
-            let url = endpoint.baseURL.appendingPathComponent(endpoint.path)
-            var request = URLRequest(url: url)
-            print(url)
-            if let headers = endpoint.headers {
-                headers.forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
-            }
-            
-            if let parameters = endpoint.parameters {
-                var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-                components?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
-                if let urlWithParameters = components?.url {
-                    request.url = urlWithParameters
-                    print("Request URL:", urlWithParameters)
-                }
-            }
-            
-            return URLSession.shared.dataTaskPublisher(for: request)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .tryMap { data, response -> Data in
-                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                        throw NetworkError.invalidResponse
-                    }
-                    return data
-                }
-                .decode(type: T.self, decoder: JSONDecoder())
-                .eraseToAnyPublisher()
-        }
-    }
 }
