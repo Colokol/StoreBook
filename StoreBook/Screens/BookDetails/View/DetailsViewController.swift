@@ -54,15 +54,15 @@ final class DetailsViewController: UIViewController {
     
     private lazy var addButton: UIButton = {
         viewBuilder.makeButton(
-            with: "Add to list",
-            with: .gray
+            title: "Add to list",
+            color: .gray
         )
     }()
     
     private lazy var readButton: UIButton = {
         viewBuilder.makeButton(
-            with: "Read",
-            with: .black
+            title: "Read",
+            color: .black
         )
     }()
     
