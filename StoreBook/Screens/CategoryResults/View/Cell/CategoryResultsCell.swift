@@ -1,9 +1,9 @@
 import UIKit
 import SDWebImage
 
-final class SearchCategoriesCell: UITableViewCell {
+final class CategoryResultsCell: UITableViewCell {
     
-    static let cellID = String(describing: SearchCategoriesCell.self)
+    static let cellID = String(describing: CategoryResultsCell.self)
     
     private lazy var bookImageView: BookLoadIndicator = {
         let view = BookLoadIndicator(frame: .zero)
@@ -25,23 +25,20 @@ final class SearchCategoriesCell: UITableViewCell {
     
     private let bookNameLabel: UILabel = makeLabel(
         fontSize: 16,
-        name: "OpenSans-Regular" ,
         textColor: .white
     )
     
     private let authorNameLabel: UILabel = makeLabel(
         fontSize: 14,
-        name: "OpenSans-Light",
         textColor: .white
     )
     
     private let ratingLabel: UILabel = makeLabel(
         fontSize: 12,
-        name: "OpenSans-Light",
         textColor: .white
     )
     
-    
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -105,12 +102,12 @@ final class SearchCategoriesCell: UITableViewCell {
         ])
     }
     
-    private static func makeLabel(fontSize: CGFloat, name: String, textColor: UIColor) -> UILabel {
+    private static func makeLabel(fontSize: CGFloat, textColor: UIColor) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = textColor
-        label.font = UIFont(name: "OpenSans-Light", size: fontSize)
+        label.font = UIFont.makeOpenSans(.semibold, size: fontSize)
         label.numberOfLines = 0
         return label
     }

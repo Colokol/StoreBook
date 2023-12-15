@@ -1,22 +1,23 @@
 import UIKit
 
-final class SearchCategoriesViewController: UITableViewController {
+final class CategoryResultsViewController: UITableViewController {
     
     var category: String
-
-    private var viewModel = SearchViewModel()
+    
+    private var viewModel = CategoryResultsViewModel()
     
     private lazy var activityIndicator = BookLoadIndicator()
-
+    
     init(category: String) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = category
@@ -25,12 +26,12 @@ final class SearchCategoriesViewController: UITableViewController {
         setupBindings()
         configureTableView()
     }
-
+    
     private func configureTableView() {
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchCategoriesCell.self, forCellReuseIdentifier: SearchCategoriesCell.cellID)
+        tableView.register(CategoryResultsCell.self, forCellReuseIdentifier: CategoryResultsCell.cellID)
     }
     
     private func setupBindings() {
@@ -40,11 +41,11 @@ final class SearchCategoriesViewController: UITableViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &viewModel.networkCancellables)
-
+        
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                  self?.activityIndicator.isHidden = isLoading
+                self?.activityIndicator.isHidden = isLoading
             }
             .store(in: &viewModel.networkCancellables)
     }
@@ -58,15 +59,15 @@ final class SearchCategoriesViewController: UITableViewController {
         ])
     }
 }
-
-extension SearchCategoriesViewController {
+// MARK: - Table view data source
+extension CategoryResultsViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.tableData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCategoriesCell.cellID, for: indexPath) as? SearchCategoriesCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryResultsCell.cellID, for: indexPath) as? CategoryResultsCell else { return UITableViewCell() }
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell
@@ -86,14 +87,14 @@ extension SearchCategoriesViewController {
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
         
-        // delete title in backButton
         navigationItem.backButtonTitle = ""
         
         navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
-extension SearchCategoriesViewController {
+// MARK: - Constants 
+extension CategoryResultsViewController {
     struct Constants {
         static let verticalSpacing: CGFloat = 4
         static let horizontalSpacing: CGFloat = 20

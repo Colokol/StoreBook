@@ -8,7 +8,8 @@ final class CategoryCell: UICollectionViewCell {
         label.text = "Drama"
         label.textColor = UIColor.white
         label.textAlignment = .center
-        label.font = UIFont(name: "OpenSans-SemiBold", size: 18)
+        label.font =  UIFont.makeOpenSans(.semibold, size: 18)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,7 +23,7 @@ final class CategoryCell: UICollectionViewCell {
         return img
     }()
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()

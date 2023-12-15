@@ -6,6 +6,8 @@
     //
 import Foundation
 
+import Foundation
+
 enum CoverKey: String {
     case ID = "id"
         // Другие возможные значения ключей для обложки
@@ -16,20 +18,24 @@ enum CoverSize: String {
     case L = "L"
 
 }
-struct TopBookResponse: Decodable {
+struct TopBookResponse: Decodable{
     let works: [TopBook]
 }
 struct TopBook: Decodable {
     let title: String
     let authorName: [String]?
     let coverI: Int?
-
-        // Жанр следует добавить, если он доступен из другого источника.
-        // var genre: String?
+    let subject: [String]?
+    let ratingsAverage: Double?
+    let key: String
+    
     private enum CodingKeys: String, CodingKey {
         case title = "title"
         case authorName = "author_name"
         case coverI = "cover_i"
+        case ratingsAverage = "ratings_average"
+        case subject
+        case key
     }
 
     func coverURL(coverKey: CoverKey = .ID, coverSize: CoverSize = .M) -> URL? {
