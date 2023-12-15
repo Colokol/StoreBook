@@ -92,12 +92,6 @@ class TopBooksView:UIView{
 //        viewController.viewModel.getData(period: .yearly)
 //        viewModel.getData(period: .weekly)
     }
-    @objc private func didTapMonthButton(){
-//        viewModel.getData(period: .monthly)
-    }
-    @objc private func didTapYearButton(){
-//        viewModel.getData(period: .yearly)
-    }
     @objc private func didTapSeeMoreRecentButton(){
         print("see details")
     }
