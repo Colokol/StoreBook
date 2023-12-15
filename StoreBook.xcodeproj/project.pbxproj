@@ -224,12 +224,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		2C23F2DC2B2CECDA006E8BB6 /* View1 */ = {
+		2C23F2DC2B2CECDA006E8BB6 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */,
 			);
-			path = View1;
+			path = View;
 			sourceTree = "<group>";
 		};
 		2C23F2DD2B2CECF2006E8BB6 /* ViewModel */ = {
@@ -449,7 +449,7 @@
 			children = (
 				2C23F2DE2B2CED07006E8BB6 /* PageController */,
 				2C23F2DB2B2CECC4006E8BB6 /* Model */,
-				2C23F2DC2B2CECDA006E8BB6 /* View1 */,
+				2C23F2DC2B2CECDA006E8BB6 /* View */,
 				2C23F2DD2B2CECF2006E8BB6 /* ViewModel */,
 			);
 			name = "Onboarding Screen";
