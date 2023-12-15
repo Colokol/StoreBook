@@ -25,10 +25,6 @@ final class SearchResultsViewController: UIViewController {
         setupBindings()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-    
     private func setupBindings() {
         viewModel.$searchedBooks
             .receive(on: DispatchQueue.main)

@@ -11,6 +11,7 @@ final class CategoryResultsViewController: UITableViewController {
     init(category: String) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
+        viewModel.fetchData(for: category)
     }
     
     required init?(coder: NSCoder) {
@@ -20,18 +21,24 @@ final class CategoryResultsViewController: UITableViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = category
+        configureNavigationBar()
+
         setActivityIndicator()
-        viewModel.fetchData(for: category)
         setupBindings()
         configureTableView()
     }
+    
+    private func configureNavigationBar() {
+         title = category
+         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .automatic
+     }
     
     private func configureTableView() {
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(CategoryResultsCell.self, forCellReuseIdentifier: CategoryResultsCell.cellID)
+        tableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.cellID)
     }
     
     private func setupBindings() {
@@ -67,7 +74,7 @@ extension CategoryResultsViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryResultsCell.cellID, for: indexPath) as? CategoryResultsCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell

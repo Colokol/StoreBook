@@ -6,15 +6,13 @@ final class CategoriesViewController: UIViewController {
     
     var viewModel = CategoriesViewModel()
     
-    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController())
-    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"
         label.textColor = UIColor.black
@@ -30,30 +28,21 @@ final class CategoriesViewController: UIViewController {
         
         viewModel.fetchCategories()
         
-        navigationController?.setupNavigationBar()
     }
     
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .white
+        setupNavigation()
         view.addSubview(titleLabel)
         setupCollectionView()
-        setupSearchController()
     }
     
-    private func setupSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search title/author/ISBN no"
-        searchController.searchBar.barTintColor = .lightGray
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+    private func setupNavigation() {
+        navigationController?.setupNavigationBar()
         
-        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textField.font = UIFont.makeOpenSans(.semibold, size: 18)
-            textField.textColor = .black
-            textField.clipsToBounds = true
-        }
+        let searchController = UISearchController.makeCustomSearchController(delegate: self)
+        navigationItem.searchController = searchController
     }
     
     private func setupCollectionView() {
@@ -114,31 +103,7 @@ final class CategoriesViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension CategoriesViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.categories.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.cellID, for: indexPath) as? CategoryCell else {
-            return UICollectionViewCell()
-        }
-        
-        let category = viewModel.categories[indexPath.item]
-        cell.configure(with: category)
-        return cell
-    }
-}
 
-// MARK: - UICollectionViewDelegate
-extension CategoriesViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let category = viewModel.categories[indexPath.row]
-        let categoryResultViewController = CategoryResultsViewController(category: category.title)
-        navigationController?.pushViewController(categoryResultViewController, animated: true)
-    }
-}
 // MARK: - UISearchResultsUpdating
 extension CategoriesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -148,7 +113,6 @@ extension CategoriesViewController: UISearchResultsUpdating {
             
             resultController.navigationControllerFromCategories = self.navigationController
             resultController.viewModel.searchText = searchText
-            resultController.viewModel.fetchData(with: searchText)
         }
     }
 }

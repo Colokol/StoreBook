@@ -4,10 +4,6 @@ import Foundation
 final class CategoriesViewModel {
     var categories: [CategoryModel] = []
     
-    @Published var isLoading: Bool = false
-    
-    var networkCancellables: Set<AnyCancellable> = []
-    
     func fetchCategories() {
         categories = [
             CategoryModel(
