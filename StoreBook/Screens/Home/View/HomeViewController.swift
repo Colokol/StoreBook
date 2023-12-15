@@ -75,8 +75,6 @@ class HomeViewController: UIViewController{
         }
     //MARK: - UI Setup
     private func setupUI(){
-        
-        
         view.addSubview(topBooksView)
         view.addSubview(topBookCollectionView)
         view.addSubview(recentBooksView)
@@ -115,15 +113,34 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.configure(for: viewModel.topBook[indexPath.row])
-       
-//        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-//        cellOne.categoryLabel.text = viewModel.bookCategory
-//        cellOne.bookNameLabel.text = viewModel.bookTitle
-//        cellOne.authorLabel.text = viewModel.bookAuthor
-        return cellOne
+//        switch collectionView{
+//        case recentBooksView:
+//            guard let cell = recentBooksView.dequeueReusableCell(withReuseIdentifier: RecentCell.identifier, for: indexPath) as? RecentCell else {fatalError("Unable to dequeue BookCell in ViewController")}
+//            //cell.bookImage.image = recentBookArray.
+//            if let category = recentBooksView.recentBookArray[indexPath.row].subject?.joined(separator: "\n"){
+//                cell.categoryLabel.text = category
+//            }
+//            cell.bookNameLabel.text = recentBooksView.recentBookArray[indexPath.row].title
+//            if let authorName = recentBooksView.recentBookArray[indexPath.row].authorName?.joined(separator: "\n"){
+//                cell.authorLabel.text = authorName
+//            }
+//            print(recentBooksView.recentBookArray)
+//            return cell
+//        case topBookCollectionView:
+                    guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
+            cellOne.configure(for: viewModel.topBook[indexPath.row])
+            
+            //        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
+            //        cellOne.categoryLabel.text = viewModel.bookCategory
+            //        cellOne.bookNameLabel.text = viewModel.bookTitle
+            //        cellOne.authorLabel.text = viewModel.bookAuthor
+            return cellOne
+//        default:
+//            break
+//        }
+//        return UICollectionViewCell()
     }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let book = viewModel.topBook[indexPath.row]
             let bookModel = BookModel(
@@ -134,9 +151,11 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
                 imageUrl: book.coverURL(coverSize: .L),
                 key: book.key
             )
+            recentBooksView.addBook(book: book)
             let detailsViewModel = DetailsViewModel(bookModel: bookModel)
             let detailsVC = DetailsViewController()
             detailsVC.viewModel = detailsViewModel
             navigationController?.pushViewController(detailsVC, animated: true)
     }
+    
 }
