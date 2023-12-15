@@ -39,10 +39,10 @@ final class NetworkManager {
             }
             .eraseToAnyPublisher()
     }
-
+    
     func getTopBook(for timeFrame: TimeFrame) -> AnyPublisher<TopBookResponse,NetworkError> {
         let endPoint = BookEndpoint.topBook(timeFrame: timeFrame)
-
+        
         return URLSessionAPIClient<BookEndpoint>().request(endPoint)
             .mapError { error in
                 return NetworkError.transportError(error)
@@ -72,10 +72,10 @@ final class NetworkManager {
                 } else {
                     return NetworkError.transportError(error)
                 }
-             }
+            }
             .eraseToAnyPublisher()
     }
-
+    
 }
 
 final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {

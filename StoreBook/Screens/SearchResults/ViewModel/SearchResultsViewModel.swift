@@ -31,8 +31,8 @@ final class SearchResultsViewModel {
                     print(error)
                 }
             } receiveValue: { books in
+                self.isLoading = true
                 self.searchedBooks = books.docs
-                print(self.searchedBooks)
             }
             .store(in: &networkCancellables)
     }

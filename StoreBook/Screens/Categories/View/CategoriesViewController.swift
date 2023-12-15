@@ -5,8 +5,8 @@ final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     
     var viewModel = CategoriesViewModel()
-    var searchText = ""
-    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController(searchText: searchText))
+    
+    lazy var searchController = UISearchController(searchResultsController: SearchResultsViewController())
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
@@ -18,7 +18,7 @@ final class CategoriesViewController: UIViewController {
         let label = UILabel()
         label.text = "Categories"
         label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = UIFont.makeOpenSans(.semibold, size: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -29,10 +29,9 @@ final class CategoriesViewController: UIViewController {
         setupUI()
         
         viewModel.fetchCategories()
-
+        
         navigationController?.setupNavigationBar()
     }
-    
     
     // MARK: - UI Setup
     private func setupUI() {
@@ -51,7 +50,7 @@ final class CategoriesViewController: UIViewController {
         definesPresentationContext = true
         
         if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textField.font = UIFont(name: "OpenSans-SemiBold", size: 20)
+            textField.font = UIFont.makeOpenSans(.semibold, size: 18)
             textField.textColor = .black
             textField.clipsToBounds = true
         }
@@ -78,7 +77,6 @@ final class CategoriesViewController: UIViewController {
     }
     
     private func addCollectionViewConstraints() {
-        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -114,8 +112,6 @@ final class CategoriesViewController: UIViewController {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
-    
-    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -149,10 +145,10 @@ extension CategoriesViewController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
         
         if let resultController = searchController.searchResultsController as? SearchResultsViewController {
-            DispatchQueue.main.async {
-                resultController.navigationControllerFromCategories = self.navigationController
-                resultController.searchText = searchText
-            }
+            
+            resultController.navigationControllerFromCategories = self.navigationController
+            resultController.viewModel.searchText = searchText
+            resultController.viewModel.fetchData(with: searchText)
         }
     }
 }

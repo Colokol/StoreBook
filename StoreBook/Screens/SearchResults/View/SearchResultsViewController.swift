@@ -4,7 +4,6 @@ import UIKit
 final class SearchResultsViewController: UIViewController {
     // MARK: - Private properties
     
-    var searchText: String
     var viewModel = SearchResultsViewModel()
     
     private lazy var activityIndicator = BookLoadIndicator()
@@ -19,41 +18,32 @@ final class SearchResultsViewController: UIViewController {
         return tableView
     }()
     
-    init(searchText: String) {
-        self.searchText = searchText
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupBindings()
-        viewModel.fetchData(with: searchText)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      
+        
     }
     
     private func setupBindings() {
-          viewModel.$searchedBooks
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] _ in
-                   self?.searchTableView.reloadData()
-               }
-               .store(in: &viewModel.networkCancellables)
-           
-           viewModel.$isLoading
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] isLoading in
-                   self?.activityIndicator.isHidden = isLoading
-               }
-               .store(in: &viewModel.networkCancellables)
-       }
+        viewModel.$searchedBooks
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.searchTableView.reloadData()
+            }
+            .store(in: &viewModel.networkCancellables)
+        
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.activityIndicator.isHidden = isLoading
+            }
+            .store(in: &viewModel.networkCancellables)
+    }
     
     private func setupUI() {
         view.backgroundColor = .white
@@ -107,14 +97,14 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
             imageUrl: book.coverURL(coverSize: .L),
             key: book.key
         )
-
+        
         let detailsViewModel = DetailsViewModel(bookModel: bookModel)
         let detailsVC = DetailsViewController()
         detailsVC.viewModel = detailsViewModel
         
         navigationItem.backButtonTitle = ""
-
-            self.navigationControllerFromCategories?.pushViewController(detailsVC, animated: true)
+        
+        self.navigationControllerFromCategories?.pushViewController(detailsVC, animated: true)
     }
 }
 
