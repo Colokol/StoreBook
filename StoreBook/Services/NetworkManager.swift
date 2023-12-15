@@ -91,7 +91,6 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
             components?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
             if let urlWithParameters = components?.url {
                 request.url = urlWithParameters
-                print("Request URL:", urlWithParameters) //удалить позже
             }
         }
         return URLSession.shared.dataTaskPublisher(for: request)

@@ -29,32 +29,4 @@ final class HomeViewModel{
         }
     }
 
-//        switch period{
-//        case .weekly:
-//            NetworkManager.shared.getTopBook(for: .weekly)
-//                .receive(on: DispatchQueue.main)
-//                .sink { error in
-//                    print(error)
-//                } receiveValue: { value in
-//                    self.topBook = value.works
-//                }
-//                .store(in: &subscription)
-//        case .monthly:
-//            NetworkManager.shared.getTopBook(for: .monthly)
-//                .receive(on: DispatchQueue.main)
-//                .sink { error in
-//                    print(error)
-//                } receiveValue: { value in
-//                    self.topBook = value.works
-//                }
-//                .store(in: &subscription)
-//        case .yearly:
-//            NetworkManager.shared.getTopBook(for: .yearly)
-//                .receive(on: DispatchQueue.main)
-//                .sink { error in
-//                    print(error)
-//                } receiveValue: { value in
-//                    self.topBook = value.works
-//                }
-//                .store(in: &subscription)
-//        default:
+

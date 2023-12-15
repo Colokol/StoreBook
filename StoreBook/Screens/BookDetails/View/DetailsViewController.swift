@@ -136,10 +136,7 @@ final class DetailsViewController: UIViewController {
         viewModel.getImage()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    print("Finished")
-                case .failure(_):
+                if case .failure(_) = completion {
                     DispatchQueue.main.async {
                         self?.bookImageView.image = UIImage(systemName: "questionmark")
                         self?.bookImageView.tintColor = .white
@@ -167,7 +164,6 @@ final class DetailsViewController: UIViewController {
                 }
             }
             .store(in: &cancellabels)
-        
     }
     
     private func setupUI() {
