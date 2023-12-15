@@ -15,6 +15,7 @@
 		161074272B25BF1700A71BD5 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161074262B25BF1700A71BD5 /* UIButton+Extension.swift */; };
 		161074292B25CC8C00A71BD5 /* HomeBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161074282B25CC8C00A71BD5 /* HomeBookModel.swift */; };
 		1610742B2B25CCA800A71BD5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610742A2B25CCA800A71BD5 /* HomeViewModel.swift */; };
+		2C1D5A9D2B27B688000635CB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1D5A9C2B27B688000635CB /* ProfileView.swift */; };
 		2CDA37EF2B1D225000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F12B1D241400C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2CDA37F32B1D244000C9963B /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -79,6 +80,7 @@
 		161074262B25BF1700A71BD5 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		161074282B25CC8C00A71BD5 /* HomeBookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBookModel.swift; sourceTree = "<group>"; };
 		1610742A2B25CCA800A71BD5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		2C1D5A9C2B27B688000635CB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		3C4BE58B2B273B68002CBEB7 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		3CCCA1272B1F3D0000776433 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		3CCCA12C2B1F3DEC00776433 /* DetailsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewBuilder.swift; sourceTree = "<group>"; };
@@ -187,6 +189,22 @@
 				161074242B25BE6100A71BD5 /* RecentCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		2C1D5A962B27B60C000635CB /* ProfileScreen */ = {
+			isa = PBXGroup;
+			children = (
+				2C1D5A982B27B62F000635CB /* View */,
+			);
+			path = ProfileScreen;
+			sourceTree = "<group>";
+		};
+		2C1D5A982B27B62F000635CB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C1D5A9C2B27B688000635CB /* ProfileView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		3CCCA1232B1F3C4B00776433 /* BookDetails */ = {
@@ -322,6 +340,7 @@
 		CE2043732B20FAAD00655964 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				2C1D5A962B27B60C000635CB /* ProfileScreen */,
 				CE1E4F612B262B4700993F30 /* LikesScreen */,
 				161074172B25BC4E00A71BD5 /* Home */,
 				CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */,
@@ -637,6 +656,7 @@
 				3CD1879B2B29C76500AB7F3A /* BookData.xcdatamodeld in Sources */,
 				E1CF2F202B230B5900A4BB70 /* NetworkManager.swift in Sources */,
 				E1CF2F142B227BDB00A4BB70 /* CategoriesViewController.swift in Sources */,
+				2C1D5A9D2B27B688000635CB /* ProfileView.swift in Sources */,
 				3CD1879D2B29C95300AB7F3A /* StorageManager.swift in Sources */,
 				CE1E4F672B262B4700993F30 /* BooksModel.swift in Sources */,
 				161074272B25BF1700A71BD5 /* UIButton+Extension.swift in Sources */,
@@ -803,6 +823,8 @@
 				DEVELOPMENT_TEAM = Q32WAK9PQ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StoreBook/Supporting/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Это приложение хочет сохранять изображения в вашу фотогалерею.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Это приложение требует доступа к вашим фотографиям для загрузки и обработки изображений";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -834,6 +856,8 @@
 				DEVELOPMENT_TEAM = Q32WAK9PQ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StoreBook/Supporting/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Это приложение хочет сохранять изображения в вашу фотогалерею.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Это приложение требует доступа к вашим фотографиям для загрузки и обработки изображений";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
