@@ -13,7 +13,7 @@ final class StorageManager {
     static let shared = StorageManager()
     
     // MARK: - Core Data stack
-    private let persistentContainter: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let contrainter = NSPersistentContainer(name: "BookData")
         contrainter.loadPersistentStores { _,  error in
             if let error = error as NSError? {
@@ -27,7 +27,7 @@ final class StorageManager {
     
     // MARK: - Init
     private init() {
-        viewContext = persistentContainter.viewContext
+        viewContext = persistentContainer.viewContext
     }
     
     // MARK: - CRUD
