@@ -121,14 +121,11 @@ extension SeeMoreCell{
         if let authorName = topBook.authorName?.joined(separator: "\n"){
             authorLabel.text = authorName
         }
+
         if let imageUrl = topBook.coverURL(){
             bookImage.sd_setImage(with: imageUrl)
-            
         }
-        //        if let category = topBook.subject?.joined(separator: "\n"){
-        //            categoryLabel.text = category
-        //            print(category)
-        //        }
+
         if let rating = topBook.ratingsAverage{
             categoryLabel.text = String(rating)
         }

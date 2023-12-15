@@ -101,7 +101,6 @@ final class OnboardingViewController: UIViewController {
     }
     
      public func navigateToNextScreen() {
-        print ("Go to home screen")
         UserDefaults.standard.set(true, forKey: "HasShownWelcomeScreen")
         let tabBarController = TabBarController()
         if let window = view.window {

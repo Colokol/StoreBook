@@ -128,10 +128,6 @@ extension BookCell{
             bookImage.sd_setImage(with: imageUrl)
             
         }
-        //        if let category = topBook.subject?.joined(separator: "\n"){
-        //            categoryLabel.text = category
-        //            print(category)
-        //        }
         if let rating = topBook.ratingsAverage{
             categoryLabel.text = String(rating)
         }

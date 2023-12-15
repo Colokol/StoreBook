@@ -32,16 +32,6 @@ class TopBooksView:UIView{
     
     private lazy var weekTopBooksButton:UIButton = {
         let button = UIButton.dateButton(with: "This Week")
-//        button.isSelected.toggle()
-//        if button.isSelected == true{
-//            button.backgroundColor = .black
-//            button.tintColor = .white
-//            button.isSelected = false
-//        }else {
-//            button.backgroundColor = .white
-//            button.tintColor = .black
-//            button.isSelected = true
-//        }
         button.addTarget(self, action: #selector(didTapWeekButton), for: .touchUpInside)
         return button
     }()
@@ -99,17 +89,13 @@ class TopBooksView:UIView{
 
     @objc private func didTapSeeMoreRecentButton(){
         print("avada kidavra")
-//        let seeMoreRecentBookViewController = SeeMoreRecentBookViewController()
-//        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreRecentBookViewController, animated: true)
+
     }
     //MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-//     init(viewModel: HomeViewModel) {
-//         super.init(frame: CGRect())
-//        self.viewModel = viewModel
     }
     
     required init?(coder: NSCoder) {

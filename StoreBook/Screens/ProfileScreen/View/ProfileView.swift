@@ -101,7 +101,6 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
-        print ("setpicker tap")
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
