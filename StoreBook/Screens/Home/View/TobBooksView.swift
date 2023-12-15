@@ -10,6 +10,8 @@ import UIKit
 
 class TopBooksView:UIView{
     static let shared = TopBooksView()
+
+    var viewModel: HomeViewModel?
     
     // MARK: - UI Components
     let topBooksLabel:UILabel = {
@@ -83,25 +85,26 @@ class TopBooksView:UIView{
         print("see details")
     }
     @objc private func didTapWeekButton(){
-//        viewController.viewModel.getData(period: .weekly)
+        viewModel!.getData(period: .weekly)
     }
     @objc private func didTapMonthButton(){
-//        viewController.viewModel.getData(period: .monthly)
+        viewModel!.getData(period: .monthly)
     }
     @objc private func didTapYearButton(){
-//        viewController.viewModel.getData(period: .yearly)
-//        viewModel.getData(period: .weekly)
+        viewModel!.getData(period: .yearly)
     }
+
     @objc private func didTapSeeMoreRecentButton(){
         print("see details")
     }
     //MARK: - Lifecycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
 //     init(viewModel: HomeViewModel) {
 //         super.init(frame: CGRect())
 //        self.viewModel = viewModel
-        setupUI()
     }
     
     required init?(coder: NSCoder) {

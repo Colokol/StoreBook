@@ -26,6 +26,8 @@ class HomeViewController: UIViewController{
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        topBooksView.viewModel = viewModel
         view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
         navigationItem.rightBarButtonItem?.tintColor = .black
