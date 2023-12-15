@@ -1,15 +1,16 @@
 //
-//  BookCell.swift
+//  SeeMoreCell.swift
 //  StoreBook
 //
-//  Created by Vadim Zhelnov on 10.12.23.
+//  Created by Vadim Zhelnov on 14.12.23.
 //
 
 import Foundation
 import UIKit
-class BookCell:UICollectionViewCell{
+
+class SeeMoreCell:UITableViewCell{
     
-    static let identifier = "BookCell"
+    static let identifier = String(describing: SeeMoreCell.self)
     
     // MARK: - Variables
     
@@ -17,22 +18,15 @@ class BookCell:UICollectionViewCell{
     // MARK: - UI Components
     let bookImage:UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         imageView.image = UIImage(systemName: "questionmark")
         imageView.tintColor = .black
         return imageView
     }()
-    let imageBackgroundView:UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = .gray
-        return imageView
-    }()
+    
     let descriptionBackgroundView:UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        //imageView.layer.cornerRadius = 10
         imageView.backgroundColor = .black
         return imageView
     }()
@@ -41,7 +35,8 @@ class BookCell:UICollectionViewCell{
         label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
         label.textAlignment = .left
         label.text = "Classic"
-        label.font = .systemFont(ofSize: 11, weight: .light)
+        //label.font = .systemFont(ofSize: 11, weight: .light)
+        label.font = .makeOpenSans(.light, size: 11)
         return label
     }()
     let bookNameLabel:UILabel = {
@@ -50,16 +45,17 @@ class BookCell:UICollectionViewCell{
         label.textAlignment = .left
         label.text = "The Picture of Dorian Gray"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        //label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .makeOpenSans(.bold, size: 16)
         return label
     }()
     let authorLabel:UILabel = {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
-        //label.textColor = .green
         label.textAlignment = .left
         label.text = "Oscar Wilde"
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        //label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = .makeOpenSans(.regular, size: 11)
         return label
     }()
     
@@ -72,10 +68,18 @@ class BookCell:UICollectionViewCell{
         return stackView
     }()
     
+    override func layoutSubviews() {
+          super.layoutSubviews()
+          let margins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
+          contentView.frame = contentView.frame.inset(by: margins)
+          contentView.layer.cornerRadius = 10
+        
+    }
     //MARK: - Lifecycle
-    override init(frame:CGRect){
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -84,50 +88,44 @@ class BookCell:UICollectionViewCell{
     
     //MARK: - UI Setup
     private func setupUI(){
-        self.addSubview(imageBackgroundView)
         self.addSubview(bookImage)
         self.addSubview(descriptionBackgroundView)
         self.addSubview(descriptionLabelsStackView)
         
-        imageBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         bookImage.translatesAutoresizingMaskIntoConstraints = false
         descriptionBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabelsStackView.translatesAutoresizingMaskIntoConstraints = false
         
         
         NSLayoutConstraint.activate([
-            imageBackgroundView.topAnchor.constraint(equalTo: self.topAnchor),
-            imageBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageBackgroundView.widthAnchor.constraint(equalToConstant: 176),
-            imageBackgroundView.heightAnchor.constraint(equalToConstant: 252),
-            
-            bookImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 11),
-            bookImage.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 44),
-            bookImage.widthAnchor.constraint(equalToConstant: 91),
-            bookImage.heightAnchor.constraint(equalToConstant: 140),
-            
-            descriptionBackgroundView.topAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor,constant: -102),
-            descriptionBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            descriptionBackgroundView.widthAnchor.constraint(equalToConstant: 176),
-            descriptionBackgroundView.heightAnchor.constraint(equalToConstant: 102),
-            
-            descriptionLabelsStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 152),
-            descriptionLabelsStackView.leadingAnchor.constraint(equalTo: descriptionBackgroundView.leadingAnchor,constant: 10),
-            descriptionLabelsStackView.widthAnchor.constraint(equalToConstant: 160),
-            descriptionLabelsStackView.heightAnchor.constraint(equalToConstant: 90)
+            bookImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
+            bookImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bookImage.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
+            bookImage.widthAnchor.constraint(equalToConstant: 100),
+
+            descriptionBackgroundView.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
+            descriptionBackgroundView.leadingAnchor.constraint(equalTo: bookImage.trailingAnchor),
+            descriptionBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            descriptionBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
+
+            descriptionLabelsStackView.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
+            descriptionLabelsStackView.leadingAnchor.constraint(equalTo: bookImage.trailingAnchor,constant: 10),
+            descriptionLabelsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            descriptionLabelsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
         ])
     }
 }
-extension BookCell{
+extension SeeMoreCell{
     func configure(for topBook:TopBook){
         bookNameLabel.text = topBook.title
         if let authorName = topBook.authorName?.joined(separator: "\n"){
             authorLabel.text = authorName
         }
+
         if let imageUrl = topBook.coverURL(){
             bookImage.sd_setImage(with: imageUrl)
-            
         }
+
         if let rating = topBook.ratingsAverage{
             categoryLabel.text = String(rating)
         }

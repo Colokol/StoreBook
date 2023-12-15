@@ -28,6 +28,7 @@ class HomeViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        topBooksView.viewModel = viewModel
         view.backgroundColor = .white
         
         setupUI()
@@ -81,8 +82,6 @@ class HomeViewController: UIViewController{
     }
     //MARK: - UI Setup
     private func setupUI(){
-        
-        
         view.addSubview(topBooksView)
         view.addSubview(topBookCollectionView)
         view.addSubview(recentBooksView)
@@ -133,28 +132,27 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.configure(for: viewModel.topBook[indexPath.row])
-        
-        //        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-        //        cellOne.categoryLabel.text = viewModel.bookCategory
-        //        cellOne.bookNameLabel.text = viewModel.bookTitle
-        //        cellOne.authorLabel.text = viewModel.bookAuthor
-        return cellOne
+            guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
+            cellOne.configure(for: viewModel.topBook[indexPath.row])
+            return cellOne
+
     }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let book = viewModel.topBook[indexPath.row]
-        let bookModel = BookModel(
-            title: book.title,
-            author: book.authorName?.first ?? "",
-            category: title ?? "",
-            rating: book.ratingsAverage ?? 0.0,
-            imageUrl: book.coverURL(coverSize: .L),
-            key: book.key
-        )
-        let detailsViewModel = DetailsViewModel(bookModel: bookModel)
-        let detailsVC = DetailsViewController()
-        detailsVC.viewModel = detailsViewModel
-        navigationController?.pushViewController(detailsVC, animated: true)
+            let book = viewModel.topBook[indexPath.row]
+            let bookModel = BookModel(
+                title: book.title,
+                author: book.authorName?.first ?? "",
+                category: title ?? "",
+                rating: book.ratingsAverage ?? 0.0,
+                imageUrl: book.coverURL(coverSize: .L),
+                key: book.key
+            )
+            recentBooksView.addBook(book: book)
+            let detailsViewModel = DetailsViewModel(bookModel: bookModel)
+            let detailsVC = DetailsViewController()
+            detailsVC.viewModel = detailsViewModel
+            navigationController?.pushViewController(detailsVC, animated: true)
     }
+    
 }

@@ -59,7 +59,7 @@ class LikesTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        selectionStyle = .none
         setView()
         setConstraints()
     }
@@ -77,7 +77,7 @@ class LikesTableViewCell: UITableViewCell {
         addSubview(bookNameTitle)
         addSubview(bookAuthor)
         addSubview(bookCategoryTitle)
-        addSubview(deleteButton)
+        //addSubview(deleteButton)
     }
 
 
@@ -92,8 +92,8 @@ class LikesTableViewCell: UITableViewCell {
             bookCategoryTitle.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constraints.leadingTextConstraint),
             bookCategoryTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            deleteButton.centerYAnchor.constraint(equalTo: bookCategoryTitle.centerYAnchor),
-            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constraints.trailingTextConstraint),
+//            deleteButton.centerYAnchor.constraint(equalTo: bookCategoryTitle.centerYAnchor),
+//            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constraints.trailingTextConstraint),
 
             bookNameTitle.topAnchor.constraint(equalTo: bookCategoryTitle.bottomAnchor, constant: Constraints.topTextConstraint),
             bookNameTitle.leadingAnchor.constraint(equalTo: bookCategoryTitle.leadingAnchor),
@@ -106,14 +106,15 @@ class LikesTableViewCell: UITableViewCell {
     }
 
      func setImage(imageUrl: URL) {
-        bookImageView.sd_setImage(with: imageUrl)
     }
 
-     func configureCell(model:Work){
-        bookAuthor.text = model.author_name!.joined(separator: ", ")
-        bookNameTitle.text = model.title
-            //        bookCategoryTitle.text = ""
-
+     func configureCell(model:BookData){
+         bookAuthor.text = model.author
+         bookNameTitle.text = model.title
+         bookCategoryTitle.text = model.category
+         guard let urlString = model.imageUrl else {return}
+         guard let url = URL(string: urlString) else {return}
+         bookImageView.sd_setImage(with: url)
     }
 
 }

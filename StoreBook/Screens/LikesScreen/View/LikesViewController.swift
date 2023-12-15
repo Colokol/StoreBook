@@ -23,14 +23,15 @@ class LikesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("Saved") , object: nil, queue: nil) { _ in
+            self.viewModel.fetchBook()
+            self.tableView.reloadData()
+        }
+
 
         configureTableView()
         setupView()
-
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.retrievBooks()
     }
 
     private func configureTableView() {
