@@ -63,7 +63,6 @@ final class StorageManager {
             let results = try viewContext.fetch(fetchRequest)
             if let objectToDelete = results.first {
                 viewContext.delete(objectToDelete)
-                print("\(imageUrl) deleted")
                 saveContext()
             }
         } catch let error {
@@ -76,7 +75,6 @@ final class StorageManager {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
-                print("Your object was successfully saved")
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

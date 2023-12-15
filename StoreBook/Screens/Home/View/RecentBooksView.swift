@@ -10,6 +10,8 @@ import UIKit
 
 class RecentBooksView:UICollectionView{
     static let shared = RecentBooksView()
+    var recentBookArray:[TopBook] = []
+    var viewModel = HomeViewModel()
     //MARK: - Lifecycle
     init(){
         let layout = UICollectionViewLayout()
@@ -18,12 +20,17 @@ class RecentBooksView:UICollectionView{
         self.collectionViewLayout = createCompositionalLayout()
         dataSource = self
         delegate = self
+    
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    func addBook(book:TopBook){
+        recentBookArray.append(book)
+        self.reloadData()
+    }
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
                 self.horizontalSection()
@@ -46,15 +53,22 @@ class RecentBooksView:UICollectionView{
 }
 extension RecentBooksView:UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        recentBookArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = self.dequeueReusableCell(withReuseIdentifier: RecentCell.identifier, for: indexPath) as? RecentCell else {fatalError("Unable to dequeue BookCell in ViewController")}
-//        cell.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-//        cell.categoryLabel.text = viewModel.bookCategory
-//        cell.bookNameLabel.text = viewModel.bookTitle
-//        cell.authorLabel.text = viewModel.bookAuthor
+        if let category = recentBookArray[indexPath.row].subject?.joined(separator: "\n"){
+            cell.categoryLabel.text = category
+        }
+        cell.bookNameLabel.text = recentBookArray[indexPath.row].title
+        if let authorName = recentBookArray[indexPath.row].authorName?.joined(separator: "\n"){
+            cell.authorLabel.text = authorName
+        }
+        if let imageUrl = recentBookArray[indexPath.row].coverURL(){
+            cell.bookImage.sd_setImage(with: imageUrl)
+        }
+       
         return cell
     }
 }
