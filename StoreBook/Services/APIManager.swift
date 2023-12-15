@@ -38,7 +38,6 @@ enum TimeFrame: String {
     case yearly = "yearly"
 }
 
-// добавить свой Endpoint в BookEndpoint и соответственно в каждое свойство необходимые параметры
 enum BookEndpoint: APIEndpoint {
     case searchBookFor(category: String)
     case searchBookWith(searchText: String)
@@ -81,13 +80,15 @@ enum BookEndpoint: APIEndpoint {
             
         case .searchBookWith(searchText: let searchText):
             let params = [
-                "author":"\(searchText)",
+                "q":"\(searchText)",
+                "mode":"everything",
                 "limit": "10"
             ]
             return params
             
         case .topBook(timeFrame:):
-            return nil
+            let params = ["limit": "10"]
+            return params
         }
     }
 }

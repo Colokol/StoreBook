@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class SearchViewModel {
+final class CategoryResultsViewModel {
     @Published var tableData: [Doc] = []
     @Published var isLoading: Bool = false
     

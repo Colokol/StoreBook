@@ -14,7 +14,7 @@ struct SearchBook: Codable {
 }
 
 // MARK: - Doc
-struct Doc: Codable, SearchBookProtocol {
+struct Doc: Codable {
     
     enum CoverKey: String {
         case ISBN, OCLC, LCCN, OLID, ID
