@@ -9,8 +9,6 @@ import UIKit
 import PhotosUI
 
 class ProfileView: UIViewController, PHPickerViewControllerDelegate {
-    //var viewModel: ProfileViewModel!
-    
     
     let accountTitle: UILabel = {
         let accountTitle = UILabel()
@@ -58,7 +56,7 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setup()
+        imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
         navigationController?.setupNavigationBar()
     }
     
@@ -91,9 +89,8 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              textField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
     }
-    func setup () {
-        imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
-    }
+   
+    
 
     @objc func setPicker(_ sender: UIButton) {
         var configuration = PHPickerConfiguration()
@@ -117,7 +114,6 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     if let image = image as? UIImage {
                         self.accountLogo.image = image
-                        // Здесь вы используете выбранное изображение
                     }
                 }
             }
