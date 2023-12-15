@@ -39,6 +39,7 @@ final class StorageManager {
         bookData.author = book.author
         bookData.isFavorite = true
         completion?(bookData)
+        NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
     

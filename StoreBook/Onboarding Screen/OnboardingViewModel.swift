@@ -16,9 +16,6 @@ final class OnboardingViewModel {
     func nextText() {
         if currentTextIndex < contentView.description.count - 1  {
             currentTextIndex += 1
-            
-            print (currentTextIndex)
-            
         } else {
             shouldNavigate = true
         }

@@ -86,8 +86,6 @@ class CustomPageControl: UIStackView {
                 self.dotWidthConstraints[index].constant = dotWidth
                 
                 dot.layoutIfNeeded()
-                print(self.currentPage)
-                print(index)
                 
             }
             layoutSubviews()

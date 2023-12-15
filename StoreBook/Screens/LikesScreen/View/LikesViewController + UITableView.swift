@@ -10,13 +10,13 @@ import UIKit
 extension LikesViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        5
+        viewModel.books.count
     }
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as? LikesTableViewCell else {return UITableViewCell() }
-        cell.selectionStyle = .none
+        cell.configureCell(model: viewModel.books[indexPath.section])
         return cell
     }
 
@@ -34,6 +34,18 @@ extension LikesViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         1
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            switch editingStyle {
+                case .delete :
+                    DispatchQueue.main.async {
+                        self.viewModel.deleteLikeBook(model: self.viewModel.books[indexPath.section])
+                        self.viewModel.books.remove(at: indexPath.section)
+                        tableView.reloadData()
+                    }
+                default: break;
+            }
     }
 
 
