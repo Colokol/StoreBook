@@ -207,6 +207,38 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		2C23F2DB2B2CECC4006E8BB6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C23F2DC2B2CECDA006E8BB6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C23F2DD2B2CECF2006E8BB6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CEB1DC1C2B222DFC004DCEF6 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2C23F2DE2B2CED07006E8BB6 /* PageController */ = {
+			isa = PBXGroup;
+			children = (
+				CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */,
+			);
+			path = PageController;
+			sourceTree = "<group>";
+		};
 		3CCCA1232B1F3C4B00776433 /* BookDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,10 +438,10 @@
 		CEB1DC182B222DFC004DCEF6 /* Onboarding Screen */ = {
 			isa = PBXGroup;
 			children = (
-				CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */,
-				CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */,
-				CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */,
-				CEB1DC1C2B222DFC004DCEF6 /* OnboardingViewModel.swift */,
+				2C23F2DE2B2CED07006E8BB6 /* PageController */,
+				2C23F2DB2B2CECC4006E8BB6 /* Model */,
+				2C23F2DC2B2CECDA006E8BB6 /* View */,
+				2C23F2DD2B2CECF2006E8BB6 /* ViewModel */,
 			);
 			name = "Onboarding Screen";
 			path = "StoreBook/Onboarding Screen";

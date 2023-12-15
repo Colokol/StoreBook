@@ -8,9 +8,11 @@
 import UIKit
 import PhotosUI
 
-class ProfileView: UIViewController, PHPickerViewControllerDelegate {
+final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     
-    let accountTitle: UILabel = {
+   let userDef = UserDefaults.standard
+// MARK: - Private UI
+   private let accountTitle: UILabel = {
         let accountTitle = UILabel()
         accountTitle.text = "Account"
         accountTitle.textAlignment = .center
@@ -19,7 +21,7 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         accountTitle.isUserInteractionEnabled = true
         return accountTitle
     }()
-    let accountLogo: UIImageView = {
+   private let accountLogo: UIImageView = {
         let logo = UIImageView()
         logo.image = UIImage(named: "account_circle")
         logo.layer.cornerRadius = 60
@@ -27,12 +29,12 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         logo.contentMode = .scaleAspectFill
         return logo
     }()
-    let imageButton: UIButton = {
+   private let imageButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
         return button
     }()
-    let textField: UITextField = {
+   private let textField: UITextField = {
         let additionalText = UITextField()
         let markedLabel = UILabel()
         
@@ -51,22 +53,34 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         additionalText.contentVerticalAlignment = .center
         return additionalText
     }()
+   private let saveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Сохранить", for: .normal)
+        button.titleLabel?.font = .makeOpenSans(.regular, size: 20)
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
+        textField.text = userDef.string(forKey: "t1")
+        setupConstraints()
+        setupButton()
         navigationController?.setupNavigationBar()
     }
     
-    
+ // MARK: - View methods
     private func setupViews() {
         view.backgroundColor = .white
-        [accountTitle, textField, accountLogo, imageButton].forEach {
+        [accountTitle, textField, accountLogo, imageButton, saveButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
         }
+    }
+    private func setupConstraints() {
         NSLayoutConstraint.activate(
             [accountTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              accountTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -86,12 +100,26 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              textField.topAnchor.constraint(equalTo: accountLogo.bottomAnchor, constant: 20),
              textField.widthAnchor.constraint(equalToConstant: 320),
              textField.heightAnchor.constraint(equalToConstant: 60),
-             textField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+             textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             
+             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             saveButton.widthAnchor.constraint(equalTo: textField.widthAnchor),
+             saveButton.heightAnchor.constraint(equalToConstant: 60)
             ])
     }
-   
+    private func setupButton () {
+         imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
+         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+     }
+     
+     @objc func saveButtonTapped (_ sender: UIButton) {
+         userDef.setValue(textField.text, forKey: "t1")
+         
+     }
     
-
+   // MARK: - Picker's methods
+    
     @objc func setPicker(_ sender: UIButton) {
         var configuration = PHPickerConfiguration()
         configuration.preferredAssetRepresentationMode = .automatic
@@ -101,7 +129,6 @@ class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
-        print ("setpicker tap")
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
