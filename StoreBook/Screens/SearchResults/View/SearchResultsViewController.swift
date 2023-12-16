@@ -70,7 +70,7 @@ final class SearchResultsViewController: UIViewController {
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.rowHeight = Constants.rowHeight
-        searchTableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.cellID)
+        searchTableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
     }
     
     private func setConstraints() {
@@ -94,7 +94,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
         let searchedBook = viewModel.searchedBooks[indexPath.row]
         cell.configure(with: searchedBook)
         return cell

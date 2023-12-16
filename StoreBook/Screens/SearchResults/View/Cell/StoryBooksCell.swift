@@ -1,9 +1,9 @@
 import UIKit
 import SDWebImage
 
-final class SearchResultCell: UITableViewCell {
+final class StoryBooksCell: UITableViewCell {
     
-    static let cellID = String(describing: SearchResultCell.self)
+    static let cellID = String(describing: StoryBooksCell.self)
     
     private lazy var bookImageView: BookLoadIndicator = {
         let view = BookLoadIndicator(frame: .zero)
@@ -65,6 +65,21 @@ final class SearchResultCell: UITableViewCell {
         }
     }
     
+//MARK: for SeeMore
+    func configure(for topBook:TopBook){
+        bookNameLabel.text = topBook.title
+        if let authorName = topBook.authorName?.joined(separator: "\n"){
+            authorNameLabel.text = authorName
+        }
+        
+        if let imageUrl = topBook.coverURL(){
+            bookImageView.sd_setImage(with: imageUrl)
+        }
+        
+        if let rating = topBook.ratingsAverage{
+            ratingLabel.text = String(rating)
+        }
+    }
     // MARK: - Private methods
     private func setupView() {
         addSubview(bookContentView)
@@ -103,7 +118,7 @@ final class SearchResultCell: UITableViewCell {
 }
 
 //MARK: Static methods & properties
-extension SearchResultCell {
+extension StoryBooksCell {
     private static func makeLabel(fontSize: CGFloat, textColor: UIColor) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

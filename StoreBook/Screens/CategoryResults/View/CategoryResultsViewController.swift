@@ -38,7 +38,7 @@ final class CategoryResultsViewController: UITableViewController {
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.cellID)
+        tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
     }
     
     private func setupBindings() {
@@ -74,7 +74,7 @@ extension CategoryResultsViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
         let searchedCategoryBook = viewModel.tableData[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell

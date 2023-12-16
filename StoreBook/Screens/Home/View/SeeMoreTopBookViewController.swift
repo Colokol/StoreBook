@@ -10,40 +10,45 @@ import UIKit
 
 final class SeeMoreTopBookViewController: UIViewController {
     // MARK: - Variables
-    private var viewModel = HomeViewModel()
+    var seeMoreBooks: [TopBook]
+    var period: TimeFrame
     
     // MARK: - UI Components
     private var seeMoreTopBookTableView:UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
-        tableView.register(SeeMoreCell.self, forCellReuseIdentifier: SeeMoreCell.identifier)
+        tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
         
         return tableView
     }()
    
+    init(seeMoreBooks: [TopBook], period: TimeFrame) {
+        self.seeMoreBooks = seeMoreBooks
+        self.period = period
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         seeMoreTopBookTableView.delegate = self
         seeMoreTopBookTableView.dataSource = self
         view.backgroundColor = .white
-        viewModel.getData(period: .daily)
+        configureNavigationBar()
         setupUI()
-        setupBindings()
     }
     
-    private func setupBindings() {
-        viewModel.$topBook
-            .sink { welcome in
-                self.seeMoreTopBookTableView.reloadData()
-            }.store(in: &viewModel.subscription)
-
-    }
+    private func configureNavigationBar() {
+        title = "TOPBooks for the \(period)"
+     }
+    
     private func setupUI(){
         view.addSubview(seeMoreTopBookTableView)
         
         seeMoreTopBookTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         NSLayoutConstraint.activate([
             seeMoreTopBookTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -58,14 +63,15 @@ final class SeeMoreTopBookViewController: UIViewController {
 extension SeeMoreTopBookViewController:UITableViewDelegate,UITableViewDataSource{
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         viewModel.topBook.count
+         seeMoreBooks.count
     }
     
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         160
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = viewModel.topBook[indexPath.row]
+        let book = seeMoreBooks[indexPath.row]
         let bookModel = BookModel(
             title: book.title,
             author: book.authorName?.first ?? "",
@@ -77,13 +83,14 @@ extension SeeMoreTopBookViewController:UITableViewDelegate,UITableViewDataSource
         
         let detailsViewModel = DetailsViewModel(bookModel: bookModel)
         let detailsVC = DetailsViewController()
+        navigationItem.backButtonTitle = ""
         detailsVC.viewModel = detailsViewModel
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SeeMoreCell.identifier, for: indexPath) as? SeeMoreCell else { return UITableViewCell() }
-        cell.configure(for: viewModel.topBook[indexPath.row])
+         guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
+        cell.configure(for: seeMoreBooks[indexPath.row])
         return cell
     }
 }
