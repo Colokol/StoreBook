@@ -12,7 +12,6 @@ import Combine
 final class DetailsViewModel {
     
     // MARK: - Public Properties
-    @Published var bookImage: Data?
     @Published var description: String?
     @Published var isFavorite: Bool
     var networkCancellables: Set<AnyCancellable> = []
@@ -38,9 +37,6 @@ final class DetailsViewModel {
     }
     
     // MARK: - Private Properties
-    private var key: String {
-        bookModel.key
-    }
     private let bookModel: BookModel
     private let storageManager = StorageManager.shared
     
@@ -48,8 +44,6 @@ final class DetailsViewModel {
     init(bookModel: BookModel) {
         self.bookModel = bookModel
         self.isFavorite = false
-        
-        getImage()
         
         storageManager.fetchData { result in
             switch result {
@@ -68,7 +62,7 @@ final class DetailsViewModel {
     
     // MARK: - Public Methods
     func getData() -> AnyPublisher<Book, NetworkError> {
-        guard let url = URL(string: "https://openlibrary.org\(key).json") else {
+        guard let url = URL(string: "https://openlibrary.org\(bookModel.key).json") else {
             return Fail(error: NetworkError.invalidURL)
                 .eraseToAnyPublisher()
         }
@@ -80,16 +74,22 @@ final class DetailsViewModel {
             .eraseToAnyPublisher()
     }
     
-    func getImage()  {
+    func getImage() -> AnyPublisher<Data, Error> {
         guard let url = bookModel.imageUrl else {
-            return
+            return Fail(error: URLError(.badURL))
+                .eraseToAnyPublisher()
         }
         
-        SDWebImageDownloader.shared.downloadImage(with: url) { (image, data, error, finished) in
-            if let data = data, finished {
-                self.bookImage = data
+        return Future<Data, Error> { promise in
+            SDWebImageDownloader.shared.downloadImage(with: url) { (image, data, error, finished) in
+                if let data = data, finished {
+                    promise(.success(data))
+                } else {
+                    promise(.failure(error ?? URLError(.unknown)))
+                }
             }
         }
+        .eraseToAnyPublisher()
     }
     
     func favoriteButtonPressed() {
