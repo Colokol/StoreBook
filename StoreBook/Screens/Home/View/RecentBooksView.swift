@@ -9,9 +9,12 @@ import Foundation
 import UIKit
 
 class RecentBooksView:UICollectionView{
+    // MARK: - Variables
+    
     static let shared = RecentBooksView()
     var recentBookArray:[TopBook] = []
     var viewModel = HomeViewModel()
+    
     //MARK: - Lifecycle
     init(){
         let layout = UICollectionViewLayout()
@@ -20,8 +23,6 @@ class RecentBooksView:UICollectionView{
         self.collectionViewLayout = createCompositionalLayout()
         dataSource = self
         delegate = self
-    
-        
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +30,7 @@ class RecentBooksView:UICollectionView{
     }
     func addBook(book:TopBook){
         recentBookArray.append(book)
+        recentBookArray.reverse()
         self.reloadData()
     }
     private func createCompositionalLayout() -> UICollectionViewLayout {
@@ -37,7 +39,6 @@ class RecentBooksView:UICollectionView{
             }
             return layouts
         }
-
         private func horizontalSection() -> NSCollectionLayoutSection {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                                   heightDimension: .fractionalHeight(1.1))
@@ -68,7 +69,6 @@ extension RecentBooksView:UICollectionViewDelegate,UICollectionViewDataSource{
         if let imageUrl = recentBookArray[indexPath.row].coverURL(){
             cell.bookImage.sd_setImage(with: imageUrl)
         }
-       
         return cell
     }
 }

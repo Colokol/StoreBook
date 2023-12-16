@@ -9,19 +9,21 @@ import Foundation
 import UIKit
 
 class TopBooksView:UIView{
+    // MARK: - Variables
+    
     static let shared = TopBooksView()
-
     var viewModel: HomeViewModel?
     
     // MARK: - UI Components
+    
     let topBooksLabel:UILabel = {
-       let label = UILabel()
-       label.textColor = .label
-       label.textAlignment = .left
-       label.text = "Top Books"
-       label.sizeToFit()
-       label.font = .systemFont(ofSize: 22, weight: .medium)
-       return label
+        let label = UILabel()
+        label.textColor = .label
+        label.textAlignment = .left
+        label.text = "Top Books"
+        label.sizeToFit()
+        label.font = UIFont.makeOpenSans(.medium, size: 22)
+        return label
     }()
    
     private lazy var seeMoreTopBooksButton:UIButton = {
@@ -61,7 +63,7 @@ class TopBooksView:UIView{
         label.textAlignment = .left
         label.text = "Recent Books"
         label.sizeToFit()
-        label.font = .systemFont(ofSize: 22, weight: .medium)
+        label.font = UIFont.makeOpenSans(.medium, size: 22)
         return label
     }()
    
@@ -71,7 +73,9 @@ class TopBooksView:UIView{
     
         return button
     }()
+    
     // MARK: - Private actions
+    
     @objc private func didTapSeeMoreTopButton(){
         let seeMoreTopBookViewController = SeeMoreTopBookViewController()
         (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
@@ -88,8 +92,6 @@ class TopBooksView:UIView{
     }
 
     @objc private func didTapSeeMoreRecentButton(){
-        print("avada kidavra")
-
     }
     //MARK: - Lifecycle
 
@@ -101,13 +103,16 @@ class TopBooksView:UIView{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     //MARK: - UI Setup
+    
     private func setupUI(){
         self.addSubview(topBooksLabel)
         self.addSubview(seeMoreTopBooksButton)
         self.addSubview(timeStackView)
         self.addSubview(recentBooksLabel)
         self.addSubview(seeMoreRecentBooksButton)
+        
         topBooksLabel.translatesAutoresizingMaskIntoConstraints = false
         seeMoreTopBooksButton.translatesAutoresizingMaskIntoConstraints = false
         timeStackView.translatesAutoresizingMaskIntoConstraints = false

@@ -22,12 +22,23 @@ final class StorageManager {
         }
         return contrainter
     }()
+    private let persistentContainterResentBook: NSPersistentContainer = {
+        let contrainter = NSPersistentContainer(name: "RecentBookData")
+        contrainter.loadPersistentStores { _,  error in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        }
+        return contrainter
+    }()
     
     private let viewContext: NSManagedObjectContext
+    private let viewContextResentBook: NSManagedObjectContext
     
     // MARK: - Init
     private init() {
         viewContext = persistentContainter.viewContext
+        viewContextResentBook = persistentContainterResentBook.viewContext
     }
     
     // MARK: - CRUD
@@ -42,6 +53,18 @@ final class StorageManager {
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
+
+//    func createRecentBook(_ book: TopBook, completion: ((RecentBookData) -> Void)? = nil) {
+//        let bookData = RecentBookData(context: viewContextResentBook)
+//        bookData.title = book.title
+//        bookData.category = book.category
+//        bookData.imageUrl = book.imageUrl?.absoluteString
+//        bookData.author = book.author
+//        bookData.isFavorite = true
+//        completion?(bookData)
+//        NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
+//        saveContext()
+//    }
     
     func fetchData(completion: (Result<[BookData], Error>) -> Void) {
         let fetchRequest = BookData.fetchRequest()

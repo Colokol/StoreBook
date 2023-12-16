@@ -41,7 +41,7 @@ class BookCell:UICollectionViewCell{
         label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
         label.textAlignment = .left
         label.text = "Classic"
-        label.font = .systemFont(ofSize: 11, weight: .light)
+        label.font = UIFont.makeOpenSans(.light, size: 11)
         return label
     }()
     let bookNameLabel:UILabel = {
@@ -50,16 +50,15 @@ class BookCell:UICollectionViewCell{
         label.textAlignment = .left
         label.text = "The Picture of Dorian Gray"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.makeOpenSans(.bold, size: 16)
         return label
     }()
     let authorLabel:UILabel = {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
-        //label.textColor = .green
         label.textAlignment = .left
         label.text = "Oscar Wilde"
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = UIFont.makeOpenSans(.regular, size: 11)
         return label
     }()
     

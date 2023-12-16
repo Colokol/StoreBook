@@ -13,7 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        UIBarButtonItem.appearance().tintColor = .black
+        let backButtonAppearance = UIBarButtonItemAppearance(style: .plain)
+               backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+               let navigationBarAppearance = UINavigationBarAppearance()
+               navigationBarAppearance.backButtonAppearance = backButtonAppearance
+        navigationBarAppearance.setBackIndicatorImage(UIImage(systemName: "arrow.backward"), transitionMaskImage: UIImage(systemName: "arrow.backward"))
+               UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         return true
     }
 
@@ -33,4 +39,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
+//navigationItem.hidesBackButton = true
+//navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "arrow.backward"), style: .plain, target: self, action: #selector(back(sender:)))

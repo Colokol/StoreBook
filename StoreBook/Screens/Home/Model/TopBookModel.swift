@@ -6,17 +6,13 @@
     //
 import Foundation
 
-import Foundation
-
 enum CoverKey: String {
     case ID = "id"
-        // Другие возможные значения ключей для обложки
 }
 enum CoverSize: String {
     case S = "S"
     case M = "M"
     case L = "L"
-
 }
 struct TopBookResponse: Decodable{
     let works: [TopBook]

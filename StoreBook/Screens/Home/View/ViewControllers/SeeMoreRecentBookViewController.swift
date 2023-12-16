@@ -9,10 +9,13 @@ import Foundation
 import UIKit
 
 final class SeeMoreRecentBookViewController: UIViewController {
+    
     // MARK: - Variables
+    
     private var viewModel = HomeViewModel()
     
     // MARK: - UI Components
+    
     private var seeMoreRecentBookTableView:UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -20,7 +23,6 @@ final class SeeMoreRecentBookViewController: UIViewController {
         return tableView
     }()
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         seeMoreRecentBookTableView.delegate = self
@@ -42,7 +44,6 @@ final class SeeMoreRecentBookViewController: UIViewController {
         view.addSubview(seeMoreRecentBookTableView)
         
         seeMoreRecentBookTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         NSLayoutConstraint.activate([
             seeMoreRecentBookTableView.topAnchor.constraint(equalTo: view.topAnchor),

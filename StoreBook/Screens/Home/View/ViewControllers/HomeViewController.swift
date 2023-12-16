@@ -15,7 +15,9 @@ class HomeViewController: UIViewController{
     var viewModel = HomeViewModel()
     private var topBooksView = TopBooksView()
     private var recentBooksView = RecentBooksView()
+    
     // MARK: - UI Components
+    
     let topBookCollectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -26,13 +28,8 @@ class HomeViewController: UIViewController{
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         topBooksView.viewModel = viewModel
         view.backgroundColor = .white
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
-        navigationItem.rightBarButtonItem?.tintColor = .black
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Happy Reading!", style: .plain, target: self, action: nil)
-        navigationItem.leftBarButtonItem?.tintColor = .black
         setupUI()
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
@@ -44,20 +41,11 @@ class HomeViewController: UIViewController{
             }.store(in: &viewModel.subscription)
         
     }
-//    init(viewModel:HomeViewModel){
-//        self.viewModel = viewModel
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
+
     private func createCompositionalLayout() -> UICollectionViewLayout {
             let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
                 self.horizontalSection()
             }
-        
             return layouts
         }
 

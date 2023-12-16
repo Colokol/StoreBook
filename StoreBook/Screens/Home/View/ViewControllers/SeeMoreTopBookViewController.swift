@@ -10,6 +10,7 @@ import UIKit
 
 final class SeeMoreTopBookViewController: UIViewController {
     // MARK: - Variables
+    
     private var viewModel = HomeViewModel()
     
     // MARK: - UI Components
@@ -17,10 +18,9 @@ final class SeeMoreTopBookViewController: UIViewController {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.register(SeeMoreCell.self, forCellReuseIdentifier: SeeMoreCell.identifier)
-        
         return tableView
     }()
-   
+    // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,6 @@ final class SeeMoreTopBookViewController: UIViewController {
         view.addSubview(seeMoreTopBookTableView)
         
         seeMoreTopBookTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         NSLayoutConstraint.activate([
             seeMoreTopBookTableView.topAnchor.constraint(equalTo: view.topAnchor),

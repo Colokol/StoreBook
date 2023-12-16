@@ -12,7 +12,6 @@ final class HomeViewModel{
     @Published var topBook:[TopBook] = []
     var subscription:Set<AnyCancellable> = []
     
-    
     init(){
         self.getData(period: .daily)
     }
