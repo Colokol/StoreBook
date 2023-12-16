@@ -31,14 +31,13 @@ final class StorageManager {
     }
     
     // MARK: - CRUD
-    func create(_ book: BookModel, completion: ((BookData) -> Void)? = nil) {
+    func create(_ book: BookModel) {
         let bookData = BookData(context: viewContext)
         bookData.title = book.title
         bookData.category = book.category
         bookData.imageUrl = book.imageUrl?.absoluteString
         bookData.author = book.author
         bookData.isFavorite = true
-        completion?(bookData)
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
