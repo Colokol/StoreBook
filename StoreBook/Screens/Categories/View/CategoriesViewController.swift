@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-final class CategoriesViewController: UIViewController {
+final class CategoriesViewController: UIViewController, UISearchBarDelegate {
     // MARK: - Private properties
     
     var viewModel = CategoriesViewModel()
@@ -41,7 +41,11 @@ final class CategoriesViewController: UIViewController {
     private func setupNavigation() {
         navigationController?.setupNavigationBar()
         
-        let searchController = UISearchController.makeCustomSearchController(delegate: self)
+        let searchController = UISearchController.makeCustomSearchController(
+            placeholder: "Search title/author/ISBN no",
+            foregroundColor: UIColor.lightGray,
+            delegate: self
+        )
         navigationItem.searchController = searchController
     }
     

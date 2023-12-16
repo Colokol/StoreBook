@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HomeViewController: UIViewController{
+class HomeViewController: UIViewController {
     
     // MARK: - Variables
     
@@ -56,7 +56,11 @@ class HomeViewController: UIViewController{
     private func setupNavigation() {
         navigationController?.setupNavigationBar()
         
-        let searchController = UISearchController.makeCustomSearchController(delegate: self)
+        let searchController = UISearchController.makeCustomSearchController(
+            placeholder: "Happy Reading!",
+            foregroundColor: UIColor.black,
+            delegate: self
+        )
         navigationItem.searchController = searchController
     }
     
@@ -93,7 +97,7 @@ class HomeViewController: UIViewController{
         
         NSLayoutConstraint.activate([
             
-            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 150),
+            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 145),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             topBooksView.widthAnchor.constraint(equalToConstant: 365),
             topBooksView.heightAnchor.constraint(equalToConstant: 339),

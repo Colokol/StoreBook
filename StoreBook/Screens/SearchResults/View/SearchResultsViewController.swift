@@ -25,6 +25,30 @@ final class SearchResultsViewController: UIViewController {
         setupBindings()
     }
     
+    // MARK: - UI Setup
+    private func setupUI() {
+        view.backgroundColor = .white
+        view.addSubview(activityIndicator)
+        setupBarButton()
+        setupTableView()
+        setConstraints()
+    }
+    
+    private func setupBarButton() {
+        let sortSearchedResultBarButton = UIBarButtonItem(
+            image: UIImage(named: "filter"),
+            style: .plain,
+            target: self,
+            action: #selector(sortSearchedResultBarButtonTap)
+        )
+        navigationControllerFromCategories?.navigationBar.topItem?.rightBarButtonItem = sortSearchedResultBarButton
+    }
+    
+    @objc func sortSearchedResultBarButtonTap() {
+           viewModel.searchedBooks.sort { $0.title < $1.title }
+           searchTableView.reloadData()
+       }
+    
     private func setupBindings() {
         viewModel.$searchedBooks
             .receive(on: DispatchQueue.main)
@@ -39,13 +63,6 @@ final class SearchResultsViewController: UIViewController {
                 self?.activityIndicator.isHidden = isLoading
             }
             .store(in: &viewModel.networkCancellables)
-    }
-    
-    private func setupUI() {
-        view.backgroundColor = .white
-        view.addSubview(activityIndicator)
-        setupTableView()
-        setConstraints()
     }
     
     private func setupTableView() {
