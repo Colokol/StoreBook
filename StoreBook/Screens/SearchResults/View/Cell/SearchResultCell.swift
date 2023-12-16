@@ -98,10 +98,12 @@ final class SearchResultCell: UITableViewCell {
             ratingLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
             ratingLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
             ratingLabel.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor, constant: -Constants.verticalSpacing * 12 ),
-            
         ])
     }
-    
+}
+
+//MARK: Static methods & properties
+extension SearchResultCell {
     private static func makeLabel(fontSize: CGFloat, textColor: UIColor) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
