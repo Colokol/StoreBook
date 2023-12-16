@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class HomeViewController: UIViewController{
-
+    
     // MARK: - Variables
     
     var viewModel = HomeViewModel()
@@ -22,18 +22,17 @@ class HomeViewController: UIViewController{
         collectionView.register(BookCell.self, forCellWithReuseIdentifier: BookCell.identifier)
         return collectionView
     }()
-   
+    
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         topBooksView.viewModel = viewModel
         view.backgroundColor = .white
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action:nil)
-        navigationItem.rightBarButtonItem?.tintColor = .black
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Happy Reading!", style: .plain, target: self, action: nil)
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        
         setupUI()
+        setupNavigation()
         topBookCollectionView.delegate = self
         topBookCollectionView.dataSource = self
         topBookCollectionView.collectionViewLayout = createCompositionalLayout()
@@ -44,39 +43,45 @@ class HomeViewController: UIViewController{
             }.store(in: &viewModel.subscription)
         
     }
-//    init(viewModel:HomeViewModel){
-//        self.viewModel = viewModel
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    //    init(viewModel:HomeViewModel){
+    //        self.viewModel = viewModel
+    //        super.init(nibName: nil, bundle: nil)
+    //    }
+    //
+    //    required init?(coder: NSCoder) {
+    //        fatalError("init(coder:) has not been implemented")
+    //    }
+    
+    
+    private func setupNavigation() {
+        navigationController?.setupNavigationBar()
+        
+        let searchController = UISearchController.makeCustomSearchController(delegate: self)
+        navigationItem.searchController = searchController
+    }
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
-            let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
-                self.horizontalSection()
-            }
+        let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
+            self.horizontalSection()
+        }
         
-            return layouts
-        }
-
-        private func horizontalSection() -> NSCollectionLayoutSection {
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.1),
-                                                   heightDimension: .estimated(200))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-            return section
-        }
+        return layouts
+    }
+    
+    private func horizontalSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1.1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.1),
+                                               heightDimension: .estimated(200))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        return section
+    }
     //MARK: - UI Setup
     private func setupUI(){
-        
-        
         view.addSubview(topBooksView)
         view.addSubview(topBookCollectionView)
         view.addSubview(recentBooksView)
@@ -87,8 +92,8 @@ class HomeViewController: UIViewController{
         
         
         NSLayoutConstraint.activate([
-          
-            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 112),
+            
+            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 150),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             topBooksView.widthAnchor.constraint(equalToConstant: 365),
             topBooksView.heightAnchor.constraint(equalToConstant: 339),
@@ -102,9 +107,21 @@ class HomeViewController: UIViewController{
             recentBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             recentBooksView.widthAnchor.constraint(equalToConstant: 360),
             recentBooksView.heightAnchor.constraint(equalToConstant: 310),
-            
+        
         ])
         
+    }
+}
+
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
+        
+        if let resultController = searchController.searchResultsController as? SearchResultsViewController {
+            
+            resultController.navigationControllerFromCategories = self.navigationController
+            resultController.viewModel.searchText = searchText
+        }
     }
 }
 
@@ -115,15 +132,12 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
-        cellOne.configure(for: viewModel.topBook[indexPath.row])
-       
-//        cellOne.bookImage.image = UIImage(data: viewModel.bookImage ?? Data())
-//        cellOne.categoryLabel.text = viewModel.bookCategory
-//        cellOne.bookNameLabel.text = viewModel.bookTitle
-//        cellOne.authorLabel.text = viewModel.bookAuthor
-        return cellOne
+            guard let cellOne = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.identifier, for: indexPath) as? BookCell else { fatalError("Unable to dequeue BookCell in ViewController")}
+            cellOne.configure(for: viewModel.topBook[indexPath.row])
+            return cellOne
+
     }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let book = viewModel.topBook[indexPath.row]
             let bookModel = BookModel(
@@ -134,9 +148,11 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
                 imageUrl: book.coverURL(coverSize: .L),
                 key: book.key
             )
+            recentBooksView.addBook(book: book)
             let detailsViewModel = DetailsViewModel(bookModel: bookModel)
             let detailsVC = DetailsViewController()
             detailsVC.viewModel = detailsViewModel
             navigationController?.pushViewController(detailsVC, animated: true)
     }
+    
 }
