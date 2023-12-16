@@ -54,7 +54,6 @@ final class StorageManager {
         }
     }
     
-    // пока оставил так, возможно как-то по-другому можно удалять, не через cвойство модели
     func delete(withImageUrl imageUrl: String) {
         let fetchRequest = BookData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", imageUrl)
@@ -63,11 +62,10 @@ final class StorageManager {
             let results = try viewContext.fetch(fetchRequest)
             if let objectToDelete = results.first {
                 viewContext.delete(objectToDelete)
-                print("\(imageUrl) deleted")
                 saveContext()
             }
         } catch let error {
-            print("Ошибка при удалении объекта: \(error)")
+            print(error)
         }
     }
     
@@ -76,7 +74,6 @@ final class StorageManager {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
-                print("Your object was successfully saved")
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
