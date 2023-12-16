@@ -23,6 +23,8 @@ class RecentBooksView:UICollectionView{
         self.collectionViewLayout = createCompositionalLayout()
         dataSource = self
         delegate = self
+    
+        
     }
     
     required init?(coder: NSCoder) {
