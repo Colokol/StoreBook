@@ -16,7 +16,7 @@ final class DetailsViewModel {
     @Published var description: String?
     @Published var isFavorite: Bool
     var networkCancellables: Set<AnyCancellable> = []
-
+    
     var bookTitle: String {
         bookModel.title
     }
@@ -28,7 +28,7 @@ final class DetailsViewModel {
     var category: String {
         "Category: \(bookModel.category)"
     }
-
+    
     var rating: String {
         if let ratingValue = bookModel.rating, ratingValue != 0.00 {
             return "Rating: \(String(format: "%.2f", ratingValue))/5"
@@ -48,6 +48,8 @@ final class DetailsViewModel {
     init(bookModel: BookModel) {
         self.bookModel = bookModel
         self.isFavorite = false
+        
+        getImage()
         
         storageManager.fetchData { result in
             switch result {
@@ -78,22 +80,16 @@ final class DetailsViewModel {
             .eraseToAnyPublisher()
     }
     
-    func getImage() -> AnyPublisher<Data, Error> {
+    func getImage()  {
         guard let url = bookModel.imageUrl else {
-            return Fail(error: URLError(.badURL))
-                .eraseToAnyPublisher()
+            return
         }
         
-        return Future<Data, Error> { promise in
-            SDWebImageDownloader.shared.downloadImage(with: url) { (image, data, error, finished) in
-                if let data = data, finished {
-                    promise(.success(data))
-                } else {
-                    promise(.failure(error ?? URLError(.unknown)))
-                }
+        SDWebImageDownloader.shared.downloadImage(with: url) { (image, data, error, finished) in
+            if let data = data, finished {
+                self.bookImage = data
             }
         }
-        .eraseToAnyPublisher()
     }
     
     func favoriteButtonPressed() {

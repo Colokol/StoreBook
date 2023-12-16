@@ -96,19 +96,26 @@ final class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewsVisibility(to: false)
-        loadBookDetails()
         setViews()
         setupScrollView()
         setupConstraints()
         setupNavigationBar()
         changeFavoriteButton()
+        
+        viewModel.$bookImage
+            .receive(on: DispatchQueue.main)
+            .sink { data in
+                self.bookImageView.image = UIImage(data: data ?? Data())
+                self.loadBookDescription()
+            }
+            .store(in: &viewModel.networkCancellables)
     }
     
     // MARK: - Private Actions
     @objc private func likeButtonDidTapped() {
         viewModel.favoriteButtonPressed()
     }
-
+    
     // MARK: - Private Methods
     private func changeFavoriteButton() {
         viewModel.$isFavorite
@@ -123,28 +130,6 @@ final class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .black
     }
     
-    private func loadBookDetails() {
-        viewModel.getImage()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished: break
-                case .failure(_):
-                    DispatchQueue.main.async {
-                        self?.bookImageView.image = UIImage(systemName: "questionmark")
-                        self?.bookImageView.tintColor = .white
-                        self?.loadBookDescription()
-                    }
-                }
-            } receiveValue: { [weak self] imageData in
-                DispatchQueue.main.async {
-                    self?.bookImageView.image = UIImage(data: imageData)
-                    self?.loadBookDescription()
-                }
-            }
-            .store(in: &viewModel.networkCancellables)
-    }
-    
     private func loadBookDescription() {
         viewModel.getData()
             .receive(on: DispatchQueue.main)
@@ -157,7 +142,6 @@ final class DetailsViewController: UIViewController {
                 }
             }
             .store(in: &viewModel.networkCancellables)
-        
     }
     
     private func setupUI() {
