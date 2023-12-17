@@ -10,8 +10,11 @@ import UIKit
 
 class TopBooksView:UIView{
     static let shared = TopBooksView()
-
-    var viewModel: HomeViewModel?
+    
+    private var selectedButton: UIButton?
+    private var selectedPeriod: TimeFrame = .daily
+    
+    var viewModel = HomeViewModel()
     
     // MARK: - UI Components
     let topBooksLabel:UILabel = {
@@ -72,24 +75,41 @@ class TopBooksView:UIView{
         return button
     }()
     // MARK: - Private actions
-    @objc private func didTapSeeMoreTopButton(){
-        let seeMoreTopBookViewController = SeeMoreTopBookViewController()
-        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
+    @objc private func didTapSeeMoreTopButton() {
+        let seeMoreTopBookViewController = SeeMoreTopBookViewController(seeMoreBooks: viewModel.topBook, period: selectedPeriod )
         
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
     }
-    @objc private func didTapWeekButton(){
-        viewModel!.getData(period: .weekly)
+    
+    @objc private func didTapWeekButton() {
+        updateButtonAppearance(weekTopBooksButton)
+        selectedPeriod = .weekly
+        viewModel.getData(period: .weekly)
     }
-    @objc private func didTapMonthButton(){
-        viewModel!.getData(period: .monthly)
+    
+    @objc private func didTapMonthButton() {
+        updateButtonAppearance(monthTopBooksButton)
+        selectedPeriod = .monthly
+        viewModel.getData(period: .monthly)
     }
-    @objc private func didTapYearButton(){
-        viewModel!.getData(period: .yearly)
+    
+    @objc private func didTapYearButton() {
+        updateButtonAppearance(yearTopBooksButton)
+        selectedPeriod = .yearly
+        viewModel.getData(period: .yearly)
     }
 
-    @objc private func didTapSeeMoreRecentButton(){
+    @objc private func didTapSeeMoreRecentButton() {
         print("avada kidavra")
+    }
+    private func updateButtonAppearance(_ button: UIButton) {
+        selectedButton?.backgroundColor = .clear
+        selectedButton?.setTitleColor(.label, for: .normal)
 
+        button.backgroundColor = .black
+        button.setTitleColor(.white, for: .normal)
+
+        selectedButton = button
     }
     //MARK: - Lifecycle
 

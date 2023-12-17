@@ -25,6 +25,30 @@ final class SearchResultsViewController: UIViewController {
         setupBindings()
     }
     
+    // MARK: - UI Setup
+    private func setupUI() {
+        view.backgroundColor = .white
+        view.addSubview(activityIndicator)
+        setupBarButton()
+        setupTableView()
+        setConstraints()
+    }
+    
+    private func setupBarButton() {
+        let sortSearchedResultBarButton = UIBarButtonItem(
+            image: UIImage(named: "filter"),
+            style: .plain,
+            target: self,
+            action: #selector(sortSearchedResultBarButtonTap)
+        )
+        navigationControllerFromCategories?.navigationBar.topItem?.rightBarButtonItem = sortSearchedResultBarButton
+    }
+    
+    @objc func sortSearchedResultBarButtonTap() {
+           viewModel.searchedBooks.sort { $0.title < $1.title }
+           searchTableView.reloadData()
+       }
+    
     private func setupBindings() {
         viewModel.$searchedBooks
             .receive(on: DispatchQueue.main)
@@ -41,19 +65,12 @@ final class SearchResultsViewController: UIViewController {
             .store(in: &viewModel.networkCancellables)
     }
     
-    private func setupUI() {
-        view.backgroundColor = .white
-        view.addSubview(activityIndicator)
-        setupTableView()
-        setConstraints()
-    }
-    
     private func setupTableView() {
         view.addSubview(searchTableView)
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.rowHeight = Constants.rowHeight
-        searchTableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.cellID)
+        searchTableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
     }
     
     private func setConstraints() {
@@ -77,7 +94,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellID, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
         let searchedBook = viewModel.searchedBooks[indexPath.row]
         cell.configure(with: searchedBook)
         return cell
