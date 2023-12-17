@@ -79,4 +79,20 @@ final class StorageManager {
             }
         }
     }
+    
+    func deleteAllLikes() {
+        let fetchRequest = BookData.fetchRequest()
+        
+        do {
+            let allBooksData = try viewContext.fetch(fetchRequest)
+            for bookData in allBooksData {
+                viewContext.delete(bookData)
+            }
+            saveContext()
+        } catch let error {
+            print("Ошибка при удалении всех данных: \(error)")
+        }
+    }
+
+
 }

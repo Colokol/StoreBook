@@ -74,6 +74,7 @@ class TopBooksView:UIView{
     
         return button
     }()
+    
     // MARK: - Private actions
     @objc private func didTapSeeMoreTopButton() {
         let seeMoreTopBookViewController = SeeMoreTopBookViewController(seeMoreBooks: viewModel.topBook, period: selectedPeriod )
@@ -100,8 +101,11 @@ class TopBooksView:UIView{
     }
 
     @objc private func didTapSeeMoreRecentButton() {
-        print("avada kidavra")
+        let seeMoreRecentBookViewController = SeeMoreRecentBookViewController()
+        
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreRecentBookViewController, animated: true)
     }
+    
     private func updateButtonAppearance(_ button: UIButton) {
         selectedButton?.backgroundColor = .clear
         selectedButton?.setTitleColor(.label, for: .normal)

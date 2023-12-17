@@ -23,6 +23,7 @@ final class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
+        
     }
     
     // MARK: - UI Setup
@@ -41,13 +42,13 @@ final class SearchResultsViewController: UIViewController {
             target: self,
             action: #selector(sortSearchedResultBarButtonTap)
         )
-        navigationControllerFromCategories?.navigationBar.topItem?.rightBarButtonItem = sortSearchedResultBarButton
+        navigationItem.rightBarButtonItem = sortSearchedResultBarButton
     }
     
     @objc func sortSearchedResultBarButtonTap() {
-           viewModel.searchedBooks.sort { $0.title < $1.title }
-           searchTableView.reloadData()
-       }
+        viewModel.searchedBooks.sort { $0.title < $1.title }
+        searchTableView.reloadData()
+    }
     
     private func setupBindings() {
         viewModel.$searchedBooks

@@ -35,4 +35,9 @@ class LikesViewModel {
         StorageManager.shared.delete(withImageUrl: url)
     }
     
+    func deleteAllLikes() {
+        StorageManager.shared.deleteAllLikes()
+        books.removeAll()
+        NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
+    }
 }
