@@ -66,17 +66,17 @@ final class StoryBooksCell: UITableViewCell {
     }
     
 //MARK: for SeeMore
-    func configure(for topBook:TopBook){
+    func configure(for topBook: TopBook) {
         bookNameLabel.text = topBook.title
         if let authorName = topBook.authorName?.joined(separator: "\n"){
             authorNameLabel.text = authorName
         }
         
-        if let imageUrl = topBook.coverURL(){
-            bookImageView.sd_setImage(with: imageUrl)
+        if let imageUrl = topBook.coverURL() {
+            bookImageView.bookLoadingImageView.sd_setImage(with: imageUrl )
         }
         
-        if let rating = topBook.ratingsAverage{
+        if let rating = topBook.ratingsAverage {
             ratingLabel.text = String(rating)
         }
     }
