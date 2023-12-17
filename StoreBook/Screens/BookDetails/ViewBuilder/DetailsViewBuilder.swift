@@ -45,7 +45,7 @@ final class DetailsViewBuilder {
         return stackView
     }
     
-    func makeButton(with title: String, with color: UIColor) -> UIButton {
+    func makeButton(title: String, color: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.layer.cornerRadius = 5

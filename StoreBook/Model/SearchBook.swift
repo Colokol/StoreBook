@@ -94,6 +94,3 @@ struct Subject: Codable {
     let name: String
     let works: [Doc]
 }
-
-
-

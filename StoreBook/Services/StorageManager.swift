@@ -13,7 +13,7 @@ final class StorageManager {
     static let shared = StorageManager()
     
     // MARK: - Core Data stack
-    private let persistentContainter: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let contrainter = NSPersistentContainer(name: "BookData")
         contrainter.loadPersistentStores { _,  error in
             if let error = error as NSError? {
@@ -27,11 +27,11 @@ final class StorageManager {
     
     // MARK: - Init
     private init() {
-        viewContext = persistentContainter.viewContext
+        viewContext = persistentContainer.viewContext
     }
     
     // MARK: - CRUD
-    func create(_ book: BookModel, completion: ((BookData) -> Void)? = nil) {
+    func create(_ book: BookModel) {
         let bookData = BookData(context: viewContext)
         bookData.title = book.title
         bookData.category = book.category
@@ -39,7 +39,6 @@ final class StorageManager {
         bookData.author = book.author
         bookData.rating = book.rating ?? 0.0
         bookData.isFavorite = true
-        completion?(bookData)
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
@@ -55,7 +54,6 @@ final class StorageManager {
         }
     }
     
-    // пока оставил так, возможно как-то по-другому можно удалять, не через cвойство модели
     func delete(withImageUrl imageUrl: String) {
         let fetchRequest = BookData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "imageUrl == %@", imageUrl)
@@ -67,7 +65,7 @@ final class StorageManager {
                 saveContext()
             }
         } catch let error {
-            print("Ошибка при удалении объекта: \(error)")
+            print(error)
         }
     }
     

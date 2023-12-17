@@ -257,7 +257,6 @@
 		3CCCA1242B1F3C6900776433 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3CD187992B29C76500AB7F3A /* BookData.xcdatamodeld */,
 				3C4BE58B2B273B68002CBEB7 /* BookModel.swift */,
 			);
 			path = Model;
@@ -412,6 +411,7 @@
 		CE57DCA02B1B6E81006DF243 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
+				3CD187992B29C76500AB7F3A /* BookData.xcdatamodeld */,
 				CE1E4F6D2B26311F00993F30 /* Fonts */,
 				E1255AA22B1EFD4A00F2C734 /* TabBarController */,
 				3CCCA12E2B1F3F3500776433 /* Extension */,
@@ -534,9 +534,9 @@
 		E1CF2F1C2B23038700A4BB70 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3CD1879C2B29C95300AB7F3A /* StorageManager.swift */,
 				E1CF2F1D2B23071700A4BB70 /* APIManager.swift */,
 				E1CF2F1F2B230B5900A4BB70 /* NetworkManager.swift */,
-				3CD1879C2B29C95300AB7F3A /* StorageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";

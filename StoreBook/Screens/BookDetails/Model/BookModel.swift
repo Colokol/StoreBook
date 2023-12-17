@@ -16,4 +16,3 @@ struct BookModel {
     let imageUrl: URL?
     let key: String
 }
-
