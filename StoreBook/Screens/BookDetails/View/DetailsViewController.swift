@@ -129,7 +129,7 @@ final class DetailsViewController: UIViewController {
             .sink { [weak self] isLoading in
                 self?.activityIndicator.isHidden = isLoading
             }
-            .store(in: &cancellabels)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func loadBookDetails() {

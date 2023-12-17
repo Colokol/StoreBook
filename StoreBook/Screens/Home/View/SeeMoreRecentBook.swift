@@ -16,7 +16,7 @@ final class SeeMoreRecentBookViewController: UIViewController {
     private var seeMoreRecentBookTableView:UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
-        tableView.register(SeeMoreCell.self, forCellReuseIdentifier: SeeMoreCell.identifier)
+        tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
         return tableView
     }()
    
@@ -79,7 +79,7 @@ extension SeeMoreRecentBookViewController:UITableViewDelegate,UITableViewDataSou
         navigationController?.pushViewController(detailsVC, animated: true)
     }
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SeeMoreCell.identifier, for: indexPath) as? SeeMoreCell else { return UITableViewCell() }
+         guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
         cell.configure(for: viewModel.topBook[indexPath.row])
         return cell
     }
