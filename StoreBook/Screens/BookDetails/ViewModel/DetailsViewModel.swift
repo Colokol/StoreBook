@@ -12,10 +12,10 @@ import Combine
 final class DetailsViewModel {
     
     // MARK: - Public Properties
-    @Published var bookImage: Data?
     @Published var description: String?
     @Published var isFavorite: Bool
-
+    var networkCancellables: Set<AnyCancellable> = []
+    
     var bookTitle: String {
         bookModel.title
     }
@@ -29,17 +29,15 @@ final class DetailsViewModel {
     }
     
     var rating: String {
-        bookModel.rating == nil
-        ? "Rating: no rating"
-        : "Rating: \(String(format: "%.2f", bookModel.rating ?? 0))/5"
+        if let ratingValue = bookModel.rating, ratingValue != 0.00 {
+            return "Rating: \(String(format: "%.2f", ratingValue))/5"
+        } else {
+            return "Rating: no rating"
+        }
     }
     
     // MARK: - Private Properties
-    private var key: String {
-        bookModel.key
-    }
     private let bookModel: BookModel
-    private var networkCancellables: Set<AnyCancellable> = []
     private let storageManager = StorageManager.shared
     
     // MARK: - Init
@@ -47,7 +45,6 @@ final class DetailsViewModel {
         self.bookModel = bookModel
         self.isFavorite = false
         
-        // Проверяем есть такой title в bookData
         storageManager.fetchData { result in
             switch result {
                 
@@ -65,7 +62,7 @@ final class DetailsViewModel {
     
     // MARK: - Public Methods
     func getData() -> AnyPublisher<Book, NetworkError> {
-        guard let url = URL(string: "https://openlibrary.org\(key).json") else {
+        guard let url = URL(string: "https://openlibrary.org\(bookModel.key).json") else {
             return Fail(error: NetworkError.invalidURL)
                 .eraseToAnyPublisher()
         }
@@ -98,12 +95,12 @@ final class DetailsViewModel {
     func favoriteButtonPressed() {
         isFavorite.toggle()
         
-        guard let imageUrlString = bookModel.imageUrl?.absoluteString else {
-            print("No URL")
+        guard
+            let imageUrlString = bookModel.imageUrl?.absoluteString
+        else {
             return
         }
         
-        // добавляем или удаляем книгу в зависимости от свойства isFavorite
         isFavorite
         ? storageManager.create(bookModel)
         : storageManager.delete(withImageUrl: imageUrlString)
@@ -126,7 +123,7 @@ final class DetailsViewModel {
         case .object(let descriptionObject):
             self.description = descriptionObject.value
         case .none:
-            print("No description")
+            break
         }
     }
 }

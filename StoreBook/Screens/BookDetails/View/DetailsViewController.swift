@@ -16,9 +16,6 @@ final class DetailsViewController: UIViewController {
     // MARK: - ViewBuilder
     private let viewBuilder = DetailsViewBuilder()
     
-    // MARK: - Combine Properties
-    private var cancellabels = Set<AnyCancellable>()
-    
     // MARK: - Private UI Properties
     private lazy var activityIndicator: UIActivityIndicatorView = {
         viewBuilder.makeActivityIndicator()
@@ -54,15 +51,15 @@ final class DetailsViewController: UIViewController {
     
     private lazy var addButton: UIButton = {
         viewBuilder.makeButton(
-            with: "Add to list",
-            with: .gray
+            title: "Add to list",
+            color: .gray
         )
     }()
     
     private lazy var readButton: UIButton = {
         viewBuilder.makeButton(
-            with: "Read",
-            with: .black
+            title: "Read",
+            color: .black
         )
     }()
     
@@ -112,20 +109,15 @@ final class DetailsViewController: UIViewController {
         viewModel.favoriteButtonPressed()
     }
     
-    @objc private func addToListButtonDidTapped() {
-    }
-    
-    @objc private func readButtonDidTapped() {
-    }
-    
     // MARK: - Private Methods
     private func changeFavoriteButton() {
         viewModel.$isFavorite
             .receive(on: DispatchQueue.main)
+        
             .sink { [weak self] isFavorite in
                 self?.setStatusFoFavoriteButton(isFavorite)
             }
-            .store(in: &cancellabels)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func setStatusForFavoriteButton(_ status: Bool) {
@@ -136,7 +128,9 @@ final class DetailsViewController: UIViewController {
         viewModel.getImage()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                if case .failure(_) = completion {
+                switch completion {
+                case .finished: break
+                case .failure(_):
                     DispatchQueue.main.async {
                         self?.bookImageView.image = UIImage(systemName: "questionmark")
                         self?.bookImageView.tintColor = .white
@@ -149,7 +143,7 @@ final class DetailsViewController: UIViewController {
                     self?.loadBookDescription()
                 }
             }
-            .store(in: &cancellabels)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func loadBookDescription() {
@@ -163,7 +157,8 @@ final class DetailsViewController: UIViewController {
                     self?.setViewsVisibility(to: true)
                 }
             }
-            .store(in: &cancellabels)
+            .store(in: &viewModel.networkCancellables)
+        
     }
     
     private func setupUI() {
@@ -201,7 +196,7 @@ final class DetailsViewController: UIViewController {
         
     }
     
-    func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
+    private func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
         let components = text.components(separatedBy: ":")
         guard components.count > 1 else {
             label.text = text
