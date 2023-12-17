@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 class LikesViewController: UIViewController {
-
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(LikesTableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -18,40 +18,40 @@ class LikesViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
-
+    
     var viewModel = LikesViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("Saved") , object: nil, queue: nil) { _ in
             self.viewModel.fetchBook()
-            self.tableView.reloadData()
+            self.animateTableView()
         }
-
-        setDeleteBarButton() 
+        
+        setDeleteBarButton()
         configureTableView()
         setupView()
     }
-
+    
     private func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
     }
-
+    
     private func bindView() {
-
+        
     }
-
+    
     private func setupView() {
         title = "Likes"
-
+        
         view.backgroundColor = .white
-
+        
         view.addSubview(tableView)
         setConstraints()
-       
- 
+        
+        
     }
     
     func setDeleteBarButton() {
@@ -81,32 +81,15 @@ class LikesViewController: UIViewController {
 
 // MARK: - Constraints
 extension LikesViewController {
-
+    
     struct Constraints {
         static let tableViewSpacing: CGFloat = 20
     }
     
     func animateTableView() {
-            tableView.reloadData()
-
-            let cells = tableView.visibleCells
-            let tableViewHeight = tableView.bounds.size.height
-
-            for (index, cell) in cells.enumerated() {
-                cell.transform = CGAffineTransform(translationX: 0, y: tableViewHeight)
-
-                UIView.animate(
-                    withDuration: 0.5,
-                    delay: 0.08 * Double(index),
-                    usingSpringWithDamping: 0.8,
-                    initialSpringVelocity: 0,
-                    options: .curveEaseOut,
-                    animations: {
-                        cell.transform = .identity
-                    },
-                    completion: nil
-            )
-        }
+        UIView.transition(with: tableView, duration: 0.9, options: .transitionCrossDissolve, animations: {
+            self.tableView.reloadData()
+        }, completion: nil)
     }
     private func setConstraints() {
         NSLayoutConstraint.activate([
