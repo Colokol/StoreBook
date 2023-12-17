@@ -12,8 +12,9 @@ class LikesViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(LikesTableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
         return tableView
@@ -39,19 +40,11 @@ class LikesViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    private func bindView() {
-        
-    }
-    
     private func setupView() {
         title = "Likes"
-        
         view.backgroundColor = .white
-        
         view.addSubview(tableView)
         setConstraints()
-        
-        
     }
     
     func setDeleteBarButton() {
@@ -77,7 +70,6 @@ class LikesViewController: UIViewController {
         )
     }
 }
-
 
 // MARK: - Constraints
 extension LikesViewController {

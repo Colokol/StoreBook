@@ -33,8 +33,6 @@ class BookLoadIndicator: UIImageView {
     convenience init(isCell: Bool = false) {
         self.init(frame: .zero)
         let screenHeight = UIScreen.main.bounds.height
-
-        let widthMultiplier: CGFloat = 1.3
         
         if isCell {
             let widthConstraint = bookLoadingImageView.widthAnchor.constraint(equalToConstant: (screenHeight / 10))
@@ -42,22 +40,12 @@ class BookLoadIndicator: UIImageView {
                 bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 10),
                 widthConstraint
             ])
-
-            UIView.animate(withDuration: 0.5) {
-                widthConstraint.constant = (screenHeight / 2) * widthMultiplier
-                self.layoutIfNeeded()
-            }
         } else {
-            let widthConstraint = bookLoadingImageView.widthAnchor.constraint(equalToConstant: (screenHeight / 2))
+            let widthConstraint = bookLoadingImageView.widthAnchor.constraint(equalToConstant: (screenHeight / 5))
             NSLayoutConstraint.activate([
-                bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 2),
+                bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 5),
                 widthConstraint
             ])
-            
-            UIView.animate(withDuration: 0.5) {
-                widthConstraint.constant = (screenHeight / 2) * widthMultiplier
-                self.layoutIfNeeded()
-            }
         }
     }
 
@@ -68,7 +56,6 @@ class BookLoadIndicator: UIImageView {
         
         addSubview(backView)
         addSubview(bookLoadingImageView)
-
         
         NSLayoutConstraint.activate([
             bookLoadingImageView.topAnchor.constraint(equalTo: topAnchor),

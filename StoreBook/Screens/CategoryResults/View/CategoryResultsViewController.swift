@@ -21,18 +21,12 @@ final class CategoryResultsViewController: UITableViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
 
+        title = category
         setActivityIndicator()
         setupBindings()
         configureTableView()
     }
-    
-    private func configureNavigationBar() {
-         title = category
-         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .automatic
-     }
     
     private func configureTableView() {
         tableView.rowHeight = Constants.rowHeight
@@ -62,7 +56,7 @@ final class CategoryResultsViewController: UITableViewController {
         
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
         ])
     }
 }

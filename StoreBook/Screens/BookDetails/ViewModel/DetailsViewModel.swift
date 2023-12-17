@@ -15,7 +15,8 @@ final class DetailsViewModel {
     @Published var bookImage: Data?
     @Published var description: String?
     @Published var isFavorite: Bool
-
+    @Published var isLoading: Bool = false
+    
     var bookTitle: String {
         bookModel.title
     }
@@ -72,6 +73,7 @@ final class DetailsViewModel {
         
         return NetworkManager.shared.fetchBook(with: url)
             .handleEvents(receiveOutput: { [weak self] book in
+                self?.isLoading = true
                 self?.handleBookData(book)
             })
             .eraseToAnyPublisher()
