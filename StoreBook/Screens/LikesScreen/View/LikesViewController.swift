@@ -29,7 +29,7 @@ class LikesViewController: UIViewController {
             self.tableView.reloadData()
         }
 
-
+        setDeleteBarButton() 
         configureTableView()
         setupView()
     }
@@ -50,8 +50,34 @@ class LikesViewController: UIViewController {
 
         view.addSubview(tableView)
         setConstraints()
+       
+ 
+    }
+    
+    func setDeleteBarButton() {
+        navigationController?.setupNavigationBar()
+        
+        let deleteAllItems = UIBarButtonItem(
+            title: "Remove All",
+            style: .plain,
+            target: self,
+            action: #selector(deleteAllItemsAction))
+        navigationItem.rightBarButtonItem = deleteAllItems
+    }
+    
+    @objc func deleteAllItemsAction() {
+        showAlertWithConfirmation(
+            title: "Danger!!!",
+            message: "Are you sure you want to delete all saved books?",
+            confirmationTitle: "Delete?",
+            completion: { [weak self] in
+                self?.viewModel.deleteAllLikes()
+                self?.animateTableView()
+            }
+        )
     }
 }
+
 
 // MARK: - Constraints
 extension LikesViewController {
@@ -59,7 +85,29 @@ extension LikesViewController {
     struct Constraints {
         static let tableViewSpacing: CGFloat = 20
     }
+    
+    func animateTableView() {
+            tableView.reloadData()
 
+            let cells = tableView.visibleCells
+            let tableViewHeight = tableView.bounds.size.height
+
+            for (index, cell) in cells.enumerated() {
+                cell.transform = CGAffineTransform(translationX: 0, y: tableViewHeight)
+
+                UIView.animate(
+                    withDuration: 0.5,
+                    delay: 0.08 * Double(index),
+                    usingSpringWithDamping: 0.8,
+                    initialSpringVelocity: 0,
+                    options: .curveEaseOut,
+                    animations: {
+                        cell.transform = .identity
+                    },
+                    completion: nil
+            )
+        }
+    }
     private func setConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

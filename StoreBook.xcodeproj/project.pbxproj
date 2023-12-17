@@ -70,6 +70,7 @@
 		E1CF2F292B23242000A4BB70 /* CategoryResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CF2F282B23242000A4BB70 /* CategoryResultsViewModel.swift */; };
 		E1DC5D2C2B2CE6EE00F82950 /* CategoriesViewController + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DC5D2B2B2CE6EE00F82950 /* CategoriesViewController + UITableView.swift */; };
 		E1DC5D2E2B2CF2F600F82950 /* UISearchController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DC5D2D2B2CF2F600F82950 /* UISearchController + Extension.swift */; };
+		E1DC5D302B2EF8C200F82950 /* AlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DC5D2F2B2EF8C200F82950 /* AlertController + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +134,7 @@
 		E1CF2F282B23242000A4BB70 /* CategoryResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResultsViewModel.swift; sourceTree = "<group>"; };
 		E1DC5D2B2B2CE6EE00F82950 /* CategoriesViewController + UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoriesViewController + UITableView.swift"; sourceTree = "<group>"; };
 		E1DC5D2D2B2CF2F600F82950 /* UISearchController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchController + Extension.swift"; sourceTree = "<group>"; };
+		E1DC5D2F2B2EF8C200F82950 /* AlertController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertController + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,6 +299,7 @@
 				3CD187972B28DB7600AB7F3A /* UIFont + Extension.swift */,
 				E1CF2F1A2B23002A00A4BB70 /* NavigationController + Extension.swift */,
 				E1DC5D2D2B2CF2F600F82950 /* UISearchController + Extension.swift */,
+				E1DC5D2F2B2EF8C200F82950 /* AlertController + Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				161074252B25BE6100A71BD5 /* RecentCell.swift in Sources */,
 				E1AA519D2B2904A8003BC5F1 /* SearchResultsViewModel.swift in Sources */,
 				CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */,
+				E1DC5D302B2EF8C200F82950 /* AlertController + Extension.swift in Sources */,
 				CE57DC8F2B1B6DCA006DF243 /* SceneDelegate.swift in Sources */,
 				3CCCA1322B1F577700776433 /* DetailsViewModel.swift in Sources */,
 				3CCCA12D2B1F3DEC00776433 /* DetailsViewBuilder.swift in Sources */,
