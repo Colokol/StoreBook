@@ -31,13 +31,14 @@ final class StorageManager {
     }
     
     // MARK: - CRUD
-    func create(_ book: BookModel) {
+    func create(_ book: BookModel, imageData: Data?) {
         let bookData = BookData(context: viewContext)
         bookData.title = book.title
         bookData.category = book.category
         bookData.imageUrl = book.imageUrl?.absoluteString
         bookData.author = book.author
         bookData.rating = book.rating ?? 0.0
+        bookData.image = imageData
         bookData.isFavorite = true
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
@@ -94,6 +95,5 @@ final class StorageManager {
             print("Ошибка при удалении всех данных: \(error)")
         }
     }
-
 
 }

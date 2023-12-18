@@ -87,9 +87,8 @@ final class StoryBooksCell: UITableViewCell {
         authorNameLabel.text = model.author
         bookNameLabel.text = model.title
         ratingLabel.text = model.category
-        guard let urlString = model.imageUrl else {return}
-        guard let url = URL(string: urlString) else {return}
-        bookImageView.bookLoadingImageView.sd_setImage(with: url)
+        guard let imageData = model.image else {return}
+        bookImageView.bookLoadingImageView.image = UIImage(data: imageData)
     }
     
     // MARK: - Private methods
