@@ -14,6 +14,8 @@ final class DetailsViewModel {
     // MARK: - Public Properties
     @Published var description: String?
     @Published var isFavorite: Bool
+    @Published var isLoading: Bool = false
+    
     var networkCancellables: Set<AnyCancellable> = []
     
     var bookTitle: String {
@@ -69,6 +71,7 @@ final class DetailsViewModel {
         
         return NetworkManager.shared.fetchBook(with: url)
             .handleEvents(receiveOutput: { [weak self] book in
+                self?.isLoading = true
                 self?.handleBookData(book)
             })
             .eraseToAnyPublisher()

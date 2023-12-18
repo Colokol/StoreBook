@@ -11,7 +11,7 @@ final class SearchResultsViewController: UIViewController {
     weak var navigationControllerFromCategories: UINavigationController?
     
     lazy var searchTableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +77,7 @@ final class SearchResultsViewController: UIViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             
             searchTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.horizontalSpacing * 2 ),
             searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor ),
@@ -87,40 +87,6 @@ final class SearchResultsViewController: UIViewController {
     }
 }
 
-// MARK: - Table view data source
-extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.searchedBooks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
-        let searchedBook = viewModel.searchedBooks[indexPath.row]
-        cell.configure(with: searchedBook)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = viewModel.searchedBooks[indexPath.row]
-        let bookModel = BookModel(
-            title: book.title,
-            author: book.authorName?.first ?? "",
-            category: title ?? "",
-            rating: book.ratingsAverage,
-            imageUrl: book.coverURL(coverSize: .L),
-            key: book.key
-        )
-        
-        let detailsViewModel = DetailsViewModel(bookModel: bookModel)
-        let detailsVC = DetailsViewController()
-        detailsVC.viewModel = detailsViewModel
-        
-        navigationItem.backButtonTitle = ""
-        
-        self.navigationControllerFromCategories?.pushViewController(detailsVC, animated: true)
-    }
-}
 
 //MARK: Constants
 extension SearchResultsViewController {

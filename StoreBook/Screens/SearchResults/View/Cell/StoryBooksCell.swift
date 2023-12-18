@@ -50,6 +50,7 @@ final class StoryBooksCell: UITableViewCell {
     }
     
     // MARK: - Public methods
+    
     func configure(with searchedBook: Doc?) {
         guard let searchedBook = searchedBook else { return }
         if let coverURL = searchedBook.coverURL() {
@@ -65,7 +66,7 @@ final class StoryBooksCell: UITableViewCell {
         }
     }
     
-//MARK: for SeeMore
+    //MARK: for SeeMore
     func configure(for topBook: TopBook) {
         bookNameLabel.text = topBook.title
         if let authorName = topBook.authorName?.joined(separator: "\n"){
@@ -80,6 +81,17 @@ final class StoryBooksCell: UITableViewCell {
             ratingLabel.text = String(rating)
         }
     }
+    
+    //MARK: For LikesScreen
+    func configureCell(model: BookData) {
+        authorNameLabel.text = model.author
+        bookNameLabel.text = model.title
+        ratingLabel.text = model.category
+        guard let urlString = model.imageUrl else {return}
+        guard let url = URL(string: urlString) else {return}
+        bookImageView.bookLoadingImageView.sd_setImage(with: url)
+    }
+    
     // MARK: - Private methods
     private func setupView() {
         addSubview(bookContentView)
@@ -99,7 +111,7 @@ final class StoryBooksCell: UITableViewCell {
             bookImageView.topAnchor.constraint(equalTo: bookContentView.topAnchor),
             bookImageView.leadingAnchor.constraint(equalTo: bookContentView.leadingAnchor),
             bookImageView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor),
-            bookImageView.widthAnchor.constraint(equalTo: bookContentView.widthAnchor, multiplier: 1.0 / 4.5),
+            bookImageView.widthAnchor.constraint(equalTo: bookContentView.widthAnchor, multiplier: 1.0 / 3.8),
             
             bookNameLabel.topAnchor.constraint(equalTo: bookContentView.topAnchor, constant: Constants.interSpacing),
             bookNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),

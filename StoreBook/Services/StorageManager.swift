@@ -37,6 +37,7 @@ final class StorageManager {
         bookData.category = book.category
         bookData.imageUrl = book.imageUrl?.absoluteString
         bookData.author = book.author
+        bookData.rating = book.rating ?? 0.0
         bookData.isFavorite = true
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()

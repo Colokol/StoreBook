@@ -17,9 +17,7 @@ final class DetailsViewController: UIViewController {
     private let viewBuilder = DetailsViewBuilder()
     
     // MARK: - Private UI Properties
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        viewBuilder.makeActivityIndicator()
-    }()
+    private lazy var activityIndicator = BookLoadIndicator()
     
     private lazy var scrollView: UIScrollView = {
         viewBuilder.makeScrollView()
@@ -102,6 +100,7 @@ final class DetailsViewController: UIViewController {
         setupConstraints()
         setupNavigationBar()
         changeFavoriteButton()
+        setActivityIndicator()
     }
     
     // MARK: - Private Actions
@@ -122,6 +121,15 @@ final class DetailsViewController: UIViewController {
     
     private func setStatusForFavoriteButton(_ status: Bool) {
         navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .black
+    }
+    
+    private func setActivityIndicator() {
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.activityIndicator.isHidden = isLoading
+            }
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func loadBookDetails() {
@@ -343,7 +351,7 @@ private extension DetailsViewController {
             ),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
         ])
     }
     
