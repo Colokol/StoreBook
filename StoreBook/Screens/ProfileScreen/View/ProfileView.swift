@@ -68,7 +68,12 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        textField.text = userDef.string(forKey: "t1")
+        StorageManager.shared.fetchProfileData(completion: { result in
+            if case .success(let success) = result {
+                textField.text = success
+            }
+        })
+        //textField.text = userDef.string(forKey: "t1")
         setupConstraints()
         setupButton()
         navigationController?.setupNavigationBar()
@@ -116,7 +121,9 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
      }
      
      @objc func saveButtonTapped (_ sender: UIButton) {
-         userDef.setValue(textField.text, forKey: "t1")
+         //userDef.setValue(textField.text, forKey: "t1")
+         StorageManager.shared.profileData(text: textField.text ?? "void")
+
          
      }
     
