@@ -48,6 +48,7 @@
 		CE57DC962B1B6DCC006DF243 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC952B1B6DCC006DF243 /* Assets.xcassets */; };
 		CE57DC992B1B6DCC006DF243 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */; };
 		CE57DCA62B1CEABF006DF243 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE57DCA52B1CEABF006DF243 /* Observable.swift */; };
+		CE6A97EC2B301E1900082DD8 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6A97EB2B301E1900082DD8 /* DataLoader.swift */; };
 		CEB1DC1D2B222DFC004DCEF6 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */; };
 		CEB1DC1E2B222DFC004DCEF6 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */; };
 		CEB1DC1F2B222DFC004DCEF6 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */; };
@@ -111,6 +112,7 @@
 		CE57DC982B1B6DCC006DF243 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE57DC9A2B1B6DCC006DF243 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE57DCA52B1CEABF006DF243 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		CE6A97EB2B301E1900082DD8 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		CEB1DC1A2B222DFC004DCEF6 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		CEB1DC1B2B222DFC004DCEF6 /* CustomPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				3CD1879C2B29C95300AB7F3A /* StorageManager.swift */,
 				E1CF2F1D2B23071700A4BB70 /* APIManager.swift */,
 				E1CF2F1F2B230B5900A4BB70 /* NetworkManager.swift */,
+				CE6A97EB2B301E1900082DD8 /* DataLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -648,6 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE6A97EC2B301E1900082DD8 /* DataLoader.swift in Sources */,
 				3CD187982B28DB7600AB7F3A /* UIFont + Extension.swift in Sources */,
 				161074232B25BE5300A71BD5 /* BookCell.swift in Sources */,
 				1610741E2B25BE2200A71BD5 /* TobBooksView.swift in Sources */,

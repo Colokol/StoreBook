@@ -15,6 +15,7 @@ final class DetailsViewModel {
     @Published var description: String?
     @Published var isFavorite: Bool
     @Published var isLoading: Bool = false
+    private var imageData:Data?
     
     var networkCancellables: Set<AnyCancellable> = []
     
@@ -60,6 +61,7 @@ final class DetailsViewModel {
                 print(error)
             }
         }
+        loadImageData()
     }
     
     // MARK: - Public Methods
@@ -103,9 +105,9 @@ final class DetailsViewModel {
         else {
             return
         }
-        
+
         isFavorite
-        ? storageManager.create(bookModel)
+        ? storageManager.create(bookModel, imageData: imageData)
         : storageManager.delete(withImageUrl: imageUrlString)
     }
     
@@ -129,4 +131,19 @@ final class DetailsViewModel {
             break
         }
     }
+
+    private func loadImageData() {
+        guard let imageUrl = bookModel.imageUrl?.absoluteString else {return}
+        DataLoader.shared.loadData(fromURL: imageUrl)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] imageData in
+                self?.imageData = imageData
+            }
+            .store(in: &networkCancellables)
+    }
+
 }
+
