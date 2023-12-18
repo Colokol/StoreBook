@@ -15,7 +15,7 @@ extension UISearchController {
         
         if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
             textField.font = UIFont.makeOpenSans(.semibold, size: 18)
-            textField.textColor = .black
+            textField.textColor = .label
             textField.clipsToBounds = true
             textField.attributedPlaceholder = NSAttributedString(
                 string: placeholder,

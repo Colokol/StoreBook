@@ -110,7 +110,7 @@ class TopBooksView:UIView{
         selectedButton?.backgroundColor = .clear
         selectedButton?.setTitleColor(.label, for: .normal)
 
-        button.backgroundColor = .black
+        button.backgroundColor = .label
         button.setTitleColor(.white, for: .normal)
 
         selectedButton = button

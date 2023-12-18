@@ -15,7 +15,7 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"
-        label.textColor = UIColor.black
+        label.textColor = UIColor.label
         label.font = UIFont.makeOpenSans(.semibold, size: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -32,7 +32,7 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setupNavigation()
         view.addSubview(titleLabel)
         setupCollectionView()
@@ -43,7 +43,7 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
         
         let searchController = UISearchController.makeCustomSearchController(
             placeholder: "Search title/author/ISBN no",
-            foregroundColor: UIColor.lightGray,
+            foregroundColor: UIColor.label,
             delegate: self
         )
         navigationItem.searchController = searchController
@@ -60,7 +60,7 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
     }

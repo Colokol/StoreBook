@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         topBooksView.viewModel = viewModel
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         setupUI()
         setupNavigation()
@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {
         
         let searchController = UISearchController.makeCustomSearchController(
             placeholder: "Happy Reading!",
-            foregroundColor: UIColor.black,
+            foregroundColor: UIColor.label,
             delegate: self
         )
         navigationItem.searchController = searchController

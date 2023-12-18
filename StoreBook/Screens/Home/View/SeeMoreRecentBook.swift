@@ -25,7 +25,7 @@ final class SeeMoreRecentBookViewController: UIViewController {
         super.viewDidLoad()
         seeMoreRecentBookTableView.delegate = self
         seeMoreRecentBookTableView.dataSource = self
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         viewModel.getData(period: .daily)
         setupUI()
         setupBindings()

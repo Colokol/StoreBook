@@ -36,7 +36,7 @@ final class SeeMoreTopBookViewController: UIViewController {
         super.viewDidLoad()
         seeMoreTopBookTableView.delegate = self
         seeMoreTopBookTableView.dataSource = self
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         configureNavigationBar()
         setupUI()
     }

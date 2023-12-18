@@ -10,7 +10,7 @@ import UIKit
 extension UIButton{
     static func seeButton()->UIButton{
         let button = UIButton(type: .system)
-        button.backgroundColor = .white
+        button.backgroundColor = .systemBackground
         button.tintColor = .black
         button.setTitle("see more", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14)
@@ -18,7 +18,7 @@ extension UIButton{
     }
     static func dateButton(with period:String)->UIButton{
         let button = UIButton(type: .system)
-        button.backgroundColor = .white
+        button.backgroundColor = .systemBackground
         button.tintColor = .black
         button.setTitle(period, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor

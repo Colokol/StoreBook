@@ -13,17 +13,17 @@ final class TabBarController: UITabBarController {
     private func configureTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        appearance.backgroundColor = .systemBackground
 
-        appearance.stackedLayoutAppearance.normal.iconColor = .black
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.stackedLayoutAppearance.normal.iconColor = .label
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.label]
         tabBar.scrollEdgeAppearance = appearance
-        tabBar.tintColor = .black
+        tabBar.tintColor = .label
 
     }
 
     private func setupViewControllers() {
-
+        
         let vc1 = UINavigationController(rootViewController: HomeViewController())
         let vc2 = UINavigationController(rootViewController: CategoriesViewController())
         let vc3 = UINavigationController(rootViewController: LikesViewController())

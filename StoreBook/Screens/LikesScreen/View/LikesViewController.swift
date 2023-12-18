@@ -42,7 +42,7 @@ class LikesViewController: UIViewController {
     
     private func setupView() {
         title = "Likes"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         setConstraints()
     }

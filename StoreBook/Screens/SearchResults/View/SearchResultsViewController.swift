@@ -28,7 +28,7 @@ final class SearchResultsViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(activityIndicator)
         setupBarButton()
         setupTableView()
@@ -43,6 +43,7 @@ final class SearchResultsViewController: UIViewController {
             action: #selector(sortSearchedResultBarButtonTap)
         )
         navigationItem.rightBarButtonItem = sortSearchedResultBarButton
+        navigationController?.navigationBar.tintColor = .label
     }
     
     @objc func sortSearchedResultBarButtonTap() {

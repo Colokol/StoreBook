@@ -4,6 +4,7 @@ class BookLoadIndicator: UIImageView {
     
     lazy var bookLoadingImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         if let gifUrl = URL(string: "https://usagif.com/wp-content/uploads/gifs/book-73.gif") {
@@ -23,7 +24,7 @@ class BookLoadIndicator: UIImageView {
         let view = UIView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
         
         return view
     }()

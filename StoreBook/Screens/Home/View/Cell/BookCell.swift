@@ -33,12 +33,12 @@ class BookCell:UICollectionViewCell{
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         //imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .label
         return imageView
     }()
     let categoryLabel:UILabel = {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
+        label.textColor = .systemBackground
         label.textAlignment = .left
         label.text = "Classic"
         label.font = .systemFont(ofSize: 11, weight: .light)
@@ -46,7 +46,7 @@ class BookCell:UICollectionViewCell{
     }()
     let bookNameLabel:UILabel = {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
+        label.textColor = .systemBackground
         label.textAlignment = .left
         label.text = "The Picture of Dorian Gray"
         label.numberOfLines = 0
@@ -55,7 +55,7 @@ class BookCell:UICollectionViewCell{
     }()
     let authorLabel:UILabel = {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
+        label.textColor = .systemBackground
         //label.textColor = .green
         label.textAlignment = .left
         label.text = "Oscar Wilde"

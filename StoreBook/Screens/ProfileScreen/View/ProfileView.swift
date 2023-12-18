@@ -16,14 +16,15 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         let accountTitle = UILabel()
         accountTitle.text = "Account"
         accountTitle.textAlignment = .center
-        accountTitle.textColor = .black
+        accountTitle.textColor = .label
         accountTitle.font = .makeOpenSans(.semibold, size: 16)
         accountTitle.isUserInteractionEnabled = true
         return accountTitle
     }()
    private let accountLogo: UIImageView = {
         let logo = UIImageView()
-        logo.image = UIImage(named: "account_circle")
+        logo.image = UIImage(systemName: "person.crop.circle")
+        logo.tintColor = .label
         logo.layer.cornerRadius = 60
         logo.clipsToBounds = true
         logo.contentMode = .scaleAspectFill
@@ -39,26 +40,27 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         let markedLabel = UILabel()
         
         markedLabel.text = "Name:"
-        markedLabel.textColor = .black
+        markedLabel.textColor = .label
         markedLabel.font = .makeOpenSans(.regular, size: 14)
         markedLabel.sizeToFit()
         
         additionalText.layer.cornerRadius = 5
         additionalText.leftView = markedLabel
         additionalText.leftViewMode = .unlessEditing
-        additionalText.textColor = .black
+        additionalText.textColor = .label
         additionalText.font = .makeOpenSans(.semibold, size: 16)
-        additionalText.backgroundColor = UIColor(red: 0.871, green: 0.871, blue: 0.871, alpha: 1)
+        additionalText.backgroundColor = .systemFill
         additionalText.textAlignment = .center
         additionalText.contentVerticalAlignment = .center
         return additionalText
     }()
    private let saveButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .black
+        button.backgroundColor = .label
         button.setTitle("Сохранить", for: .normal)
         button.titleLabel?.font = .makeOpenSans(.regular, size: 20)
         button.layer.cornerRadius = 10
+        button.setTitleColor(.systemBackground, for: .normal)
         return button
     }()
     
@@ -74,7 +76,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     
  // MARK: - View methods
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         [accountTitle, textField, accountLogo, imageButton, saveButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)

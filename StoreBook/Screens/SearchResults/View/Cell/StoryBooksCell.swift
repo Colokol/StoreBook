@@ -14,7 +14,7 @@ final class StoryBooksCell: UITableViewCell {
     
     lazy var bookContentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .label
         view.layer.cornerRadius = 8
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.borderWidth = 1
@@ -25,17 +25,17 @@ final class StoryBooksCell: UITableViewCell {
     
     private let bookNameLabel: UILabel = makeLabel(
         fontSize: 16,
-        textColor: .white
+        textColor: .systemBackground
     )
     
     private let authorNameLabel: UILabel = makeLabel(
         fontSize: 14,
-        textColor: .white
+        textColor: .systemBackground
     )
     
     private let ratingLabel: UILabel = makeLabel(
         fontSize: 12,
-        textColor: .white
+        textColor: .systemBackground
     )
     
     // MARK: - Init

@@ -119,9 +119,9 @@ final class DetailsViewController: UIViewController {
             .store(in: &viewModel.networkCancellables)
     }
     
-    private func setStatusForFavoriteButton(_ status: Bool) {
-        navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .black
-    }
+//    private func setStatusForFavoriteButton(_ status: Bool) {
+//        navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .label
+//    }
     
     private func setActivityIndicator() {
         viewModel.$isLoading
@@ -248,14 +248,16 @@ final class DetailsViewController: UIViewController {
     }
     
     private func setStatusFoFavoriteButton(_ status: Bool) {
-        navigationItem.rightBarButtonItem?.tintColor = status ? .red : .black
+        navigationItem.rightBarButtonItem?.tintColor = status ? .red : .label
     }
 }
 
 // MARK: - Set Views
 private extension DetailsViewController {
     func setViews() {
-        view.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .label
+
+        view.backgroundColor = .systemBackground
         containerView.setupSubviews(titleLabel,
                                     bookImageView,
                                     infoStackView,
@@ -381,7 +383,7 @@ private extension DetailsViewController {
             target: self,
             action: #selector(likeButtonDidTapped)
         )
-        likeButton.tintColor = .black
+        likeButton.tintColor = .label
         navigationItem.rightBarButtonItem = likeButton
     }
 }
