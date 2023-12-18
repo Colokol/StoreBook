@@ -43,6 +43,12 @@ final class StorageManager {
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
+    func profileData (text: String) {
+        let profile = ProfileView ()
+        //let textData = String()
+        profile.textField.text = text
+        saveContext()
+    }
     
     func fetchData(completion: (Result<[BookData], Error>) -> Void) {
         let fetchRequest = BookData.fetchRequest()
@@ -53,6 +59,17 @@ final class StorageManager {
         } catch let error {
             completion(.failure(error))
         }
+    }
+    func fetchProfileData(completion: (Result<[ProfileData], Error>) -> Void) {
+        let fetchRequest = ProfileData.fetchRequest()
+        
+        do {
+            let profileData = try viewContext.fetch(fetchRequest)
+            completion(.success(profileData))
+        } catch let error {
+            completion(.failure(error))
+        }
+        
     }
     
     func delete(withImageUrl imageUrl: String) {

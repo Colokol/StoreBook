@@ -35,7 +35,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         button.backgroundColor = .clear
         return button
     }()
-   private let textField: UITextField = {
+   public let textField: UITextField = {
         let additionalText = UITextField()
         let markedLabel = UILabel()
         
