@@ -12,8 +12,8 @@ final class NetworkManager {
     
     private init() {}
     
-    func getBook(for category: String) -> AnyPublisher<SearchBook, NetworkError> {
-        let endpoint = BookEndpoint.searchBookFor(category: category)
+    func getBook(for category: String, limit: Int) -> AnyPublisher<SearchBook, NetworkError> {
+        let endpoint = BookEndpoint.searchBookFor(category: category, limit: limit)
         return URLSessionAPIClient<BookEndpoint>()
             .request(endpoint)
             .mapError { error -> NetworkError in
