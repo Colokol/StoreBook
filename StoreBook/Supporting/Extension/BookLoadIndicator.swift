@@ -7,7 +7,7 @@ class BookLoadIndicator: UIImageView {
         imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        if let gifUrl = URL(string: "https://usagif.com/wp-content/uploads/gifs/book-73.gif") {
+        if let gifUrl = URL(string: "https://usagif.com/wp-content/uploads/gifs/book-68.gif") {
             imageView.sd_setImage(with: gifUrl) { (image, error, cacheType, url) in
                 if error != nil {
                     print("Error loading GIF image")
@@ -36,9 +36,9 @@ class BookLoadIndicator: UIImageView {
         let screenHeight = UIScreen.main.bounds.height
         
         if isCell {
-            let widthConstraint = bookLoadingImageView.widthAnchor.constraint(equalToConstant: (screenHeight / 10))
+            let widthConstraint = bookLoadingImageView.widthAnchor.constraint(equalToConstant: (screenHeight / 40))
             NSLayoutConstraint.activate([
-                bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 10),
+                bookLoadingImageView.heightAnchor.constraint(equalToConstant: screenHeight / 40),
                 widthConstraint
             ])
         } else {
