@@ -2,14 +2,17 @@ import Combine
 import Foundation
 
 final class CategoryResultsViewModel {
-    @Published var tableData: [Doc] = []
+    @Published var categoryBooks: [Doc] = []
     @Published var isLoading: Bool = false
+    
+    private var currentPage: Int = 1
+    private var limit: Int = 5
     
     private var networkManager = NetworkManager.shared
     var networkCancellables: Set<AnyCancellable> = []
-
-    func fetchData(for category: String) {
-        networkManager.getBook(for: category)
+    
+    func fetchNextPage(for category: String) {
+        networkManager.getBook(for: category, limit: limit)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion {
@@ -20,10 +23,14 @@ final class CategoryResultsViewModel {
                 }
             } receiveValue: { [weak self] books in
                 self?.isLoading = true
-                self?.tableData = books.docs
-                
+                self?.categoryBooks.append(contentsOf: books.docs)
+                self?.currentPage += 1
+                self?.limit += 5
             }
             .store(in: &networkCancellables)
     }
 }
+
+
+
 

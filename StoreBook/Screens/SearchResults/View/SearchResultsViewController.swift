@@ -78,7 +78,7 @@ final class SearchResultsViewController: UIViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
             searchTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.horizontalSpacing * 2 ),
             searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor ),

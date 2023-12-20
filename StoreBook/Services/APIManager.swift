@@ -39,7 +39,7 @@ enum TimeFrame: String {
 }
 
 enum BookEndpoint: APIEndpoint {
-    case searchBookFor(category: String)
+    case searchBookFor(category: String, limit: Int)
     case searchBookWith(searchText: String)
     case topBook(timeFrame: TimeFrame)
     
@@ -52,7 +52,7 @@ enum BookEndpoint: APIEndpoint {
     
     var path: String {
         switch self {
-        case .searchBookFor(category: _):
+        case .searchBookFor(category: _, limit: _):
             return "search.json"
         case .searchBookWith(searchText: _):
             return "search.json"
@@ -71,10 +71,10 @@ enum BookEndpoint: APIEndpoint {
     
     var parameters: [String: String]? {
         switch self {
-        case .searchBookFor(category: let category):
+        case .searchBookFor(category: let category, limit: let limit):
             let params = [
                 "q": "\(category)+-subject_key",
-                "limit": "10"
+                "limit": "\(limit)"
             ]
             return params
             
