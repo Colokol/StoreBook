@@ -68,9 +68,9 @@ final class StoryBooksCell: UITableViewCell {
     
     //MARK: for SeeMore
     func configure(for topBook: TopBook) {
-        bookNameLabel.text = topBook.title
+        bookNameLabel.text = "Title: \(topBook.title)"
         if let authorName = topBook.authorName?.joined(separator: "\n"){
-            authorNameLabel.text = authorName
+            authorNameLabel.text =  "Autors: \(authorName)"
         }
         
         if let imageUrl = topBook.coverURL() {
@@ -78,15 +78,17 @@ final class StoryBooksCell: UITableViewCell {
         }
         
         if let rating = topBook.ratingsAverage {
-            ratingLabel.text = String(rating)
+            ratingLabel.text =  String(format: "Rating: %.1f", rating)
         }
     }
     
     //MARK: For LikesScreen
     func configureCell(model: BookData) {
-        authorNameLabel.text = model.author
-        bookNameLabel.text = model.title
-        ratingLabel.text = model.category
+        if let author = model.author, let title = model.title, let category = model.category {
+            authorNameLabel.text = "Autors: \(String(describing: author))"
+            bookNameLabel.text = "Title: \(String(describing: title))"
+            ratingLabel.text = "Category: \(String(describing: category))"
+        }
         guard let imageData = model.image else {return}
         bookImageView.bookLoadingImageView.image = UIImage(data: imageData)
     }

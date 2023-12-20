@@ -68,14 +68,4 @@ final class DetailsViewBuilder {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
-    
-    func makeActivityIndicator() -> UIActivityIndicatorView {
-        let indicator = UIActivityIndicatorView()
-        indicator.hidesWhenStopped = true
-        indicator.color = .darkGray
-        indicator.style = .large
-        indicator.startAnimating()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }
 }
