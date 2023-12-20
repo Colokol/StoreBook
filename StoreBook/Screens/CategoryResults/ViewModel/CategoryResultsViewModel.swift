@@ -23,7 +23,7 @@ final class CategoryResultsViewModel {
                 }
             } receiveValue: { [weak self] books in
                 self?.isLoading = true
-                self?.categoryBooks.append(contentsOf: books.docs)
+                self?.categoryBooks = books.docs
                 self?.currentPage += 1
                 self?.limit += 5
             }
