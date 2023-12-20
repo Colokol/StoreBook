@@ -43,10 +43,9 @@ final class StorageManager {
         NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
         saveContext()
     }
-    func profileData (text: String) {
-        let profile = ProfileView ()
-        //let textData = String()
-        profile.textField.text = text
+    func profileData (profile: ProfileView) {
+        let profileData = ProfileData(context: viewContext)
+        profileData.text = profile.textField.text
         saveContext()
     }
     

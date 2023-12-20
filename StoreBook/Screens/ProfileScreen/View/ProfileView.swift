@@ -68,11 +68,19 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        StorageManager.shared.fetchProfileData(completion: { result in
-            if case .success(let success) = result {
-                textField.text = success
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        self.textField.text = profileData.text
+                    }
+                case .failure(let error):
+                    // Обрабатывать ошибку
+                    print("Error fetching profile data: \(error)")
+                }
             }
-        })
+        }
         //textField.text = userDef.string(forKey: "t1")
         setupConstraints()
         setupButton()
@@ -122,8 +130,8 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
      
      @objc func saveButtonTapped (_ sender: UIButton) {
          //userDef.setValue(textField.text, forKey: "t1")
-         StorageManager.shared.profileData(text: textField.text ?? "void")
-
+         StorageManager.shared.profileData(profile: self)
+         print ("tap")
          
      }
     
