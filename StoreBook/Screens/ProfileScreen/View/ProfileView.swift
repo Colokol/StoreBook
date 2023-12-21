@@ -21,7 +21,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         accountTitle.isUserInteractionEnabled = true
         return accountTitle
     }()
-   public let accountLogo: UIImageView = {
+   private let accountLogo: UIImageView = {
         let logo = UIImageView()
         logo.image = UIImage(systemName: "person.crop.circle")
         logo.tintColor = .label
@@ -68,32 +68,8 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        StorageManager.shared.fetchProfileData { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let profileDataArray):
-                    if let profileData = profileDataArray.last {
-                        self.textField.text = profileData.text
-                    }
-                case .failure(let error):
-                    print("Error fetching profile data: \(error)")
-                }
-            }
-        }
-        StorageManager.shared.fetchProfileData { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let profileDataArray):
-                    if let profileData = profileDataArray.last {
-                        let uiImage: UIImage = UIImage(data: profileData.image!) ?? UIImage(systemName: "person.crop.circle")!
-                        self.accountLogo.image = uiImage
-                    }
-                case .failure(let error):
-                    print("Error fetching profile data: \(error)")
-                }
-            }
-        }
-        convertToData(imageView: accountLogo)
+        getText()
+        getImage()
         setupConstraints()
         setupButton()
         navigationController?.setupNavigationBar()
@@ -135,19 +111,8 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              saveButton.heightAnchor.constraint(equalToConstant: 60)
             ])
     }
-    // необходимо написать метод для разворачивания из типа Data и конвертации в дату
-    func convertToData (imageView: UIImageView) -> Data? {
-        let defaultImage = imageView.image
-        let data = defaultImage?.jpegData(compressionQuality: 1.0)
-        print (data)
-        return data
-        //imageView.image?.pngData() = UIImage(data: <#T##Data#>)
-//        guard let imageDefault = UIImage(named: "person.crop.circle")
-//        let pngdata = logo.imageDefault.pngData()
-//        //logo.image = UIImage(systemName: "person.crop.circle")
-//        logo.image?.pngData() = UIImage(data: pngdata)!
-        
-    }
+    // MARK: - Button methods
+    
     private func setupButton () {
          imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
          saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -157,7 +122,42 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
          StorageManager.shared.profileData(profile: self, imageData: self.convertToData(imageView: accountLogo))
          
      }
-    
+    // MARK: - Core Data methods
+    private func getText () {
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        self.textField.text = profileData.text
+                    }
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+        }
+    }
+    private func getImage () {
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        let profileImage: UIImage = UIImage(data: profileData.image!) ?? UIImage(systemName: "person.crop.circle")!
+                        self.accountLogo.image = profileImage
+                    }
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+        }
+
+    }
+   private func convertToData (imageView: UIImageView) -> Data? {
+        let defaultImage = imageView.image
+        let data = defaultImage?.pngData()
+        return data
+    }
    // MARK: - Picker's methods
     
     @objc func setPicker(_ sender: UIButton) {
