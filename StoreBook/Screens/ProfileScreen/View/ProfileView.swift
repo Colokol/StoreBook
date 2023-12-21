@@ -21,7 +21,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         accountTitle.isUserInteractionEnabled = true
         return accountTitle
     }()
-   private let accountLogo: UIImageView = {
+   public let accountLogo: UIImageView = {
         let logo = UIImageView()
         logo.image = UIImage(systemName: "person.crop.circle")
         logo.tintColor = .label
@@ -76,12 +76,24 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
                         self.textField.text = profileData.text
                     }
                 case .failure(let error):
-                    // Обрабатывать ошибку
                     print("Error fetching profile data: \(error)")
                 }
             }
         }
-        //textField.text = userDef.string(forKey: "t1")
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        let uiImage: UIImage = UIImage(data: profileData.image!) ?? UIImage(systemName: "person.crop.circle")!
+                        self.accountLogo.image = uiImage
+                    }
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+        }
+        convertToData(imageView: accountLogo)
         setupConstraints()
         setupButton()
         navigationController?.setupNavigationBar()
@@ -123,15 +135,26 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              saveButton.heightAnchor.constraint(equalToConstant: 60)
             ])
     }
+    // необходимо написать метод для разворачивания из типа Data и конвертации в дату
+    func convertToData (imageView: UIImageView) -> Data? {
+        let defaultImage = imageView.image
+        let data = defaultImage?.jpegData(compressionQuality: 1.0)
+        print (data)
+        return data
+        //imageView.image?.pngData() = UIImage(data: <#T##Data#>)
+//        guard let imageDefault = UIImage(named: "person.crop.circle")
+//        let pngdata = logo.imageDefault.pngData()
+//        //logo.image = UIImage(systemName: "person.crop.circle")
+//        logo.image?.pngData() = UIImage(data: pngdata)!
+        
+    }
     private func setupButton () {
          imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
          saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
      }
      
      @objc func saveButtonTapped (_ sender: UIButton) {
-         //userDef.setValue(textField.text, forKey: "t1")
-         StorageManager.shared.profileData(profile: self)
-         print ("tap")
+         StorageManager.shared.profileData(profile: self, imageData: self.convertToData(imageView: accountLogo))
          
      }
     
