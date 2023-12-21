@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-final class SearchResultsViewController: UIViewController {
+final class SearchResultsViewController: UISearchController {
     // MARK: - Private properties
     
     var viewModel = SearchResultsViewModel()
@@ -9,7 +9,12 @@ final class SearchResultsViewController: UIViewController {
     private lazy var activityIndicator = BookLoadIndicator()
     
     weak var navigationControllerFromCategories: UINavigationController?
-    
+
+    private var customSearch = CustomSearchBar()
+
+    override var searchBar: UISearchBar { customSearch }
+
+
     lazy var searchTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -23,32 +28,15 @@ final class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
-        
     }
     
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(activityIndicator)
-        setupBarButton()
+        configureFilterButton()
         setupTableView()
         setConstraints()
-    }
-    
-    private func setupBarButton() {
-        let sortSearchedResultBarButton = UIBarButtonItem(
-            image: UIImage(named: "filter"),
-            style: .plain,
-            target: self,
-            action: #selector(sortSearchedResultBarButtonTap)
-        )
-        navigationItem.rightBarButtonItem = sortSearchedResultBarButton
-        navigationController?.navigationBar.tintColor = .label
-    }
-    
-    @objc func sortSearchedResultBarButtonTap() {
-        viewModel.searchedBooks.sort { $0.title < $1.title }
-        searchTableView.reloadData()
     }
     
     private func setupBindings() {
@@ -80,12 +68,22 @@ final class SearchResultsViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            searchTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.horizontalSpacing * 2 ),
+            searchTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor ),
             searchTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor ),
             searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor )
         ])
     }
+
+    private func configureFilterButton() {
+        customSearch.filterButton.addTarget(self, action: #selector(sortSearchedResultBarButtonTap), for: .touchUpInside)
+    }
+
+    @objc func sortSearchedResultBarButtonTap() {
+        viewModel.searchedBooks.sort { $0.title < $1.title }
+        searchTableView.reloadData()
+    }
+
 }
 
 
