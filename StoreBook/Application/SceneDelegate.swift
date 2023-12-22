@@ -9,7 +9,12 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
-    var window: UIWindow?
+    var window: UIWindow? {
+      didSet {
+        window?.overrideUserInterfaceStyle = .light
+      }
+    }
+
     private var storageManager = StorageManager.shared
     
     
