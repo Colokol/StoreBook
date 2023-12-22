@@ -7,20 +7,27 @@
 
 import Foundation
 import UIKit
+
 class TopBooksView:UIView{
+    
+    // MARK: - Variables
     static let shared = TopBooksView()
-   
+    private var selectedButton: UIButton?
+    private var selectedPeriod: TimeFrame = .daily
+    var viewModel = HomeViewModel()
+    
     // MARK: - UI Components
     let topBooksLabel:UILabel = {
-       let label = UILabel()
-       label.textColor = .label
-       label.textAlignment = .left
-       label.text = "Top Books"
-       label.sizeToFit()
-       label.font = .systemFont(ofSize: 22, weight: .medium)
-       return label
+        let label = UILabel()
+        label.textColor = .label
+        label.textAlignment = .left
+        label.text = "Top Books"
+        label.sizeToFit()
+        label.font = .makeOpenSans(.medium, size: 22)
+        return label
     }()
-   
+    
+    // MARK: - UI Components
     private lazy var seeMoreTopBooksButton:UIButton = {
         let button = UIButton.seeButton()
         button.addTarget(self, action: #selector(didTapSeeMoreTopButton), for: .touchUpInside)
@@ -29,16 +36,6 @@ class TopBooksView:UIView{
     
     private lazy var weekTopBooksButton:UIButton = {
         let button = UIButton.dateButton(with: "This Week")
-//        button.isSelected.toggle()
-//        if button.isSelected == true{
-//            button.backgroundColor = .black
-//            button.tintColor = .white
-//            button.isSelected = false
-//        }else {
-//            button.backgroundColor = .white
-//            button.tintColor = .black
-//            button.isSelected = true
-//        }
         button.addTarget(self, action: #selector(didTapWeekButton), for: .touchUpInside)
         return button
     }()
@@ -68,7 +65,7 @@ class TopBooksView:UIView{
         label.textAlignment = .left
         label.text = "Recent Books"
         label.sizeToFit()
-        label.font = .systemFont(ofSize: 22, weight: .medium)
+        label.font = .makeOpenSans(.medium, size: 22)
         return label
     }()
    
@@ -77,22 +74,46 @@ class TopBooksView:UIView{
         button.addTarget(self, action: #selector(didTapSeeMoreRecentButton), for: .touchUpInside)
         return button
     }()
+    
     // MARK: - Private actions
-    @objc private func didTapSeeMoreTopButton(){
-        print("see details")
+    @objc private func didTapSeeMoreTopButton() {
+        let seeMoreTopBookViewController = SeeMoreTopBookViewController(seeMoreBooks: viewModel.topBook, period: selectedPeriod )
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
     }
-    @objc private func didTapWeekButton(){
-        print("week button tap")
+    
+    @objc private func didTapWeekButton() {
+        updateButtonAppearance(weekTopBooksButton)
+        selectedPeriod = .weekly
+        viewModel.getData(period: .weekly)
     }
-    @objc private func didTapMonthButton(){
-        print("month button tap")
+    
+    @objc private func didTapMonthButton() {
+        updateButtonAppearance(monthTopBooksButton)
+        selectedPeriod = .monthly
+        viewModel.getData(period: .monthly)
     }
-    @objc private func didTapYearButton(){
-        print("year button tap")
+    
+    @objc private func didTapYearButton() {
+        updateButtonAppearance(yearTopBooksButton)
+        selectedPeriod = .yearly
+        viewModel.getData(period: .yearly)
     }
-    @objc private func didTapSeeMoreRecentButton(){
-        print("see details")
+
+    @objc private func didTapSeeMoreRecentButton() {
+        let seeMoreRecentBookViewController = SeeMoreRecentBookViewController()
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreRecentBookViewController, animated: true)
     }
+    
+    private func updateButtonAppearance(_ button: UIButton) {
+        selectedButton?.backgroundColor = .clear
+        selectedButton?.setTitleColor(.label, for: .normal)
+
+        button.backgroundColor = .label
+        button.setTitleColor(.white, for: .normal)
+
+        selectedButton = button
+    }
+    
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +123,7 @@ class TopBooksView:UIView{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     //MARK: - UI Setup
     private func setupUI(){
         self.addSubview(topBooksLabel)
@@ -118,11 +140,10 @@ class TopBooksView:UIView{
         NSLayoutConstraint.activate([
             topBooksLabel.topAnchor.constraint(equalTo: self.topAnchor),
             topBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            //topBooksLabel.widthAnchor.constraint(equalToConstant: 120),
             topBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
             seeMoreTopBooksButton.topAnchor.constraint(equalTo: self.topAnchor),
-            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             seeMoreTopBooksButton.widthAnchor.constraint(equalToConstant: 62),
             seeMoreTopBooksButton.heightAnchor.constraint(equalToConstant: 35),
             
@@ -131,14 +152,13 @@ class TopBooksView:UIView{
             timeStackView.widthAnchor.constraint(equalToConstant: 290),
             timeStackView.heightAnchor.constraint(equalToConstant: 32),
             
-            recentBooksLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 330),
+            recentBooksLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -5),
             recentBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            recentBooksLabel.heightAnchor.constraint(equalToConstant: 35),
+            recentBooksLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            seeMoreRecentBooksButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 330),
-            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            seeMoreRecentBooksButton.widthAnchor.constraint(equalToConstant: 62),
-            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 35),
+            seeMoreRecentBooksButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -5),
+            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
 }

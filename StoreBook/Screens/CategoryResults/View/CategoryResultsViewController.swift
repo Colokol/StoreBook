@@ -1,52 +1,55 @@
 import UIKit
 
-final class SearchCategoriesViewController: UITableViewController {
+final class CategoryResultsViewController: UITableViewController {
     
     var category: String
-
-    private var viewModel = SearchViewModel()
+    
+    var viewModel = CategoryResultsViewModel()
     
     private lazy var activityIndicator = BookLoadIndicator()
-
+    
     init(category: String) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
+        viewModel.fetchNextPage(for: category)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         title = category
         setActivityIndicator()
-        viewModel.fetchData(with: category)
         setupBindings()
         configureTableView()
     }
-
-    private func configureTableView() {
+    
+    func configureTableView() {
+        tableView.prefetchDataSource = self
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(SearchCategoriesCell.self, forCellReuseIdentifier: SearchCategoriesCell.cellID)
+        tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
     }
     
     private func setupBindings() {
-        viewModel.$tableData
+        viewModel.$categoryBooks
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
-            .store(in: &viewModel.cancellables)
-
+            .store(in: &viewModel.networkCancellables)
+        
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                  self?.activityIndicator.isHidden = isLoading
+                self?.activityIndicator.isHidden = isLoading
             }
-            .store(in: &viewModel.cancellables)
+            .store(in: &viewModel.networkCancellables)
     }
     
     private func setActivityIndicator() {
@@ -59,21 +62,8 @@ final class SearchCategoriesViewController: UITableViewController {
     }
 }
 
-extension SearchCategoriesViewController {
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.tableData.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCategoriesCell.cellID, for: indexPath) as? SearchCategoriesCell else { return UITableViewCell() }
-        let searchedCategoryBook = viewModel.tableData[indexPath.row]
-        cell.configure(with: searchedCategoryBook)
-        return cell
-    }
-}
-
-extension SearchCategoriesViewController {
+// MARK: - Constants 
+extension CategoryResultsViewController {
     struct Constants {
         static let verticalSpacing: CGFloat = 4
         static let horizontalSpacing: CGFloat = 20

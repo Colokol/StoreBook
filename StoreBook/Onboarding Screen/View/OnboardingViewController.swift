@@ -29,7 +29,7 @@ final class OnboardingViewController: UIViewController {
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = .black
+        label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 0
         label.text = ""
@@ -37,12 +37,13 @@ final class OnboardingViewController: UIViewController {
     }()
     
     private let nextButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton()
         button.setTitle("Continue", for: .normal)
         button.layer.cornerRadius = 5
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(.systemBackground, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        button.backgroundColor = .black
+        //button.tintColor = .red
+        button.backgroundColor = .label
         return button
     }()
     
@@ -55,7 +56,7 @@ final class OnboardingViewController: UIViewController {
     }
     // MARK: - Private methods
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         [bookImageView, logoImageView, textLabel, customPageController, nextButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -100,9 +101,13 @@ final class OnboardingViewController: UIViewController {
         }
     }
     
-    private func navigateToNextScreen() {
-        print ("Go to home screen")
-        // Здесь код для перехода на другой экран
+     public func navigateToNextScreen() {
+        UserDefaults.standard.set(true, forKey: "HasShownWelcomeScreen")
+        let tabBarController = TabBarController()
+        if let window = view.window {
+            window.rootViewController = tabBarController
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {}, completion: nil)
+        }
     }
 }
 

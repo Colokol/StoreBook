@@ -6,32 +6,29 @@
 //
 
 import Foundation
-protocol HomeViewModelProtocol{
-    var bookTitle:String {get}
-    var bookCategory:String {get}
-    var bookImage:Data? {get}
-    var bookAuthor: String {get}
-    
-    init(book:HomeBookModel)
-}
-final class HomeViewModel:HomeViewModelProtocol{
-    var bookTitle: String{
-        book.name
-    }
-    
-    var bookCategory: String {
-        book.category
-    }
-    
-    var bookImage: Data?
-    
-    var bookAuthor: String {
-        book.author
-    }
-    
-    private let book:HomeBookModel
+import Combine
 
-    init(book:HomeBookModel){
-        self.book = book
+final class HomeViewModel{
+    @Published var topBook:[TopBook] = []
+    var subscription:Set<AnyCancellable> = []
+    
+    
+    init(){
+        self.getData(period: .daily)
     }
-}
+    public func getData(period:TimeFrame){
+            NetworkManager.shared.getTopBook(for: period)
+                .receive(on: DispatchQueue.main)
+                .sink { error in
+                    if case .failure(let error) = error {
+                        print(error)
+                    }
+                } receiveValue: { value in
+                    self.topBook = value.works
+                    
+                }
+                .store(in: &subscription)
+        }
+    }
+
+

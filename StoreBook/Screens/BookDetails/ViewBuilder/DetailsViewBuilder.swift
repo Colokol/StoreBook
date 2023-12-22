@@ -8,12 +8,11 @@
 import UIKit
 
 final class DetailsViewBuilder {
-    static let shared = DetailsViewBuilder()
-    private init() {}
     
-    func makeNameLabel() -> UILabel {
+    // MARK: - Public Methods
+    func makeTitleLabel() -> UILabel {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.makeOpenSans(.bold, size: 25)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,12 +22,13 @@ final class DetailsViewBuilder {
     func makeImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         return imageView
     }
     
-    func makeInfoLabel(with font: UIFont = UIFont.systemFont(ofSize: 14), numberOfLines: Int = 1) -> UILabel {
+    func makeInfoLabel(with font: UIFont = UIFont.makeOpenSans(.regular, size: 13), numberOfLines: Int = 1) -> UILabel {
         let label = UILabel()
         label.font = font
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ final class DetailsViewBuilder {
         return stackView
     }
     
-    func makeButton(with title: String, with color: UIColor) -> UIButton {
+    func makeButton(title: String, color: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.layer.cornerRadius = 5
@@ -53,7 +53,7 @@ final class DetailsViewBuilder {
         let titleColor = color == UIColor.gray ? UIColor.black : .white
         button.setTitleColor(titleColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.makeOpenSans(.semibold, size: 15)
         return button
     }
     

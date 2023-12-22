@@ -8,7 +8,8 @@ final class CategoryCell: UICollectionViewCell {
         label.text = "Drama"
         label.textColor = UIColor.white
         label.textAlignment = .center
-        label.font = UIFont(name: "OpenSans-SemiBold", size: 18)
+        label.font =  UIFont.makeOpenSans(.semibold, size: 18)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,23 +23,31 @@ final class CategoryCell: UICollectionViewCell {
         return img
     }()
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupHierarchy()
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Nethods
+    func configure(with category: CategoryModel) {
+        categoryTitleLabel.text = category.title
+        categoryImage.image = UIImage(named: category.image)
+    }
+    
     // MARK: - UI Setup
-    private func setupUI() {
+    private func setupHierarchy() {
+        setupGradient()
         addSubview(categoryImage)
         addSubview(categoryTitleLabel)
-        
-        setupGradient()
-        
+    }
+    
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             categoryImage.topAnchor.constraint(equalTo: topAnchor),
             categoryImage.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -49,7 +58,10 @@ final class CategoryCell: UICollectionViewCell {
             categoryTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])  
     }
-    
+}
+
+//MARK: Setup Gradient
+extension CategoryCell {
     private func setupGradient() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
@@ -58,10 +70,5 @@ final class CategoryCell: UICollectionViewCell {
         ]
         gradientLayer.frame = bounds
         categoryImage.layer.addSublayer(gradientLayer)
-    }
-    
-    func configure(with category: CategoryModel) {
-        categoryTitleLabel.text = category.title
-        categoryImage.image = UIImage(named: category.image)
     }
 }

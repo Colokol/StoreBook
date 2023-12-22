@@ -14,59 +14,30 @@ enum ErrorData: Error {
 
 class LikesViewModel {
         
-    @Published var books:[Work] = []
+    @Published var books:[BookData] = []
 
     var subscriptions: Set<AnyCancellable> = []
 
-    func createUrl(url: String) -> URL? {
-        return URL(string: url)
-    }
-    
-    func fetchBooks() -> AnyPublisher<Welcome, Error> {
-        guard let url = createUrl(url: "https://openlibrary.org/trending/daily.json") else {
-            return Fail(error: ErrorData.urlError).eraseToAnyPublisher()
-        }
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .map(\.data)
-            .decode(type: Welcome.self, decoder: JSONDecoder())
-            .catch { error -> AnyPublisher<Welcome, Error> in
-                print("Error: \(error.localizedDescription)")
-                    // Return a default value or a different publisher if needed
-                return Fail(error: ErrorData.urlError).eraseToAnyPublisher()
-            }
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
+    init() {
+        fetchBook()
     }
 
-    func retrievBooks(){
-        fetchBooks()
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] welcome in
-                self?.books = welcome.works
-            }
-            .store(in: &subscriptions)
-    }
-
-    func fetchFinalImageUrl(from url: URL, completion: @escaping (URL?) -> Void) {
-        var request = URLRequest(url: url)
-        request.httpMethod = "HEAD"
-
-        let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                print("Ошибка при получении URL изображения: \(error?.localizedDescription ?? "Неизвестная ошибка")")
-                completion(nil)
-                return
-            }
-
-            if let finalUrl = httpResponse.url {
-                completion(finalUrl)
-            } else {
-                print("Не удалось получить конечный URL")
-                completion(nil)
+    func fetchBook() {
+        StorageManager.shared.fetchData { result in
+            if case .success(let books) = result {
+                self.books = books
             }
         }
-        task.resume()
+    }
+
+    func deleteLikeBook(model: BookData) {
+        guard let url = model.imageUrl else {return}
+        StorageManager.shared.delete(withImageUrl: url)
     }
     
+    func deleteAllLikes() {
+        StorageManager.shared.deleteAllLikes()
+        books.removeAll()
+        NotificationCenter.default.post(name: NSNotification.Name("Saved"), object: nil)
+    }
 }

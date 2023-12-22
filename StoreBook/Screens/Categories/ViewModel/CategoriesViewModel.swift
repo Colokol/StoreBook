@@ -1,4 +1,4 @@
-import Combine
+import Foundation
 
 final class CategoriesViewModel {
     var categories: [CategoryModel] = []
