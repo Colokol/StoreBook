@@ -19,8 +19,8 @@ final class SeeMoreRecentBookViewController: UIViewController {
         tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
         return tableView
     }()
-   
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         seeMoreRecentBookTableView.delegate = self
@@ -38,11 +38,12 @@ final class SeeMoreRecentBookViewController: UIViewController {
             }.store(in: &viewModel.subscription)
 
     }
+    
+    //MARK: - UI Setup
     private func setupUI(){
         view.addSubview(seeMoreRecentBookTableView)
         
         seeMoreRecentBookTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         NSLayoutConstraint.activate([
             seeMoreRecentBookTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -54,8 +55,8 @@ final class SeeMoreRecentBookViewController: UIViewController {
    
 }
 
+//MARK: - TableViewDelegate,TableViewDataSource
 extension SeeMoreRecentBookViewController:UITableViewDelegate,UITableViewDataSource{
-    
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          viewModel.topBook.count
     }
