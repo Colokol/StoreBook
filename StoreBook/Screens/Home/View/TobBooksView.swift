@@ -9,24 +9,25 @@ import Foundation
 import UIKit
 
 class TopBooksView:UIView{
-    static let shared = TopBooksView()
     
+    // MARK: - Variables
+    static let shared = TopBooksView()
     private var selectedButton: UIButton?
     private var selectedPeriod: TimeFrame = .daily
-    
     var viewModel = HomeViewModel()
     
     // MARK: - UI Components
     let topBooksLabel:UILabel = {
-       let label = UILabel()
-       label.textColor = .label
-       label.textAlignment = .left
-       label.text = "Top Books"
-       label.sizeToFit()
-       label.font = .systemFont(ofSize: 22, weight: .medium)
-       return label
+        let label = UILabel()
+        label.textColor = .label
+        label.textAlignment = .left
+        label.text = "Top Books"
+        label.sizeToFit()
+        label.font = .makeOpenSans(.medium, size: 22)
+        return label
     }()
-   
+    
+    // MARK: - UI Components
     private lazy var seeMoreTopBooksButton:UIButton = {
         let button = UIButton.seeButton()
         button.addTarget(self, action: #selector(didTapSeeMoreTopButton), for: .touchUpInside)
@@ -64,21 +65,19 @@ class TopBooksView:UIView{
         label.textAlignment = .left
         label.text = "Recent Books"
         label.sizeToFit()
-        label.font = .systemFont(ofSize: 22, weight: .medium)
+        label.font = .makeOpenSans(.medium, size: 22)
         return label
     }()
    
     private lazy var seeMoreRecentBooksButton:UIButton = {
         let button = UIButton.seeButton()
         button.addTarget(self, action: #selector(didTapSeeMoreRecentButton), for: .touchUpInside)
-    
         return button
     }()
     
     // MARK: - Private actions
     @objc private func didTapSeeMoreTopButton() {
         let seeMoreTopBookViewController = SeeMoreTopBookViewController(seeMoreBooks: viewModel.topBook, period: selectedPeriod )
-        
         (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreTopBookViewController, animated: true)
     }
     
@@ -102,7 +101,6 @@ class TopBooksView:UIView{
 
     @objc private func didTapSeeMoreRecentButton() {
         let seeMoreRecentBookViewController = SeeMoreRecentBookViewController()
-        
         (superview?.next as? UIViewController)?.navigationController?.pushViewController(seeMoreRecentBookViewController, animated: true)
     }
     
@@ -115,8 +113,8 @@ class TopBooksView:UIView{
 
         selectedButton = button
     }
+    
     //MARK: - Lifecycle
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -125,6 +123,7 @@ class TopBooksView:UIView{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     //MARK: - UI Setup
     private func setupUI(){
         self.addSubview(topBooksLabel)
@@ -144,7 +143,7 @@ class TopBooksView:UIView{
             topBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
             seeMoreTopBooksButton.topAnchor.constraint(equalTo: self.topAnchor),
-            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             seeMoreTopBooksButton.widthAnchor.constraint(equalToConstant: 62),
             seeMoreTopBooksButton.heightAnchor.constraint(equalToConstant: 35),
             
@@ -153,14 +152,13 @@ class TopBooksView:UIView{
             timeStackView.widthAnchor.constraint(equalToConstant: 290),
             timeStackView.heightAnchor.constraint(equalToConstant: 32),
             
-            recentBooksLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
+            recentBooksLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -5),
             recentBooksLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            recentBooksLabel.heightAnchor.constraint(equalToConstant: 30),
+            recentBooksLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            seeMoreRecentBooksButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 345),
-            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            //seeMoreRecentBooksButton.widthAnchor.constraint(equalToConstant: 52),
-            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 30),
+            seeMoreRecentBooksButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -5),
+            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
 }

@@ -11,10 +11,10 @@ import UIKit
 class HomeViewController: UIViewController {
     
     // MARK: - Variables
-    
     var viewModel = HomeViewModel()
     private var topBooksView = TopBooksView()
     private var recentBooksView = RecentBooksView()
+    
     // MARK: - UI Components
     let topBookCollectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -22,7 +22,6 @@ class HomeViewController: UIViewController {
         collectionView.register(BookCell.self, forCellWithReuseIdentifier: BookCell.identifier)
         return collectionView
     }()
-    
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -43,15 +42,6 @@ class HomeViewController: UIViewController {
             }.store(in: &viewModel.subscription)
         
     }
-    //    init(viewModel:HomeViewModel){
-    //        self.viewModel = viewModel
-    //        super.init(nibName: nil, bundle: nil)
-    //    }
-    //
-    //    required init?(coder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
-    
     
     private func setupNavigation() {
         navigationController?.setupNavigationBar()
@@ -63,12 +53,11 @@ class HomeViewController: UIViewController {
         )
         navigationItem.searchController = searchController
     }
-    
+    //MARK: - Create Compositipn Layout
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layouts = UICollectionViewCompositionalLayout.init { sectionIndex, environment in
             self.horizontalSection()
         }
-        
         return layouts
     }
     
@@ -84,6 +73,7 @@ class HomeViewController: UIViewController {
         section.orthogonalScrollingBehavior = .continuous
         return section
     }
+    
     //MARK: - UI Setup
     private func setupUI(){
         view.addSubview(topBooksView)
@@ -94,26 +84,23 @@ class HomeViewController: UIViewController {
         topBookCollectionView.translatesAutoresizingMaskIntoConstraints = false
         recentBooksView.translatesAutoresizingMaskIntoConstraints = false
         
-        
         NSLayoutConstraint.activate([
-            
-            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 145),
+            topBooksView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            topBooksView.widthAnchor.constraint(equalToConstant: 365),
-            topBooksView.heightAnchor.constraint(equalToConstant: 339),
+            topBooksView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topBooksView.heightAnchor.constraint(equalToConstant: 369),
             
             topBookCollectionView.topAnchor.constraint(equalTo: topBooksView.topAnchor,constant: 94),
             topBookCollectionView.leadingAnchor.constraint(equalTo: topBooksView.leadingAnchor),
             topBookCollectionView.trailingAnchor.constraint(equalTo: topBooksView.trailingAnchor),
-            topBookCollectionView.bottomAnchor.constraint(equalTo: topBooksView.bottomAnchor),
+            topBookCollectionView.bottomAnchor.constraint(equalTo: topBooksView.bottomAnchor,constant: -30),
             
-            recentBooksView.topAnchor.constraint(equalTo: topBookCollectionView.bottomAnchor,constant: 45),
+            recentBooksView.topAnchor.constraint(equalTo: topBooksView.bottomAnchor,constant: 5),
             recentBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             recentBooksView.widthAnchor.constraint(equalToConstant: 360),
             recentBooksView.heightAnchor.constraint(equalToConstant: 310),
         
         ])
-        
     }
 }
 
@@ -158,5 +145,4 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDataSource
             detailsVC.viewModel = detailsViewModel
             navigationController?.pushViewController(detailsVC, animated: true)
     }
-    
 }

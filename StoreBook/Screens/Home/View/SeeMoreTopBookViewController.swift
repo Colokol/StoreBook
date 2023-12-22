@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 final class SeeMoreTopBookViewController: UIViewController {
+    
     // MARK: - Variables
     var seeMoreBooks: [TopBook]
     var period: TimeFrame
@@ -18,7 +19,6 @@ final class SeeMoreTopBookViewController: UIViewController {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
-        
         return tableView
     }()
    
@@ -32,6 +32,7 @@ final class SeeMoreTopBookViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         seeMoreTopBookTableView.delegate = self
@@ -45,6 +46,7 @@ final class SeeMoreTopBookViewController: UIViewController {
         title = "TOPBooks for the \(period)"
      }
     
+    //MARK: - UI Setup
     private func setupUI(){
         view.addSubview(seeMoreTopBookTableView)
         
@@ -59,7 +61,7 @@ final class SeeMoreTopBookViewController: UIViewController {
     }
    
 }
-
+    //MARK: - TableViewDelegate,TableViewDataSource
 extension SeeMoreTopBookViewController:UITableViewDelegate,UITableViewDataSource{
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
