@@ -55,10 +55,13 @@ final class DetailsViewController: UIViewController {
     }()
     
     private lazy var readButton: UIButton = {
-        viewBuilder.makeButton(
+        let button = viewBuilder.makeButton(
             title: "Read",
             color: .black
         )
+        button.backgroundColor = .label
+        button.setTitleColor(.systemBackground, for: .normal)
+        return button
     }()
     
     private lazy var descriptionLabel: UILabel = {
