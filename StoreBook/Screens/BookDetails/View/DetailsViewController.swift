@@ -55,10 +55,13 @@ final class DetailsViewController: UIViewController {
     }()
     
     private lazy var readButton: UIButton = {
-        viewBuilder.makeButton(
+        let button = viewBuilder.makeButton(
             title: "Read",
             color: .black
         )
+        button.backgroundColor = .label
+        button.setTitleColor(.systemBackground, for: .normal)
+        return button
     }()
     
     private lazy var descriptionLabel: UILabel = {
@@ -118,10 +121,6 @@ final class DetailsViewController: UIViewController {
             }
             .store(in: &viewModel.networkCancellables)
     }
-    
-//    private func setStatusForFavoriteButton(_ status: Bool) {
-//        navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .label
-//    }
     
     private func setActivityIndicator() {
         viewModel.$isLoading
@@ -199,7 +198,6 @@ final class DetailsViewController: UIViewController {
         )
         
         self.bookDescriptionLabel.text = self.viewModel.description
-        
     }
     
     private func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
@@ -254,7 +252,7 @@ final class DetailsViewController: UIViewController {
 private extension DetailsViewController {
     func setViews() {
         navigationController?.navigationBar.tintColor = .label
-
+        
         view.backgroundColor = .systemBackground
         containerView.setupSubviews(titleLabel,
                                     bookImageView,
@@ -350,8 +348,8 @@ private extension DetailsViewController {
                 constant: LayoutConsrants.bookDescriptionBottom
             ),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 20),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
