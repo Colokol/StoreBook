@@ -14,12 +14,9 @@ final class CategoryResultsViewModel {
     func fetchNextPage(for category: String) {
         networkManager.getBook(for: category, limit: limit)
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
+            .sink { error in
+                if case .failure(let error) = error {
+                    print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] books in
                 self?.isLoading = true

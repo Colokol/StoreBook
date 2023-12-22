@@ -20,7 +20,9 @@ final class HomeViewModel{
             NetworkManager.shared.getTopBook(for: period)
                 .receive(on: DispatchQueue.main)
                 .sink { error in
-                    print(error)
+                    if case .failure(let error) = error {
+                        print(error)
+                    }
                 } receiveValue: { value in
                     self.topBook = value.works
                     
