@@ -350,8 +350,8 @@ private extension DetailsViewController {
                 constant: LayoutConsrants.bookDescriptionBottom
             ),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 20),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
