@@ -10,7 +10,7 @@ final class SearchResultsViewController: UISearchController {
     
     weak var navigationControllerFromCategories: UINavigationController?
 
-    private var customSearch = CustomSearchBar()
+    private lazy var customSearch = CustomSearchBar()
 
     override var searchBar: UISearchBar { customSearch }
 
@@ -28,6 +28,10 @@ final class SearchResultsViewController: UISearchController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
+
+        self.obscuresBackgroundDuringPresentation = true
+        self.definesPresentationContext = true
+        self.searchBar.showsCancelButton = false
     }
     
     // MARK: - UI Setup

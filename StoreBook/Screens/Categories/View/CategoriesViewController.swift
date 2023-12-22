@@ -4,13 +4,15 @@ import Combine
 final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     var viewModel = CategoriesViewModel()
-    
+
+    private lazy var searchController = SearchResultsViewController()
+
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"
@@ -19,8 +21,6 @@ final class CategoriesViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-    private lazy var searchController = SearchResultsViewController()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -104,40 +104,27 @@ final class CategoriesViewController: UIViewController {
 }
 
 
-// MARK: - UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating, TextFieldDelegate
 extension CategoriesViewController: UISearchResultsUpdating, UITextFieldDelegate {
+
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
+        guard let resultController = searchController as? SearchResultsViewController else {return}
 
-        if let resultController = searchController as? SearchResultsViewController {
             resultController.navigationControllerFromCategories = self.navigationController
             resultController.viewModel.searchText = searchText
-        }
-    }
-
-    func configureSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.definesPresentationContext = true
-        searchController.searchBar.showsCancelButton = false
-        searchController.searchBar.backgroundColor = .clear
-        searchController.searchBar.searchTextField.delegate = self
-
-        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textField.font = UIFont.makeOpenSans(.semibold, size: 18)
-            textField.textColor = .label
-            textField.clipsToBounds = true
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.attributedPlaceholder = NSAttributedString(
-                string: "Search title/author/ISBN no",
-                attributes: [NSAttributedString.Key.foregroundColor: UIColor.label]
-            )
-        }
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         searchController.isActive = false
         return true
+    }
+
+    private func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.searchTextField.delegate = self
+
+        searchController.searchBar.placeholder = "Search title/author/ISBN no"
     }
 }
 
