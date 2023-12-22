@@ -35,7 +35,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         button.backgroundColor = .clear
         return button
     }()
-   private let textField: UITextField = {
+   public let textField: UITextField = {
         let additionalText = UITextField()
         let markedLabel = UILabel()
         
@@ -63,12 +63,19 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         button.setTitleColor(.systemBackground, for: .normal)
         return button
     }()
+    private let themeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "sun.max"), for: .normal)
+        button.tintColor = .label
+        return button
+    }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        textField.text = userDef.string(forKey: "t1")
+        getText()
+        getImage()
         setupConstraints()
         setupButton()
         navigationController?.setupNavigationBar()
@@ -77,7 +84,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
  // MARK: - View methods
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        [accountTitle, textField, accountLogo, imageButton, saveButton].forEach {
+        [accountTitle, textField, accountLogo, imageButton, saveButton, themeButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
         }
@@ -107,19 +114,76 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
              saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              saveButton.widthAnchor.constraint(equalTo: textField.widthAnchor),
-             saveButton.heightAnchor.constraint(equalToConstant: 60)
+             saveButton.heightAnchor.constraint(equalToConstant: 60),
+             
+             themeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -250),
+             themeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 300),
+             themeButton.widthAnchor.constraint(equalToConstant: 50),
+             themeButton.heightAnchor.constraint(equalToConstant: 50)
             ])
     }
+    // MARK: - Button methods
+    
     private func setupButton () {
          imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
          saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+         themeButton.addTarget(self, action: #selector(themeButtonTapped), for: .touchUpInside)
      }
      
+    @objc func themeButtonTapped (_ sender: UIButton) {
+        let scenes = UIApplication.shared.connectedScenes
+                let windowScene = scenes.first as? UIWindowScene
+                let window = windowScene?.windows.first
+                let interfaceStyle = window?.overrideUserInterfaceStyle == .unspecified ? UIScreen.main.traitCollection.userInterfaceStyle : window?.overrideUserInterfaceStyle
+                
+                if interfaceStyle != .dark {
+                    window?.overrideUserInterfaceStyle = .dark
+                } else {
+                    window?.overrideUserInterfaceStyle = .light
+                }
+            }
+    
+
      @objc func saveButtonTapped (_ sender: UIButton) {
-         userDef.setValue(textField.text, forKey: "t1")
+         StorageManager.shared.profileData(profile: self, imageData: self.convertToData(imageView: accountLogo))
          
      }
-    
+    // MARK: - Core Data methods
+    private func getText () {
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        self.textField.text = profileData.text
+                    }
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+        }
+    }
+    private func getImage () {
+        StorageManager.shared.fetchProfileData { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileDataArray):
+                    if let profileData = profileDataArray.last {
+                        let profileImage: UIImage = UIImage(data: profileData.image!) ?? UIImage(systemName: "person.crop.circle")!
+                        self.accountLogo.image = profileImage
+                    }
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+        }
+
+    }
+   private func convertToData (imageView: UIImageView) -> Data? {
+        let defaultImage = imageView.image
+        let data = defaultImage?.pngData()
+        return data
+    }
    // MARK: - Picker's methods
     
     @objc func setPicker(_ sender: UIButton) {

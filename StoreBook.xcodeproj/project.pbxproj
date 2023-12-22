@@ -110,7 +110,6 @@
 		CE57DC8E2B1B6DCA006DF243 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CE57DC952B1B6DCC006DF243 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE57DC982B1B6DCC006DF243 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CE57DC9A2B1B6DCC006DF243 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE57DCA52B1CEABF006DF243 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		CE6A97EB2B301E1900082DD8 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		CEB1DC192B222DFC004DCEF6 /* OnboardingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
@@ -420,7 +419,6 @@
 				CE57DCA52B1CEABF006DF243 /* Observable.swift */,
 				CE57DC972B1B6DCC006DF243 /* LaunchScreen.storyboard */,
 				CE57DC952B1B6DCC006DF243 /* Assets.xcassets */,
-				CE57DC9A2B1B6DCC006DF243 /* Info.plist */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
