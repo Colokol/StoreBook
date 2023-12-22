@@ -143,7 +143,7 @@ class TopBooksView:UIView{
             topBooksLabel.heightAnchor.constraint(equalToConstant: 35),
             
             seeMoreTopBooksButton.topAnchor.constraint(equalTo: self.topAnchor),
-            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            seeMoreTopBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             seeMoreTopBooksButton.widthAnchor.constraint(equalToConstant: 62),
             seeMoreTopBooksButton.heightAnchor.constraint(equalToConstant: 35),
             
@@ -157,7 +157,7 @@ class TopBooksView:UIView{
             recentBooksLabel.heightAnchor.constraint(equalToConstant: 20),
             
             seeMoreRecentBooksButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -5),
-            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            seeMoreRecentBooksButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             seeMoreRecentBooksButton.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
