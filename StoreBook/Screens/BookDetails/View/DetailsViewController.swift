@@ -122,10 +122,6 @@ final class DetailsViewController: UIViewController {
             .store(in: &viewModel.networkCancellables)
     }
     
-//    private func setStatusForFavoriteButton(_ status: Bool) {
-//        navigationItem.rightBarButtonItem?.tintColor = status ? .systemRed : .label
-//    }
-    
     private func setActivityIndicator() {
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
@@ -202,7 +198,6 @@ final class DetailsViewController: UIViewController {
         )
         
         self.bookDescriptionLabel.text = self.viewModel.description
-        
     }
     
     private func updateLabelText(label: UILabel, text: String, boldFont: UIFont) {
@@ -257,7 +252,7 @@ final class DetailsViewController: UIViewController {
 private extension DetailsViewController {
     func setViews() {
         navigationController?.navigationBar.tintColor = .label
-
+        
         view.backgroundColor = .systemBackground
         containerView.setupSubviews(titleLabel,
                                     bookImageView,
