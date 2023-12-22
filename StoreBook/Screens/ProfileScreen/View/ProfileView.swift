@@ -120,9 +120,6 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              themeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 300),
              themeButton.widthAnchor.constraint(equalToConstant: 50),
              themeButton.heightAnchor.constraint(equalToConstant: 50)
-//             themeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//             themeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-
             ])
     }
     // MARK: - Button methods
@@ -134,17 +131,19 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
      }
      
     @objc func themeButtonTapped (_ sender: UIButton) {
-        let scene = SceneDelegate()
-        if #available(iOS 13.0, *) {
-            if scene.window?.overrideUserInterfaceStyle == .light {
-                scene.window?.overrideUserInterfaceStyle = .dark
-            } else {
-                scene.window?.overrideUserInterfaceStyle = .light
+        let scenes = UIApplication.shared.connectedScenes
+                let windowScene = scenes.first as? UIWindowScene
+                let window = windowScene?.windows.first
+                let interfaceStyle = window?.overrideUserInterfaceStyle == .unspecified ? UIScreen.main.traitCollection.userInterfaceStyle : window?.overrideUserInterfaceStyle
+                
+                if interfaceStyle != .dark {
+                    window?.overrideUserInterfaceStyle = .dark
+                } else {
+                    window?.overrideUserInterfaceStyle = .light
+                }
             }
-        } else {
-            // Fallback on earlier versions
-        }
-    }
+    
+
      @objc func saveButtonTapped (_ sender: UIButton) {
          StorageManager.shared.profileData(profile: self, imageData: self.convertToData(imageView: accountLogo))
          
