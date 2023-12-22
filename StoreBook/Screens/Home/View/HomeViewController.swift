@@ -85,9 +85,9 @@ class HomeViewController: UIViewController {
         recentBooksView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            topBooksView.topAnchor.constraint(equalTo: view.topAnchor,constant: 145),
+            topBooksView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             topBooksView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            topBooksView.widthAnchor.constraint(equalToConstant: 365),
+            topBooksView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topBooksView.heightAnchor.constraint(equalToConstant: 369),
             
             topBookCollectionView.topAnchor.constraint(equalTo: topBooksView.topAnchor,constant: 94),
