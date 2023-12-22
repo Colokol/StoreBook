@@ -5,14 +5,12 @@
 //  Created by Vadim Zhelnov on 10.12.23.
 //
 
-import Foundation
 import UIKit
+
 class BookCell:UICollectionViewCell{
     
-    static let identifier = "BookCell"
-    
     // MARK: - Variables
-    
+    static let identifier = "BookCell"
     
     // MARK: - UI Components
     let bookImage:UIImageView = {
@@ -32,7 +30,6 @@ class BookCell:UICollectionViewCell{
     let descriptionBackgroundView:UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        //imageView.layer.cornerRadius = 10
         imageView.backgroundColor = .label
         return imageView
     }()
@@ -41,7 +38,7 @@ class BookCell:UICollectionViewCell{
         label.textColor = .systemBackground
         label.textAlignment = .left
         label.text = "Classic"
-        label.font = .systemFont(ofSize: 11, weight: .light)
+        label.font = .makeOpenSans(.light, size: 11)
         return label
     }()
     let bookNameLabel:UILabel = {
@@ -50,16 +47,15 @@ class BookCell:UICollectionViewCell{
         label.textAlignment = .left
         label.text = "The Picture of Dorian Gray"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .makeOpenSans(.bold, size: 16)
         return label
     }()
     let authorLabel:UILabel = {
         let label = UILabel()
         label.textColor = .systemBackground
-        //label.textColor = .green
         label.textAlignment = .left
         label.text = "Oscar Wilde"
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = .makeOpenSans(.regular, size: 11)
         return label
     }()
     
@@ -93,7 +89,6 @@ class BookCell:UICollectionViewCell{
         bookImage.translatesAutoresizingMaskIntoConstraints = false
         descriptionBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabelsStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         NSLayoutConstraint.activate([
             imageBackgroundView.topAnchor.constraint(equalTo: self.topAnchor),
