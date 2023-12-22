@@ -11,7 +11,7 @@ final class CategoryResultsViewController: UITableViewController {
     init(category: String) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
-        viewModel.fetchData(for: category)
+        viewModel.fetchNextPage(for: category)
     }
     
     required init?(coder: NSCoder) {
@@ -29,14 +29,22 @@ final class CategoryResultsViewController: UITableViewController {
     }
     
     private func configureTableView() {
+        tableView.refreshControl = refreshControl
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        tableView.prefetchDataSource = self
         tableView.rowHeight = Constants.rowHeight
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.register(StoryBooksCell.self, forCellReuseIdentifier: StoryBooksCell.cellID)
     }
     
+    @objc func refreshData() {
+        setupBindings()
+        refreshControl?.endRefreshing()
+    }
+    
     private func setupBindings() {
-        viewModel.$tableData
+        viewModel.$categoryBooks
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -56,26 +64,32 @@ final class CategoryResultsViewController: UITableViewController {
         
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
         ])
     }
 }
 // MARK: - Table view data source
-extension CategoryResultsViewController {
+extension CategoryResultsViewController: UITableViewDataSourcePrefetching {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: { $0.row >= viewModel.categoryBooks.count - 1 }) {
+            viewModel.fetchNextPage(for: category)
+        }
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.tableData.count
+        return viewModel.categoryBooks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StoryBooksCell.cellID, for: indexPath) as? StoryBooksCell else { return UITableViewCell() }
-        let searchedCategoryBook = viewModel.tableData[indexPath.row]
+        let searchedCategoryBook = viewModel.categoryBooks[indexPath.row]
         cell.configure(with: searchedCategoryBook)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let book = viewModel.tableData[indexPath.row]
+        let book = viewModel.categoryBooks[indexPath.row]
         let bookModel = BookModel(
             title: book.title,
             author: book.authorName?.first ?? "",

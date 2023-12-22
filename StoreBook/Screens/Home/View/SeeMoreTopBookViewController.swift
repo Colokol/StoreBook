@@ -52,8 +52,8 @@ final class SeeMoreTopBookViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             seeMoreTopBookTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            seeMoreTopBookTableView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            seeMoreTopBookTableView.trailingAnchor.constraint(equalTo:view.layoutMarginsGuide.trailingAnchor),
+            seeMoreTopBookTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            seeMoreTopBookTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             seeMoreTopBookTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }

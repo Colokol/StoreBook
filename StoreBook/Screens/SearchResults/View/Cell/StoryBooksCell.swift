@@ -6,7 +6,7 @@ final class StoryBooksCell: UITableViewCell {
     static let cellID = String(describing: StoryBooksCell.self)
     
     private lazy var bookImageView: BookLoadIndicator = {
-        let view = BookLoadIndicator(frame: .zero)
+        let view = BookLoadIndicator(isCell: true)
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

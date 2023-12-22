@@ -353,7 +353,7 @@ private extension DetailsViewController {
             ),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
         ])
     }
     
