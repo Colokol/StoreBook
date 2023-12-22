@@ -25,8 +25,8 @@ class CustomPageControl: UIStackView {
     private var dotWidthConstraints: [NSLayoutConstraint] = []
     
     
-    let inactiveDotColor: UIColor = .lightGray
-    let activeDotColor: UIColor = .black
+    let inactiveDotColor: UIColor = .systemGray
+    let activeDotColor: UIColor = .label
     let inactiveDotSize = CGSize(width: 16.0, height: 16.0)
     let activeDotWidthMultiplier: CGFloat = 3.0
     let dotSpacing: CGFloat = 16.0

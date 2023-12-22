@@ -63,6 +63,12 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
         button.setTitleColor(.systemBackground, for: .normal)
         return button
     }()
+    private let themeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "sun.max"), for: .normal)
+        button.tintColor = .label
+        return button
+    }()
     
     
     override func viewDidLoad() {
@@ -78,7 +84,7 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
  // MARK: - View methods
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        [accountTitle, textField, accountLogo, imageButton, saveButton].forEach {
+        [accountTitle, textField, accountLogo, imageButton, saveButton, themeButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
         }
@@ -108,7 +114,15 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
              saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
              saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              saveButton.widthAnchor.constraint(equalTo: textField.widthAnchor),
-             saveButton.heightAnchor.constraint(equalToConstant: 60)
+             saveButton.heightAnchor.constraint(equalToConstant: 60),
+             
+             themeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -250),
+             themeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 300),
+             themeButton.widthAnchor.constraint(equalToConstant: 50),
+             themeButton.heightAnchor.constraint(equalToConstant: 50)
+//             themeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//             themeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+
             ])
     }
     // MARK: - Button methods
@@ -116,8 +130,21 @@ final class ProfileView: UIViewController, PHPickerViewControllerDelegate {
     private func setupButton () {
          imageButton.addTarget(self, action: #selector(setPicker), for: .touchUpInside)
          saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+         themeButton.addTarget(self, action: #selector(themeButtonTapped), for: .touchUpInside)
      }
      
+    @objc func themeButtonTapped (_ sender: UIButton) {
+        let scene = SceneDelegate()
+        if #available(iOS 13.0, *) {
+            if scene.window?.overrideUserInterfaceStyle == .light {
+                scene.window?.overrideUserInterfaceStyle = .dark
+            } else {
+                scene.window?.overrideUserInterfaceStyle = .light
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
      @objc func saveButtonTapped (_ sender: UIButton) {
          StorageManager.shared.profileData(profile: self, imageData: self.convertToData(imageView: accountLogo))
          
