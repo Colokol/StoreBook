@@ -135,10 +135,8 @@ final class DetailsViewController: UIViewController {
     private func loadBookDetails() {
         viewModel.getImage()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished: break
-                case .failure(_):
+            .sink { [weak self] error in
+                if case .failure(_) = error{
                     DispatchQueue.main.async {
                         self?.bookImageView.image = UIImage(systemName: "questionmark")
                         self?.bookImageView.tintColor = .white

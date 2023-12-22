@@ -5,8 +5,8 @@ final class StoryBooksCell: UITableViewCell {
     
     static let cellID = String(describing: StoryBooksCell.self)
     
-    private lazy var bookImageView: BookLoadIndicator = {
-        let view = BookLoadIndicator(isCell: true)
+    private lazy var bookImageView: UIImageView = {
+        let view = UIImageView()
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -54,7 +54,7 @@ final class StoryBooksCell: UITableViewCell {
     func configure(with searchedBook: Doc?) {
         guard let searchedBook = searchedBook else { return }
         if let coverURL = searchedBook.coverURL() {
-            bookImageView.bookLoadingImageView.sd_setImage(with: coverURL )
+            bookImageView.sd_setImage(with: coverURL )
         }
         
         bookNameLabel.text = "Title: \(searchedBook.title)"
@@ -68,27 +68,29 @@ final class StoryBooksCell: UITableViewCell {
     
     //MARK: for SeeMore
     func configure(for topBook: TopBook) {
-        bookNameLabel.text = topBook.title
+        bookNameLabel.text = "Title: \(topBook.title)"
         if let authorName = topBook.authorName?.joined(separator: "\n"){
-            authorNameLabel.text = authorName
+            authorNameLabel.text =  "Autors: \(authorName)"
         }
         
         if let imageUrl = topBook.coverURL() {
-            bookImageView.bookLoadingImageView.sd_setImage(with: imageUrl )
+            bookImageView.sd_setImage(with: imageUrl )
         }
         
         if let rating = topBook.ratingsAverage {
-            ratingLabel.text = String(rating)
+            ratingLabel.text =  String(format: "Rating: %.1f", rating)
         }
     }
     
     //MARK: For LikesScreen
     func configureCell(model: BookData) {
-        authorNameLabel.text = model.author
-        bookNameLabel.text = model.title
-        ratingLabel.text = model.category
+        if let author = model.author, let title = model.title, let category = model.category {
+            authorNameLabel.text = "Autors: \(String(describing: author))"
+            bookNameLabel.text = "Title: \(String(describing: title))"
+            ratingLabel.text = "Category: \(String(describing: category))"
+        }
         guard let imageData = model.image else {return}
-        bookImageView.bookLoadingImageView.image = UIImage(data: imageData)
+        bookImageView.image = UIImage(data: imageData)
     }
     
     // MARK: - Private methods
@@ -109,17 +111,18 @@ final class StoryBooksCell: UITableViewCell {
             
             bookImageView.topAnchor.constraint(equalTo: bookContentView.topAnchor),
             bookImageView.leadingAnchor.constraint(equalTo: bookContentView.leadingAnchor),
-            bookImageView.bottomAnchor.constraint(equalTo: bookContentView.bottomAnchor),
             bookImageView.widthAnchor.constraint(equalTo: bookContentView.widthAnchor, multiplier: 1.0 / 3.8),
-            
+            bookImageView.heightAnchor.constraint(equalTo: bookContentView.heightAnchor),
+
+
             bookNameLabel.topAnchor.constraint(equalTo: bookContentView.topAnchor, constant: Constants.interSpacing),
             bookNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
             bookNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
-            
+
             authorNameLabel.topAnchor.constraint(equalTo: bookNameLabel.bottomAnchor, constant: Constants.interSpacing),
             authorNameLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
             authorNameLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),
-            
+
             ratingLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: Constants.interSpacing + 4),
             ratingLabel.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: Constants.interSpacing),
             ratingLabel.trailingAnchor.constraint(equalTo: bookContentView.trailingAnchor, constant: -Constants.horizontalSpacing),

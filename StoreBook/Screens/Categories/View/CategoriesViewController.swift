@@ -1,17 +1,18 @@
 import UIKit
 import Combine
 
-final class CategoriesViewController: UIViewController, UISearchBarDelegate {
+final class CategoriesViewController: UIViewController {
     // MARK: - Private properties
-    
     var viewModel = CategoriesViewModel()
-    
+
+    private lazy var searchController = SearchResultsViewController()
+
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Categories"
@@ -25,27 +26,22 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
         viewModel.fetchCategories()
-        
     }
     
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        setupNavigation()
         view.addSubview(titleLabel)
+
+        setupNavigation()
         setupCollectionView()
     }
     
     private func setupNavigation() {
+        configureSearchController()
+
         navigationController?.setupNavigationBar()
-        
-        let searchController = UISearchController.makeCustomSearchController(
-            placeholder: "Search title/author/ISBN no",
-            foregroundColor: UIColor.label,
-            delegate: self
-        )
         navigationItem.searchController = searchController
     }
     
@@ -108,16 +104,27 @@ final class CategoriesViewController: UIViewController, UISearchBarDelegate {
 }
 
 
-// MARK: - UISearchResultsUpdating
-extension CategoriesViewController: UISearchResultsUpdating {
+// MARK: - UISearchResultsUpdating, TextFieldDelegate
+extension CategoriesViewController: UISearchResultsUpdating, UITextFieldDelegate {
+
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text, searchText.count >= 2 else { return }
-        
-        if let resultController = searchController.searchResultsController as? SearchResultsViewController {
-            
+        guard let resultController = searchController as? SearchResultsViewController else {return}
+
             resultController.navigationControllerFromCategories = self.navigationController
             resultController.viewModel.searchText = searchText
-        }
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        searchController.isActive = false
+        return true
+    }
+
+    private func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.searchTextField.delegate = self
+
+        searchController.searchBar.placeholder = "Search title/author/ISBN no"
     }
 }
 

@@ -36,6 +36,7 @@ class LikesViewController: UIViewController {
     }
     
     private func configureTableView() {
+        tableView.rowHeight = Constraints.rowHeight
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -76,6 +77,7 @@ extension LikesViewController {
     
     struct Constraints {
         static let tableViewSpacing: CGFloat = 20
+        static let rowHeight: CGFloat = 160
     }
     
     func animateTableView() {

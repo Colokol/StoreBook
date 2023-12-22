@@ -23,12 +23,9 @@ final class SearchResultsViewModel {
     func fetchData(with searchText: String) {
         networkManager.getBook(with: searchText)
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
+            .sink { error in
+                if case .failure(let error) = error {
+                    print(error.localizedDescription)
                 }
             } receiveValue: { books in
                 self.isLoading = true
